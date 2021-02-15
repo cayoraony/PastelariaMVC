@@ -115,3 +115,4 @@ C:\Users\unip01\Desktop\Projects\C#\PastelariaMvc\bin\Debug\net5.0\zh-Hant\Micro
 C:\Users\unip01\Desktop\Projects\C#\PastelariaMvc\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\unip01\Desktop\Projects\C#\PastelariaMvc\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\unip01\Desktop\Projects\C#\PastelariaMvc\obj\Debug\net5.0\Razor\Views\Home\GetUser.cshtml.g.cs
+C:\Users\unip01\Desktop\Projects\C#\PastelariaMVC\obj\Debug\net5.0\Razor\Views\Home\PostUser.cshtml.g.cs

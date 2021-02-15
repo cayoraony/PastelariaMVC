@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -41,7 +42,6 @@ namespace PastelariaMvc.Controllers
             {
                 result = await response.Content.ReadAsStringAsync();
                 usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                Console.WriteLine(usuarioResult);
                 return View(usuarioResult);
             }
             else
@@ -50,6 +50,20 @@ namespace PastelariaMvc.Controllers
             }
             client.Dispose();
             return View();
+        }
+
+        public async Task<IActionResult> PostUser(Usuario usuario)
+        {
+            var url = "http://localhost:5000/api/usuario/gestor/criar";
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(url);
+            HttpResponseMessage response = await client.PostAsJsonAsync(url, usuario);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Deu certo aaaaa");
+            }
+            return View();
+
         }
     }
 }

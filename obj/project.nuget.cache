@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9L0lfrzEjxH6Jo5vmtcS/KSfUO0Yyg1TDEP4bl536uYzS54jA/IFyFbHjpYjPHHd7G2k/CaUtL/k00gLq3beFw==",
+  "dgSpecHash": "9XBxaDv+1JGw9oiMmhu0fPBiTh2zINcpVKpQEhJe2gQeFBkBPi7tNSjU4zeSOUbHcsblhwPeWm/rNDYjHGpZIQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\PastelariaMvc.csproj",
+  "projectFilePath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\PastelariaMvc.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\unip01\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\unip01\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\PastelariaMvc.csproj": {}
+    "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\PastelariaMvc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\PastelariaMvc.csproj": {
+    "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\PastelariaMvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\PastelariaMvc.csproj",
+        "projectUniqueName": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\PastelariaMvc.csproj",
         "projectName": "PastelariaMvc",
-        "projectPath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\PastelariaMvc.csproj",
+        "projectPath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\PastelariaMvc.csproj",
         "packagesPath": "C:\\Users\\unip01\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMvc\\obj\\",
+        "outputPath": "C:\\Users\\unip01\\Desktop\\Projects\\C#\\PastelariaMVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\unip01\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -44,10 +44,7 @@ namespace PastelariaMvc.Controllers
                 usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                 return View(usuarioResult);
             }
-            else
-            {
-                result = "Deu merda";
-            }
+            Console.WriteLine(response.StatusCode);
             client.Dispose();
             return View();
         }
@@ -60,8 +57,9 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.PostAsJsonAsync(url, usuario);
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Deu certo aaaaa");
+                return RedirectToAction(nameof(Index));    
             }
+            Console.WriteLine(response.StatusCode);
             return View();
 
         }

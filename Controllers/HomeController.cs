@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
 using System;
 using System.Collections.Generic;
@@ -32,31 +33,28 @@ namespace PastelariaMvc.Controllers
         //Exemplo
         public async Task<IActionResult> GetUser(int id)
         {
-            var url = "http://localhost:5000/api/usuario/gestor/"+id.ToString();
-            var client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-            HttpResponseMessage response = await client.GetAsync(url);
+            ApiConnection client = new ApiConnection("usuario/gestor/"+id);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsStringAsync();
                 usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
                 return View(usuarioResult);
             }
-            Console.WriteLine(response.StatusCode);
-            client.Dispose();
+            Console.WriteLine(response.StatusCode);  
             return View();
         }
 
         public async Task<IActionResult> PostUser(Usuario usuario)
         {
-            var url = "http://localhost:5000/api/usuario/gestor/criar";
-            var client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-            HttpResponseMessage response = await client.PostAsJsonAsync(url, usuario);
+            ApiConnection client = new ApiConnection("usuario/gestor/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
             if (response.IsSuccessStatusCode)
             {
+                client.Close();
                 return RedirectToAction(nameof(Index));    
             }
             Console.WriteLine(response.StatusCode);

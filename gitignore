@@ -345,3 +345,6 @@ healthchecksdb
 # Adicionados pelos Dev's
 global.json
 conexao.udl
+
+obj/
+bin/

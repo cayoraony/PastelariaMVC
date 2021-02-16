@@ -59,7 +59,6 @@ namespace PastelariaMvc.Controllers
             }
             Console.WriteLine(response.StatusCode);
             return View();
-
         }
     }
 }

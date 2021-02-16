@@ -8,7 +8,7 @@ namespace PastelariaMvc.ViewModel
 {
     public class UsuarioViewModel
     {
-        Usuario Usuario { get; set; }
+        public Usuario Usuario { get; set; }
 
     }
 }

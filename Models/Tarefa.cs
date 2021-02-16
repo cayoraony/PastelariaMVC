@@ -1,7 +1,7 @@
 using System;
 using PastelariaMvc.Models;
 
-namespace PastelariaMVC.Models
+namespace PastelariaMvc.Models
 {
     public class Tarefa
     {

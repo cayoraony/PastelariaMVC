@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
-using PastelariaMvc.Models;
 using PastelariaMvc.ViewModel;
 
 namespace PastelariaMvc.Controllers

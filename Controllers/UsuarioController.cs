@@ -32,9 +32,9 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ConsultarUsuariosGestor([FromQuery] int idGestor)
+        public async Task<IActionResult> ConsultarUsuariosGestor([FromQuery] int id)
         {
-            ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/subordinados");
+            ApiConnection client = new ApiConnection("usuario/gestor/"+id+"/subordinados");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();

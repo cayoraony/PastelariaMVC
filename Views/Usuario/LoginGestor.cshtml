@@ -1,0 +1,17 @@
+@* @model LoginViewModel *@
+@model Usuario
+
+<form asp-controller="Usuario" asp-action="LoginGestor" method="post" class="form-horizontal" role="form">
+    @* <label asp-for="EnderecoEmail" class="col-md-2 control-label"></label>
+    <input asp-for="EnderecoEmail" class="form-control" /> *@
+    
+    <label asp-for="Email.EnderecoEmail" class="col-md-2 control-label"></label>
+    <input asp-for="Email.EnderecoEmail" class="form-control" />
+
+    <label asp-for="Senha" class="col-md-2 control-label"></label>
+    <input asp-for="Senha" type="password" class="form-control" />
+
+    <br />
+    <input type="submit" class="btn btn-success" value="Registrar" />
+
+</form>

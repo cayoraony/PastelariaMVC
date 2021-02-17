@@ -1,7 +1,7 @@
 using System;
 using PastelariaMvc.Models;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     // TELA 9
     public class DetalhesUsuario

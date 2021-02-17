@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using PastelariaMvc.Models;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     // TELA 4
     public class CadastrarTarefa

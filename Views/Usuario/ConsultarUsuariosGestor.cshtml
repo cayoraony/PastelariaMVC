@@ -1,0 +1,17 @@
+@model GestorHomeViewModel
+
+@{
+    ViewData["Title"] = "Consultar Subordinados";
+}
+
+@* <h1>Tarefa: @Model.IdTarefa</h1> *@
+<h1>Subordinados</h1>
+
+@foreach (var subordinado in @Model.Subordinados)
+{
+  <div>
+    <h2>Id: @subordinado.IdUsuario </h2>
+    <p>Nome: @subordinado.Nome @subordinado.Sobrenome</p>
+    <p>Ativo: @subordinado.EstaAtivo</p>
+  </div>
+}

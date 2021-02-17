@@ -1,0 +1,20 @@
+@model AtualizarUsuarioViewModel
+@{
+    ViewData["Title"] = "Atualizar Subordinado";
+}
+
+<h1>Atualizar Subordinado</h1>
+<form asp-controller="Usuario" asp-action="AtualizarSubordinado" method="put" class="form-horizontal" role="form">
+    <label asp-for="Nome" class="col-md-2 control-label"></label>
+    <input asp-for="Nome" class="form-control" />
+
+    <label asp-for="Sobrenome" class="col-md-2 control-label"></label>
+    <input asp-for="Sobrenome" class="form-control" />
+
+    <label asp-for="Senha" class="col-md-2 control-label"></label>
+    <input asp-for="Senha" type="password" class="form-control" />
+
+    <br />
+    <input type="submit" class="btn btn-success" value="Registrar" />
+
+</form>

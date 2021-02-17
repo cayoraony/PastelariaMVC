@@ -17,9 +17,16 @@
     <input asp-for="IdSubordinado" class="form-control" />
 
     <label asp-for="IdStatusTarefa" class="col-md-2 control-label"></label>
-    <input asp-for="IdStatusTarefa" class="form-control" />
+    <select asp-for="IdStatusTarefa" class="custom-select">
+        <option selected>Escolha um status</option>
+        <option value="1">Concluída</option>
+        <option value="2">Futura</option>
+        <option value="3">Agendada</option>
+        <option value="4">Atrasada</option>
+        <option value="5">Cancelada</option>
+    </select>
 
-
+    <br />
     <br />
     <input type="submit" class="btn btn-success" value="Registrar" />
 

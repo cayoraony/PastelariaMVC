@@ -1,0 +1,55 @@
+@model Usuario
+
+<form asp-controller="Usuario" asp-action="CriarSubordinado" method="post" class="form-horizontal" role="form">
+    <label asp-for="Nome" class="col-md-2 control-label"></label>
+    <input asp-for="Nome" class="form-control" />
+
+    <label asp-for="Sobrenome" class="col-md-2 control-label"></label>
+    <input asp-for="Sobrenome" class="form-control" />
+
+    <label asp-for="DataNascimento" class="col-md-2 control-label"></label>
+    <input asp-for="DataNascimento" class="form-control" />
+
+    <label asp-for="Senha" class="col-md-2 control-label"></label>
+    <input asp-for="Senha" class="form-control" />
+
+    <label asp-for="IdGestor" class="col-md-2 control-label"></label>
+    <input asp-for="IdGestor" class="form-control" />
+
+    <label asp-for="Email.EnderecoEmail" class="col-md-2 control-label"></label>
+    <input asp-for="Email.EnderecoEmail" class="form-control" />
+
+    <label asp-for="Telefone.DDD" class="col-md-2 control-label"></label>
+    <input asp-for="Telefone.DDD" class="form-control" />
+
+    <label asp-for="Telefone.Numero" class="col-md-2 control-label"></label>
+    <input asp-for="Telefone.Numero" class="form-control" />
+
+    <label asp-for="Telefone.IdTipo" class="col-md-2 control-label"></label>
+    <input asp-for="Telefone.IdTipo" class="form-control" />
+
+    <label asp-for="Endereco.Rua" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.Rua" class="form-control" />
+
+    <label asp-for="Endereco.Bairro" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.Bairro" class="form-control" />
+
+    <label asp-for="Endereco.Numero" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.Numero" class="form-control" />
+
+    <label asp-for="Endereco.Complemento" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.Complemento" class="form-control" />
+
+    <label asp-for="Endereco.CEP" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.CEP" class="form-control" />
+
+    <label asp-for="Endereco.Cidade" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.Cidade" class="form-control" />
+
+    <label asp-for="Endereco.UF" class="col-md-2 control-label"></label>
+    <input asp-for="Endereco.UF" class="form-control" />
+
+    <br />
+    <input type="submit" class="btn btn-success" value="Registrar" />
+
+</form>

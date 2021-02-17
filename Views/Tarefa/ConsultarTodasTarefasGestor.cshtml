@@ -1,0 +1,14 @@
+@model TarefasViewModel
+
+
+@foreach (var tarefa in Model.Tarefas)
+{
+    <h4>@tarefa.IdTarefa</h4>
+    <h4>@tarefa.Descricao</h4>
+    <h4>@tarefa.DataCadastro</h4>
+    <h4>@tarefa.DataConclusao</h4>
+    <h4>@tarefa.DataConclusao</h4>
+    <h4>@tarefa.DataCancelada</h4>
+    <h4>@tarefa.IdStatusTarefa</h4>
+    <br>
+}

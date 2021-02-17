@@ -1,0 +1,9 @@
+@model GestorHomeViewModel
+
+<h2>@Model.QteTotalTarefas</h2>
+
+@foreach (var subordinado in @Model.Subordinados)
+{
+    <h3>@subordinado.IdUsuario</h3>
+    <h3>@subordinado.Nome</h3>
+}

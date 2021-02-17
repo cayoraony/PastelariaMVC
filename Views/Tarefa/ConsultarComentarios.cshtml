@@ -1,0 +1,13 @@
+@model ComentariosViewModel
+@{
+    ViewData["Title"] = "Consultar Comentarios";
+}
+
+@* <h1>Tarefa: @Model.IdTarefa</h1> *@
+<h1>Tarefa</h1>
+
+@foreach (var comentario in @Model.Comentarios)
+{
+    <h2>Id: @comentario.IdComentario </h2>
+    <p>@comentario.Descricao</p>
+}

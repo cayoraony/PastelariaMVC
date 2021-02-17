@@ -13,14 +13,30 @@ namespace PastelariaMvc.Controllers
 {
     public class UsuarioController : Controller
     {
-
-        public async Task<IActionResult> ConsultarUsuariosGestor([FromQuery] int idGestor)
+        public IActionResult Index()
         {
-            ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/subordinados");
+            return View();
+        }
+        public async Task<IActionResult> LoginGestor(Usuario gestor)
+        {
+            Console.WriteLine(gestor);
+            ApiConnection client = new ApiConnection("usuario/gestor/login");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, gestor);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction(nameof(Index));    
+            }
+            Console.WriteLine(response.StatusCode);
+            return View();
+        }
+
+        public async Task<IActionResult> ConsultarUsuariosGestor([FromQuery] int id)
+        {
+            ApiConnection client = new ApiConnection("usuario/gestor/"+id+"/subordinados");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
-
             string result;
             if (response.IsSuccessStatusCode)
             {
@@ -28,7 +44,7 @@ namespace PastelariaMvc.Controllers
                 subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
                 client.Close();
 
-                ApiConnection clientParaTotal = new ApiConnection($"usuario/gestor/{idGestor}/tarefa/total");
+                ApiConnection clientParaTotal = new ApiConnection($"usuario/gestor/{id}/tarefa/total");
                 HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
                 if (responseParaTotal.IsSuccessStatusCode)
                 {
@@ -53,6 +69,80 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Home");   
             }
             Console.WriteLine(response.StatusCode);
+            return View();
+        }
+    
+
+        public async Task<IActionResult> ConsultarGestor(int id)
+        {
+            ApiConnection client = new ApiConnection("usuario/gestor/" + id);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario gestor;
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                gestor = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
+                return View(new UsuarioViewModel { Usuario = gestor });
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
+        {
+            ApiConnection client = new ApiConnection("usuario/"+id+"/atualizar");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> AtualizarGestor(int id, AtualizarUsuarioViewModel usuario)
+        {
+            ApiConnection client = new ApiConnection("usuario/gestor/" + id + "/atualizar");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+           
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> AtivarDesativar(int id)
+        {
+            var requestBody = "";
+            ApiConnection client = new ApiConnection($"usuario/{id}/status");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
+           
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> LoginSubordinado(Usuario subordinado)
+        {
+            
+            ApiConnection client = new ApiConnection("usuario/subordinado/login");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, subordinado);
+                
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return View("~/Views/Home/Index.cshtml");
+            }
+            Console.WriteLine(response.StatusCode);
+            
+            
             return View();
         }
     }

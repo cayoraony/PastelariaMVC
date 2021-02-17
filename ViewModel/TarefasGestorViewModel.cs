@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace PastelariaMvc.ViewModel
 {
-    public class UsuarioViewModel
+    public class TarefasGestorViewModel
     {
-        public Usuario Usuario { get; set; }
-
+        public List<Tarefa> Lista { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model Tarefa
+
+
+<h1>Criar</h1>
+<form asp-controller="Tarefa" asp-action="Criar" method="post" class="form-horizontal" role="form">
+
+    <label asp-for="Descricao" class="col-md-2 control-label"></label>
+    <input asp-for="Descricao" class="form-control" />
+
+    <label asp-for="DataLimite" class="col-md-2 control-label"></label>
+    <input asp-for="DataLimite" class="form-control" />
+
+    <label asp-for="IdGestor" class="col-md-2 control-label"></label>
+    <input asp-for="IdGestor" class="form-control" />
+
+    <label asp-for="IdSubordinado" class="col-md-2 control-label"></label>
+    <input asp-for="IdSubordinado" class="form-control" />
+
+    <label asp-for="IdStatusTarefa" class="col-md-2 control-label"></label>
+    <input asp-for="IdStatusTarefa" class="form-control" />
+
+
+    <br />
+    <input type="submit" class="btn btn-success" value="Registrar" />
+
+</form>

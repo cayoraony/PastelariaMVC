@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     public class LoginViewModel
     {

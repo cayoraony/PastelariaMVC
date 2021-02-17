@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using PastelariaMVC.Models;
+using PastelariaMvc.Models;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     // TELA 5
     public class TodasTarefasViewModel

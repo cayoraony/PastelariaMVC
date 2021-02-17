@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     // TELA 10
     public class CriarUsuarioViewModel

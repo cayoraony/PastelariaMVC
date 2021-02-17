@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
-using PastelariaMVC.ViewModel;
+using PastelariaMvc.ViewModel;
 
-namespace PastelariaMVC.Controllers
+namespace PastelariaMvc.Controllers
 {
     public class UsuarioController : Controller
     {
@@ -38,7 +38,6 @@ namespace PastelariaMVC.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
-
             string result;
             if (response.IsSuccessStatusCode)
             {
@@ -51,19 +50,48 @@ namespace PastelariaMVC.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ConsultarGestor(int id)
+        {
+            ApiConnection client = new ApiConnection("usuario/gestor/" + id);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario gestor;
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                gestor = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
+                return View(new UsuarioViewModel { Usuario = gestor });
+            }
+            return View();
+        }
+
         public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
         {
             ApiConnection client = new ApiConnection("usuario/"+id+"/atualizar");
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-           
+            
             if (response.IsSuccessStatusCode)
             {
-                
                 client.Close();
                 return RedirectToAction(nameof(Index));
             }
             return View();
         }
+
+        public async Task<IActionResult> AtualizarGestor(int id, AtualizarUsuarioViewModel usuario)
+        {
+            ApiConnection client = new ApiConnection("usuario/gestor/" + id + "/atualizar");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+           
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
         public async Task<IActionResult> AtivarDesativar(int id)
         {
             var requestBody = "";

@@ -1,4 +1,4 @@
-namespace PastelariaMVC.Models
+namespace PastelariaMvc.Models
 {
     public class Comentario
     {

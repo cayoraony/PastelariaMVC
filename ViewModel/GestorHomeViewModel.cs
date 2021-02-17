@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using PastelariaMvc.Models;
 
-namespace PastelariaMVC.ViewModel
+namespace PastelariaMvc.ViewModel
 {
     //TELA 2
     public class GestorHomeViewModel

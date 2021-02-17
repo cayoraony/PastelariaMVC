@@ -1,4 +1,9 @@
-namespace PastelariaMVC.ViewModel
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PastelariaMvc.ViewModel
 {
     public class AtualizarUsuarioViewModel
     {
@@ -7,3 +12,4 @@ namespace PastelariaMVC.ViewModel
         public string Senha { get; set; }
     }
 }
+

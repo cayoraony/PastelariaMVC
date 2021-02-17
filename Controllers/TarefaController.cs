@@ -7,16 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
-using PastelariaMVC.Models;
-using PastelariaMVC.ViewModel;
+using PastelariaMvc.Models;
+using PastelariaMvc.ViewModel;
 
-namespace PastelariaMVC.Controllers
+namespace PastelariaMvc.Controllers
 {
     public class TarefaController : Controller
     {
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Criar(Tarefa tarefa)
+        {
+            ApiConnection client = new ApiConnection("tarefa/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
+            Console.WriteLine(tarefa.IdGestor);
+            Console.WriteLine(tarefa.DataLimite);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            return View("Criar");
         }
 
         public async Task<IActionResult> ConsultarComentarios(int id)

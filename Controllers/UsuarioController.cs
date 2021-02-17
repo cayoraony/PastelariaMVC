@@ -45,5 +45,22 @@ namespace PastelariaMvc.Controllers
             return View();
 
         }
+
+        public async Task<IActionResult> LoginSubordinado(Usuario subordinado)
+        {
+            
+            ApiConnection client = new ApiConnection("usuario/subordinado/login");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, subordinado);
+                
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return View("~/Views/Home/Index.cshtml");
+            }
+            Console.WriteLine(response.StatusCode);
+            
+            
+            return View();
+        }
     }
 }

@@ -1,0 +1,12 @@
+@model EditarDataLimiteViewModel
+
+<form asp-controller="Tarefa" asp-action="EditarDataLimite" method="put" class="form-horizontal" role="form">
+
+    <label asp-for="DataLimite" class="col-md-2 control-label"></label>
+    <input asp-for="DataLimite" class="form-control" />
+    
+    <br>
+
+    <input type="submit" class="btn btn-success" value="Atualizar" />
+
+</form>

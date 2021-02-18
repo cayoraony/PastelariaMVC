@@ -82,5 +82,23 @@ namespace PastelariaMvc.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> EditarDataLimite([FromQuery] int idTarefa, EditarDataLimiteViewModel novaData)
+        {
+            ApiConnection client = new ApiConnection($"tarefa/{idTarefa}/datalimite");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, novaData);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("entrou");
+                client.Close();
+                Console.WriteLine(novaData.DataLimite.GetType());
+                // return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Index));
+            }
+            Console.WriteLine("errado");
+            // client.Close();
+            return View();
+        }
     }
 }

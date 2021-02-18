@@ -1,33 +1,57 @@
 ﻿@model Tarefa
 
+<h1 class="uk-heading-medium">Criar Tarefa</h1>
 
-<h1>Criar</h1>
-<form asp-controller="Tarefa" asp-action="Criar" method="post" class="form-horizontal" role="form">
+<hr class="uk-divider-icon">
 
-    <label asp-for="Descricao" class="col-md-2 control-label"></label>
-    <input asp-for="Descricao" class="form-control" />
+<form asp-controller="Tarefa" asp-action="Criar" method="post" class="uk-form-stacked" role="form">
+        
+    <div class="uk-margin">
+        <label asp-for="Descricao" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Descricao" type="text" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>    
 
-    <label asp-for="DataLimite" class="col-md-2 control-label"></label>
-    <input asp-for="DataLimite" class="form-control" />
+    <div class="uk-margin">
+        <label asp-for="DataLimite" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="DataLimite" type="datetime-local" placeholder="Escolha a data limite da tarefa">
+        </div>
+    </div>   
 
-    <label asp-for="IdGestor" class="col-md-2 control-label"></label>
-    <input asp-for="IdGestor" class="form-control" />
+    @* Vai pegar o IdGestor pela session, ou seja, quem está logado será quem vai criar a Tarefa *@
+    <div class="uk-margin">
+        <label asp-for="IdGestor" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="IdGestor" type="text" placeholder="Digite o Id Gestor">
+        </div>
+    </div>    
 
-    <label asp-for="IdSubordinado" class="col-md-2 control-label"></label>
-    <input asp-for="IdSubordinado" class="form-control" />
+    @* Dá pra fazer um select com o nome de todos os subordinados, e a partir do select pega o Id *@
+    <div class="uk-margin">
+        <label asp-for="IdSubordinado" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="IdSubordinado" type="text" placeholder="Digite o Id Subordinado">
+        </div>
+    </div>    
 
-    <label asp-for="IdStatusTarefa" class="col-md-2 control-label"></label>
-    <select asp-for="IdStatusTarefa" class="custom-select">
-        <option selected>Escolha um status</option>
-        <option value="1">Concluída</option>
-        <option value="2">Futura</option>
-        <option value="3">Agendada</option>
-        <option value="4">Atrasada</option>
-        <option value="5">Cancelada</option>
-    </select>
+    <div class="uk-margin">
+        <label class="uk-form-label uk-text-large" asp-for="IdStatusTarefa"></label>
+        <div class="uk-form-controls" asp-for="IdStatusTarefa">
+            <select class="uk-select" id="form-stacked-select">
+                <option selected>Escolha um status</option>
+                <option value="1">Concluída</option>
+                <option value="2">Futura</option>
+                <option value="3">Agendada</option>
+                <option value="4">Atrasada</option>
+                <option value="5">Cancelada</option>
+            </select>
+        </div>
+    </div>
 
-    <br />
-    <br />
-    <input type="submit" class="btn btn-success" value="Registrar" />
+    <button class="uk-button uk-button-primary uk-button-large" type="submit">
+        Criar Tarefa
+    </button>
 
 </form>

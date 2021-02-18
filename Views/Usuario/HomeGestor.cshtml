@@ -1,0 +1,27 @@
+@model GestorHomeViewModel
+
+<h1>Equipe</h1>
+<button>Criar Usuário</button>
+
+<table class="uk-table uk-table-middle uk-table-divider">
+    <thead>
+        <tr>
+            <th class="uk-width-small">Id</th>
+            <th>Nome</th>
+            <th>Tarefas</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (var user in @Model.Subordinados)
+      {
+          <tr>
+            <td>@user.IdUsuario</td>
+            <td>@user.Nome @user.Sobrenome</td>
+            <td>@await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario })</td>
+            @* <td>@await Component.InvokeAsync("TarefasAndamentoViewComponent")</td> *@
+            <td><button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button></td>
+          </tr>
+      }
+    </tbody>
+</table>

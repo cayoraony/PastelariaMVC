@@ -6,15 +6,10 @@
     <title>@ViewData["Title"] - PastelariaMvc</title>
     
     @* UIKit *@
-    <link rel="stylesheet" href="css/uikit.css" />
-    <script src="js/uikit.js"></script>
-    <script src="js/uikit-icons.js"></script>
+    <link rel="stylesheet" href="~/css/uikit.css" />
 
     @* UIKit CDN *@
-    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
+    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
 
     @* BOOTSTRAP *@
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -26,8 +21,7 @@
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
             <div class="uk-navbar-left">
-
-                <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+                <a class="uk-navbar-item uk-logo" href="#">Pastelaria SMN</a>
 
                 <ul class="uk-navbar-nav">
                     <li>
@@ -50,28 +44,10 @@
                 </div>
             </div>
         </nav>
-        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PastelariaMvc</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> *@
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <div class="uk-container">
+        <main class="uk-container">
             @RenderBody()
         </main>
     </div>
@@ -81,9 +57,13 @@
             &copy; 2021 - PastelariaMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/uikit.js"></script>
+    <script src="~/js/uikit-icons.js"></script>
+
+    @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

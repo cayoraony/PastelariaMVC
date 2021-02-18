@@ -45,7 +45,8 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ConsultarUsuariosGestor([FromQuery] int id)
+        // Primeiro alteração / Teste
+        public async Task<IActionResult> HomeGestor([FromQuery] int id)
         {
             ApiConnection client = new ApiConnection("usuario/gestor/"+id+"/subordinados");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
@@ -73,7 +74,7 @@ namespace PastelariaMvc.Controllers
         }
 
 
-        public async Task<IActionResult> CriarSubordinado([FromForm]Usuario usuario)
+        public async Task<IActionResult> CriarSubordinado([FromForm] Usuario usuario)
         {
             ApiConnection client = new ApiConnection("usuario/subordinado/criar");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
@@ -175,5 +176,7 @@ namespace PastelariaMvc.Controllers
             
             return View();
         }
+
+
     }
 }

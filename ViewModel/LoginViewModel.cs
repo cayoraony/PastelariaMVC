@@ -1,7 +1,4 @@
-
 using System.ComponentModel.DataAnnotations;
-
-
 namespace PastelariaMvc.ViewModel
 {
     public class LoginViewModel

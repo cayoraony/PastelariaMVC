@@ -1,0 +1,25 @@
+﻿@model Usuario
+@{
+    ViewData["Title"] = "ConsultarSubordinado";
+}
+<h2>ConsultarSubordinado</h2>
+<br />
+<h3>Subordinado</h3>
+<br />
+<p>Usuario @Model.Nome</p>
+<p>@Model.Sobrenome</p>
+<p>@Model.IdUsuario</p>
+<p>@Model.DataNascimento</p>
+<p>@Model.DataNascimento</p>
+<p>@Model.EGestor</p>
+<p>@Model.EstaAtivo</p>
+<p>@Model.Email.EnderecoEmail</p>
+<br />
+<h3>Seu Gestor</h3>
+<br />
+<p>@Model.Gestor.IdUsuario</p>
+<p>@Model.Gestor.Nome</p>
+<p>@Model.Gestor.Sobrenome</p>
+
+
+

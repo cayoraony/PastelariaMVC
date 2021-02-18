@@ -15,7 +15,6 @@ namespace PastelariaMvc.Models
         public string CEP { get; set; }
         public string Cidade { get; set; }
         public string UF { get; set; }
-
         public int IdUsuario { get; set; }
         public Usuario Usuario { get; set; }
     }

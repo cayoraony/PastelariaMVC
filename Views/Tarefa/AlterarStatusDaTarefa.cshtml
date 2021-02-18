@@ -1,0 +1,8 @@
+﻿@model AlterarStatusDaTarefaViewModel 
+
+<form asp-controller="Tarefa" asp-action="AlterarStatusDaTarefa" method="get" class="form-horizontal" role="form">
+    <label asp-for="IdStatusTarefa" class="col-md-2 control-label"></label>
+    <input asp-for="IdStatusTarefa" class="form-control" />
+    <br />
+    <input type="submit" class="btn btn-success" value="Atualizar" />
+</form>

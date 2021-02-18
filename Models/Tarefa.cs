@@ -1,5 +1,4 @@
 using System;
-using PastelariaMvc.Models;
 
 namespace PastelariaMvc.Models
 {
@@ -16,6 +15,6 @@ namespace PastelariaMvc.Models
         public int IdSubordinado{ get; set; }
         public Usuario Subordinado { get; set; }
         public int IdStatusTarefa { get; set; }
-        // public StatusTarefa Status { get; set; }
+        public StatusTarefa Status { get; set; }
     }
 }

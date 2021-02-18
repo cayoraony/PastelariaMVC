@@ -18,11 +18,24 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoginGestor(Usuario gestor)
+        public async Task<IActionResult> CriarGestor(Usuario usuario)
         {
-            Console.WriteLine(gestor);
+            ApiConnection client = new ApiConnection("usuario/gestor/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return View("~/Views/Home/Index.cshtml");
+            }
+            Console.WriteLine(response.StatusCode);
+            return View();
+        }
+
+        public async Task<IActionResult> LoginGestor(Usuario ugestor)
+        {
+            Console.WriteLine(ugestor);
             ApiConnection client = new ApiConnection("usuario/gestor/login");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, gestor);
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, ugestor);
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
@@ -44,9 +57,49 @@ namespace PastelariaMvc.Controllers
                 result = await response.Content.ReadAsStringAsync();
                 subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
                 client.Close();
-                return View(subordinadosResult);
+
+                ApiConnection clientParaTotal = new ApiConnection($"usuario/gestor/{id}/tarefa/total");
+                HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
+                if (responseParaTotal.IsSuccessStatusCode)
+                {
+                    subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
+                    
+                    clientParaTotal.Close();
+                    return View(subordinadosResult);
+                }
             }
             Console.WriteLine(response.StatusCode);  
+            return View();
+        }
+
+
+        public async Task<IActionResult> CriarSubordinado([FromForm]Usuario usuario)
+        {
+            ApiConnection client = new ApiConnection("usuario/subordinado/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction("Index", "Home");   
+            }
+            Console.WriteLine(response.StatusCode);
+            return View();
+        }
+    
+        public async Task<IActionResult> ConsultarSubordinado(int id)
+        {
+            ApiConnection client = new ApiConnection("usuario/subordinado/" + id);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario usuarioResult;
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
+                return View(usuarioResult);
+            }
+            Console.WriteLine(response.StatusCode);
             return View();
         }
 
@@ -103,6 +156,23 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction(nameof(Index));
             }
+            return View();
+        }
+
+        public async Task<IActionResult> LoginSubordinado(Usuario subordinado)
+        {
+            
+            ApiConnection client = new ApiConnection("usuario/subordinado/login");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, subordinado);
+                
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return View("~/Views/Home/Index.cshtml");
+            }
+            Console.WriteLine(response.StatusCode);
+            
+            
             return View();
         }
     }

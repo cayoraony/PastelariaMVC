@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PastelariaMvc.Models;
 
 namespace PastelariaMvc.Models
 {
@@ -20,22 +21,15 @@ namespace PastelariaMvc.Models
         public Email Email { get; set; }
         public short IdTelefone { get; set; }
         public Telefone Telefone { get; set; }
+        public int IdGestor { get; set; }
+        public Usuario Gestor { get; set; }
+        public bool EGestor { get; set; }
 
-        /*
-        public Usuario()
-        {
+        public Usuario() {
             this.Email = new Email();
             this.Endereco = new Endereco();
             this.Telefone = new Telefone();
-        }
-        */
-
-        //public List<Tarefa> Tarefas { get; set; }
-
-        public Usuario()
-        {
-
-        }
-            
+        }   
+        //public List<Tarefa> Tarefas { get; set; }        
     }
 }

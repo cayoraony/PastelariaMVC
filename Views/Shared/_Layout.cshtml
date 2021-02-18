@@ -4,12 +4,53 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PastelariaMvc</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    
+    @* UIKit *@
+    <link rel="stylesheet" href="css/uikit.css" />
+    <script src="js/uikit.js"></script>
+    <script src="js/uikit-icons.js"></script>
+
+    @* UIKit CDN *@
+    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
+
+    @* BOOTSTRAP *@
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" /> *@
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="uk-navbar-container uk-margin" uk-navbar>
+            <div class="uk-navbar-left">
+
+                <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="#">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+                            Features
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="uk-navbar-item">
+                    <div>Some <a href="#">Link</a></div>
+                </div>
+
+                <div class="uk-navbar-item">
+                    <form action="javascript:void(0)">
+                        <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                        <button class="uk-button uk-button-default">Button</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PastelariaMvc</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -27,7 +68,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> *@
     </header>
     <div class="container">
         <main role="main" class="pb-3">

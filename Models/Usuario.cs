@@ -23,6 +23,7 @@ namespace PastelariaMvc.Models
         public Telefone Telefone { get; set; }
         public int IdGestor { get; set; }
         public Usuario Gestor { get; set; }
+        public bool EGestor { get; set; }
 
         public Usuario() {
             this.Email = new Email();

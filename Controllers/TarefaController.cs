@@ -13,6 +13,19 @@ namespace PastelariaMvc.Controllers
 {
     public class TarefaController : Controller
     {
+        public async Task<IActionResult> AlterarStatusDaTarefa(int id, AlterarStatusDaTarefaViewModel tarefa)
+        {
+            ApiConnection client = new ApiConnection($"tarefa/{id}/status");
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, tarefa);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction("Index", "Home");
+            }
+            client.Close();
+            return View();
+        }
+
         public async Task<IActionResult> CancelarTarefa([FromQuery]int idTarefa)
         {
             ApiConnection client = new ApiConnection($"tarefa/{idTarefa}/cancelar");
@@ -140,6 +153,20 @@ namespace PastelariaMvc.Controllers
             client.Close();
             return View();
         }
+
+        public async Task<IActionResult> CriarComentario(Comentario comentario)
+        {
+            ApiConnection client = new ApiConnection("tarefa/comentario/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, comentario);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction("Index", "Home");
+            }
+            Console.WriteLine(response.StatusCode);
+            return View();
+        }
+
         public async Task<IActionResult> ConsultarComentarios(int id)
         {
             ApiConnection client = new ApiConnection("tarefa/"+id+"/comentarios");
@@ -173,6 +200,23 @@ namespace PastelariaMvc.Controllers
                 return View(tarefasResult);
             }
             Console.WriteLine(response.StatusCode);  
+            return View();
+        }
+
+        public async Task<IActionResult> ConsultarTarefasUsuario(int id)
+        {
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+                client.Close();
+                return View(tarefas);
+            }
+            Console.WriteLine(response.StatusCode);
             return View();
         }
 

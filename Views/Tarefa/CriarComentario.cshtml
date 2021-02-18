@@ -1,0 +1,14 @@
+﻿@model Comentario
+
+<form asp-controller="Tarefa" asp-action="CriarComentario" method="post" class="form-horizontal" role="form">
+    <label asp-for="Descricao" class="col-md-2 control-label"></label>
+    <input asp-for="Descricao" class="form-control" />
+
+    <label asp-for="IdTarefa" class="col-md-2 control-label"></label>
+    <input asp-for="IdTarefa" class="form-control" />
+
+    <br />
+    <input type="submit" class="btn btn-success" value="Registrar" />
+
+</form>
+

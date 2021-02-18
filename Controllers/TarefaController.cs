@@ -69,6 +69,7 @@ namespace PastelariaMvc.Controllers
         {
 
             ApiConnection client = new ApiConnection("tarefa/criar");
+            Console.WriteLine(tarefa.IdStatusTarefa);
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
             
             if (response.IsSuccessStatusCode)
@@ -76,7 +77,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("Index", "Home");
             }
-
+            Console.WriteLine(response.StatusCode);
             return View();
         }
         
@@ -203,7 +204,8 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ConsultarTarefasUsuario(int id)
+        // ConsultarTarefasUsuario
+        public async Task<IActionResult> TarefaList([FromQuery]int id) /*todas*/
         {
             ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
@@ -214,6 +216,8 @@ namespace PastelariaMvc.Controllers
                 result = await response.Content.ReadAsStringAsync();
                 tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
                 client.Close();
+                Console.WriteLine(response.StatusCode);
+                
                 return View(tarefas);
             }
             Console.WriteLine(response.StatusCode);

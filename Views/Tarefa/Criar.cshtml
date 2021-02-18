@@ -1,6 +1,6 @@
 ﻿@model Tarefa
 
-<h1 class="uk-heading-medium">Criar Tarefa</h1>
+<h1 class="uk-heading-medium">Cadastrar Tarefa</h1>
 
 <hr class="uk-divider-icon">
 
@@ -24,7 +24,7 @@
     <div class="uk-margin">
         <label asp-for="IdGestor" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
-            <input class="uk-input" asp-for="IdGestor" type="text" placeholder="Digite o Id Gestor">
+            <input class="uk-input" asp-for="IdGestor" type="number" placeholder="Digite o Id Gestor">
         </div>
     </div>    
 
@@ -32,26 +32,39 @@
     <div class="uk-margin">
         <label asp-for="IdSubordinado" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
-            <input class="uk-input" asp-for="IdSubordinado" type="text" placeholder="Digite o Id Subordinado">
+            <input class="uk-input" asp-for="IdSubordinado" type="number" placeholder="Digite o Id Subordinado">
         </div>
     </div>    
 
     <div class="uk-margin">
+        <label asp-for="IdStatusTarefa" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="IdStatusTarefa" type="number" placeholder="Digite o Id Subordinado"/>
+        </div>
+    </div>   
+
+    
+    
+
+    @* <div class="uk-margin">
         <label class="uk-form-label uk-text-large" asp-for="IdStatusTarefa"></label>
         <div class="uk-form-controls" asp-for="IdStatusTarefa">
             <select class="uk-select" id="form-stacked-select">
                 <option selected>Escolha um status</option>
-                <option value="1">Concluída</option>
-                <option value="2">Futura</option>
-                <option value="3">Agendada</option>
-                <option value="4">Atrasada</option>
-                <option value="5">Cancelada</option>
+                <option value= 1 >Concluída</option>
+                <option value= 2 >Futura</option>
+                <option value= 3 >Agendada</option>
+                <option value= 4 >Atrasada</option>
+                <option value= 5 >Cancelada</option>
             </select>
         </div>
-    </div>
+    </div> *@
 
-    <button class="uk-button uk-button-primary uk-button-large" type="submit">
+    <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Registrar" />
+    @* <button class="uk-button uk-button-primary uk-button-large" type="submit">
         Criar Tarefa
-    </button>
+    </button> *@
 
 </form>
+
+<br>

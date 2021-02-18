@@ -1,0 +1,25 @@
+@model ConsultarTarefasUsuarioViewModel
+
+<h1>Tarefas</h1>
+
+<table class="uk-table uk-table-middle uk-table-divider">
+    <thead>
+        <tr>
+            <th class="uk-width-small">Id</th>
+            <th>Descrição</th>
+            <th>Data Limite</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (var tarefa in @Model.Lista)
+      {
+          <tr>
+            <td>@tarefa.IdTarefa</td>
+            <td>@tarefa.Descricao</td>
+            <td>@tarefa.DataLimite</td>
+            <td><button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button></td>
+          </tr>
+      }
+    </tbody>
+</table>

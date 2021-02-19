@@ -223,6 +223,25 @@ namespace PastelariaMvc.Controllers
             Console.WriteLine(response.StatusCode);
             return View();
         }
+//                      ^^^^==>>>>
+        public async Task<IActionResult> VerTodas([FromQuery]int id) /*todas*/
+        {
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+                client.Close();
+                Console.WriteLine(response.StatusCode);
+                
+                return View(tarefas);
+            }
+            Console.WriteLine(response.StatusCode);
+            return View();
+        }
 
         public async Task<IActionResult> Concluir(int id)
         {

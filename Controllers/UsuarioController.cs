@@ -74,6 +74,33 @@ namespace PastelariaMvc.Controllers
         }
 
 
+        public async Task<IActionResult> Criar([FromForm] Usuario usuario)
+        {
+            // string stringApi;
+
+            // if(usuario.EGestor) 
+            // {
+            //     stringApi = "usuario/gestor/criar";
+            // }
+            // else 
+            // {
+            //     stringApi = "usuario/subordinado/criar";
+            // }
+ 
+            // ApiConnection client = new ApiConnection(stringApi);
+            ApiConnection client = new ApiConnection("usuario/gestor/criar");
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
+            if (response.IsSuccessStatusCode)
+            {
+                client.Close();
+                return RedirectToAction("Index", "Home");   
+            }
+            Console.WriteLine(response.StatusCode);
+            Console.WriteLine(response.RequestMessage);
+            return View();
+        }
+    
+
         public async Task<IActionResult> CriarSubordinado([FromForm] Usuario usuario)
         {
             ApiConnection client = new ApiConnection("usuario/subordinado/criar");

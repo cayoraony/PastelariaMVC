@@ -3,6 +3,30 @@
     ViewData["Title"] = "ConsultarSubordinado";
 }
 
+<div>
+    <div>
+        <div class="uk-card uk-card-hover uk-card-body">
+            <h3 class="uk-card-title">Dados Pessoais</h3>
+                <ul class="uk-list uk-list-disc">
+                <li><span class="uk-text-bold">Nome:</span> @Model.Nome</li>
+                <li><span class="uk-text-bold">Sobrenome:</span> @Model.Sobrenome</li>
+                <li><span class="uk-text-bold">Data Nascimento:</span> @Model.DataNascimento</li>
+                @* <li><span class="uk-text-bold">Status:</span> @Model.</li> *@
+                <li><span class="uk-text-bold">Gestor:</span> @Model.Gestor.Nome @Model.Gestor.Sobrenome</li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <div class="uk-card uk-card-hover uk-card-body">
+            <h3 class="uk-card-title">Dados de Contato</h3>
+            <ul class="uk-list uk-list-disc">
+                <li><span class="uk-text-bold">Endereço de email:</span> @Model.Email.EnderecoEmail</li>
+                <li><span class="uk-text-bold">DDD:</span> @Model.Telefone.DDD</li>
+                <li><span class="uk-text-bold">Telefone:</span> @Model.Telefone.Numero</li>
+            </ul>
+        </div>
+    </div>
 
 <div class="uk-section uk-section-muted uk-card uk-card-default uk-card-body">
     <div class="uk-container">
@@ -12,7 +36,6 @@
             <li><span uk-text-bold>Nome:</span> @Model.Nome</li>
             <li><span uk-text-bold>Sobrenome:</span> @Model.Sobrenome</li>
             <li><span uk-text-bold>Data Nascimento:</span> @Model.DataNascimento</li>
-            @* <li><span uk-text-bold>Status:</span> @Model.</li> *@
             <li><span uk-text-bold>Gestor:</span> @Model.Gestor.Nome @Model.Gestor.Sobrenome</li>
         </ul>
     </div>

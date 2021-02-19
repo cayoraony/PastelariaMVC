@@ -1,0 +1,43 @@
+﻿@model Tarefa
+@{
+    ViewData["Title"] = "ConsultarTarefa";
+}
+
+
+
+<div class="uk-grid-medium uk-child-width-expand@s uk-margin-large-top" uk-grid>
+    <div>
+        <div class="uk-background-muted uk-padding">
+            <ul class="uk-list uk-list-disc">
+                <li><span class="uk-text-bold">Id:</span> @Model.IdTarefa</li>
+                <li><span class="uk-text-bold">Data Limite:</span> @Model.Descricao</li>
+                <li><span class="uk-text-bold">Data Cadastro:</span> @Model.DataCadastro</li>
+                <li><span class="uk-text-bold">Status:</span> @Model.DataLimite</li>
+                <li><span class="uk-text-bold">Descrição:</span> @Model.Status </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="uk-background-default uk-padding">
+            @await Component.InvokeAsync("ConsultarComentariosViewComponent", new { id = @Model.IdTarefa })
+            <button class="uk-button uk-button-primary uk-button-large" uk-toggle="target: #add-comentario" type="button">
+                Adicionar Comentário
+            </button>
+
+            <div id="add-comentario" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">Adicione um comentário</h2>
+                    <form asp-controller="" asp-action="" method="post" role="form">
+                        <div class="uk-margin">
+                            <input class="uk-input" type="text" placeholder="Digite o comentário">
+                        </div>
+                        <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
+                    </form>
+
+                    <button class="uk-modal-close" type="button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

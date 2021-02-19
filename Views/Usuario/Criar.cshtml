@@ -41,7 +41,7 @@
       </div>
   </div>
 
-  @* <div class="uk-margin">
+   <div class="uk-margin">
       <label class="uk-form-label uk-text-large" asp-for="EGestor"></label>
       <div class="uk-form-controls">
           <select class="uk-select" asp-for="EGestor">
@@ -53,6 +53,13 @@
   </div>
 
   <div class="uk-margin">
+      <label asp-for="IdGestor" class="uk-form-label uk-text-large"></label>
+      <div class="uk-form-controls">
+          <input class="uk-input" asp-for="IdGestor" placeholder="Digite a descriçao da tarefa">
+      </div>
+  </div>
+
+  @* <div class="uk-margin">
       <label class="uk-form-label uk-text-large" asp-for="EstaAtivo"></label>
       <div class="uk-form-controls">
           <select class="uk-select" asp-for="EstaAtivo">
@@ -61,7 +68,7 @@
               <option value="true" >Sim</option>
           </select>
       </div>
-  </div> *@
+  </div> *@ 
 
   <div class="uk-margin">
       <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
@@ -84,17 +91,17 @@
       </div>
   </div>
 
-  <div class="uk-margin">
+  @* <div class="uk-margin">
       <label asp-for="Telefone.IdTipo" class="uk-form-label uk-text-large"></label>
       <div class="uk-form-controls">
           <input class="uk-input" asp-for="Telefone.IdTipo" placeholder="Digite a descriçao da tarefa">
       </div>
-  </div>
+  </div> *@
 
-  @* <div class="uk-margin">
-      <label class="uk-form-label uk-text-large" asp-for="IdTipoTelefone"></label>
+  <div class="uk-margin">
+      <label class="uk-form-label uk-text-large" asp-for="Telefone.IdTipo"></label>
       <div class="uk-form-controls">
-          <select class="uk-select" asp-for="IdTipoTelefone">
+          <select class="uk-select" asp-for="Telefone.IdTipo">
               <option selected>Escolha uma opção</option>
               <option value="1" >Residencial</option>
               <option value="2" >Celular</option>
@@ -102,7 +109,7 @@
               <option value="4" >Corporativo</option>
           </select>
       </div>
-  </div> *@
+  </div>
 
   <div class="uk-margin">
       <label asp-for="Endereco.Rua" class="uk-form-label uk-text-large"></label>

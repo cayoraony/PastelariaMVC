@@ -274,5 +274,24 @@ namespace PastelariaMvc.Controllers
         //     // client.Close();
         //     return View();
         // }
+
+
+
+        public async Task<IActionResult> ConsultarTarefaAsync(int id)
+        {
+            ApiConnection client = new ApiConnection("tarefa/" + id);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Tarefa tarefa;
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
+                
+                return View(tarefa);
+            }
+            return View();
+        }
+
     }
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaMvc.Infra;
 
-namespace PastelariaMVC.Components
+namespace PastelariaMvc.Components
 {
     [ViewComponent(Name="TarefasAndamentoViewComponent")]
     public class TarefasAndamentoViewComponent : ViewComponent

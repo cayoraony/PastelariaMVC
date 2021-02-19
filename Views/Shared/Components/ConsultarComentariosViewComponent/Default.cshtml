@@ -1,0 +1,9 @@
+﻿@model List<Comentario>
+
+<h1>aaa</h1>
+
+@foreach (var comentario in @Model)
+{
+    <h3>@comentario.IdTarefa</h3>
+    <p>@comentario.Descricao</p>
+}

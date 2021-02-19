@@ -2,24 +2,46 @@
 @{
     ViewData["Title"] = "ConsultarSubordinado";
 }
-<h2>ConsultarSubordinado</h2>
-<br />
-<h3>Subordinado</h3>
-<br />
-<p>Usuario @Model.Nome</p>
-<p>@Model.Sobrenome</p>
-<p>@Model.IdUsuario</p>
-<p>@Model.DataNascimento</p>
-<p>@Model.DataNascimento</p>
-<p>@Model.EGestor</p>
-<p>@Model.EstaAtivo</p>
-<p>@Model.Email.EnderecoEmail</p>
-<br />
-<h3>Seu Gestor</h3>
-<br />
-<p>@Model.Gestor.IdUsuario</p>
-<p>@Model.Gestor.Nome</p>
-<p>@Model.Gestor.Sobrenome</p>
 
 
+<div class="uk-section uk-section-muted">
+    <div class="uk-container">
+        <h3>Dados Pessoais</h3>
 
+        <ul class="uk-list uk-list-disc">
+            <li><span uk-text-bold>Nome:</span> @Model.Nome</li>
+            <li><span uk-text-bold>Sobrenome:</span> @Model.Sobrenome</li>
+            <li><span uk-text-bold>Data Nascimento:</span> @Model.DataNascimento</li>
+            @* <li><span uk-text-bold>Status:</span> @Model.</li> *@
+            <li><span uk-text-bold>Gestor:</span> @Model.Gestor.Nome @Model.Gestor.Sobrenome</li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-section uk-section-default">
+    <div class="uk-container">
+        <h3>Dados de Contato</h3>
+
+        <ul class="uk-list uk-list-disc">
+            <li><span uk-text-bold>Endereço de email:</span> @Model.Email.EnderecoEmail</li>
+            <li><span uk-text-bold>DDD:</span> @Model.Telefone.DDD</li>
+            <li><span uk-text-bold>Telefone:</span> @Model.Telefone.Numero</li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-section uk-section-default">
+    <div class="uk-container">
+        <h3>Dados de Endereço</h3>
+
+        <ul class="uk-list uk-list-disc">
+            <li><span uk-text-bold>Cidade:</span> @Model.Endereco.Cidade</li>
+            <li><span uk-text-bold>UF:</span> @Model.Endereco.UF</li>
+            <li><span uk-text-bold>Bairro:</span> @Model.Endereco.Bairro</li>
+            <li><span uk-text-bold>Rua:</span> @Model.Endereco.Rua</li>
+            <li><span uk-text-bold>Número:</span> @Model.Endereco.Numero</li>
+            <li><span uk-text-bold>Complemento:</span> @Model.Endereco.Complemento</li>
+            <li><span uk-text-bold>CEP:</span> @Model.Endereco.CEP</li>
+        </ul>
+    </div>
+</div>

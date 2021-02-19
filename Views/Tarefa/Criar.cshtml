@@ -36,29 +36,26 @@
         </div>
     </div>    
 
-    <div class="uk-margin">
+    @* <div class="uk-margin">
         <label asp-for="IdStatusTarefa" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
             <input class="uk-input" asp-for="IdStatusTarefa" type="number" placeholder="Digite o Id Subordinado"/>
         </div>
-    </div>   
+    </div>    *@
 
-    
-    
-
-    @* <div class="uk-margin">
+    <div class="uk-margin">
         <label class="uk-form-label uk-text-large" asp-for="IdStatusTarefa"></label>
-        <div class="uk-form-controls" asp-for="IdStatusTarefa">
-            <select class="uk-select" id="form-stacked-select">
+        <div class="uk-form-controls">
+            <select class="uk-select" id="form-stacked-select" asp-for="IdStatusTarefa">
                 <option selected>Escolha um status</option>
-                <option value= 1 >Concluída</option>
-                <option value= 2 >Futura</option>
-                <option value= 3 >Agendada</option>
-                <option value= 4 >Atrasada</option>
-                <option value= 5 >Cancelada</option>
+                <option value="1" >Concluída</option>
+                <option value="2" >Futura</option>
+                <option value="3" >Agendada</option>
+                <option value="4" >Atrasada</option>
+                <option value="5" >Cancelada</option>
             </select>
         </div>
-    </div> *@
+    </div>
 
     <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Registrar" />
     @* <button class="uk-button uk-button-primary uk-button-large" type="submit">

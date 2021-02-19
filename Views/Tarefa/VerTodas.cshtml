@@ -2,12 +2,15 @@
 
 <h1>Tarefas</h1>
 
-<table class="uk-table uk-table-middle uk-table-divider">
+<table class="uk-table uk-table-striped">
     <thead>
         <tr>
-            <th class="uk-width-small">Id</th>
+            <th>Id</th>
             <th>Descrição</th>
             <th>Data Limite</th>
+            <th>Data Cadastro</th>
+            <th>Data Conclusao</th>
+            <th>Data Cancelamento</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -18,7 +21,10 @@
         <td>@tarefa.IdTarefa</td>
         <td>@tarefa.Descricao</td>
         <td>@tarefa.DataLimite</td>
-        <td><button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button></td>
+        <td>@tarefa.DataCadastro</td>
+        <td>@tarefa.DataConclusao</td>
+        <td>@tarefa.DataCancelada</td>
+        <td><button class="uk-button uk-button-primary uk-button-small" type="button">Ver Comentarios</button></td>
         </tr>
       }
     </tbody>

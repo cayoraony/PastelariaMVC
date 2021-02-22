@@ -6,6 +6,17 @@
 <div class="uk-grid-medium uk-child-width-expand@s uk-margin-large-top" uk-grid>
     <div>
         <div class="uk-background-muted uk-padding">
+            <div class="uk-flex">
+                <a  class="uk-button uk-button-primary"
+                    asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@Model.IdTarefa">
+                    Concluir
+                </a>
+                <a  class="uk-button uk-button-danger uk-margin-left"
+                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@Model.IdTarefa">
+                    Cancelar
+                </a>
+            </div>
+
             <ul class="uk-list uk-list-disc">
                 <li><span class="uk-text-bold">Id:</span> @Model.IdTarefa</li>
                 <li><span class="uk-text-bold">Data Limite:</span> @Model.DataLimite</li>
@@ -13,6 +24,13 @@
                 <li><span class="uk-text-bold">Status:</span> @Model.Status</li>
                 <li><span class="uk-text-bold">Descrição:</span> @Model.Descricao </li>
             </ul>
+
+            <div class="uk-flex">
+                <a  class="uk-button uk-button-default"
+                    asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@Model.IdGestor">
+                    Voltar
+                </a>
+            </div>
         </div>
     </div>
     <div>

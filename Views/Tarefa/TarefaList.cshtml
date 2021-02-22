@@ -1,6 +1,6 @@
 @model ConsultarTarefasUsuarioViewModel
 
-<h1>Tarefas</h1>
+<h1>Tarefas Pendentes - Usuário: id</h1>
 
 <table class="uk-table uk-table-middle uk-table-divider">
     <thead>
@@ -15,10 +15,14 @@
       @foreach (var tarefa in @Model.Lista)
       {
         <tr>
-        <td>@tarefa.IdTarefa</td>
-        <td>@tarefa.Descricao</td>
-        <td>@tarefa.DataLimite</td>
-        <td><button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button></td>
+          <td>@tarefa.IdTarefa</td>
+          <td>@tarefa.Descricao</td>
+          <td>@tarefa.DataLimite</td>
+          <td>
+            <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa">
+              <button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button>
+            </a>
+          </td>
         </tr>
       }
     </tbody>

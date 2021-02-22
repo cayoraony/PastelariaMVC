@@ -3,17 +3,15 @@
     ViewData["Title"] = "ConsultarTarefa";
 }
 
-
-
 <div class="uk-grid-medium uk-child-width-expand@s uk-margin-large-top" uk-grid>
     <div>
         <div class="uk-background-muted uk-padding">
             <ul class="uk-list uk-list-disc">
                 <li><span class="uk-text-bold">Id:</span> @Model.IdTarefa</li>
-                <li><span class="uk-text-bold">Data Limite:</span> @Model.Descricao</li>
+                <li><span class="uk-text-bold">Data Limite:</span> @Model.DataLimite</li>
                 <li><span class="uk-text-bold">Data Cadastro:</span> @Model.DataCadastro</li>
-                <li><span class="uk-text-bold">Status:</span> @Model.DataLimite</li>
-                <li><span class="uk-text-bold">Descrição:</span> @Model.Status </li>
+                <li><span class="uk-text-bold">Status:</span> @Model.Status</li>
+                <li><span class="uk-text-bold">Descrição:</span> @Model.Descricao </li>
             </ul>
         </div>
     </div>
@@ -27,9 +25,14 @@
             <div id="add-comentario" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <h2 class="uk-modal-title">Adicione um comentário</h2>
-                    <form asp-controller="" asp-action="" method="post" role="form">
+                    
+                    <form asp-controller="Tarefa" asp-action="CriarComentario" method="post" role="form">
                         <div class="uk-margin">
-                            <input class="uk-input" type="text" placeholder="Digite o comentário">
+                            <label asp-for="Descricao" class="uk-form-label uk-text-small"></label>
+                            <input asp-for="Descricao" class="uk-input" type="text" placeholder="Digite o comentário">
+
+                            <label asp-for="IdTarefa" class="uk-hidden"></label>
+                            <input asp-for="IdTarefa" class="uk-hidden" value="@Model.IdTarefa">
                         </div>
                         <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
                     </form>

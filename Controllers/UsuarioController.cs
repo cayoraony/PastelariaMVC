@@ -46,7 +46,7 @@ namespace PastelariaMvc.Controllers
         }
 
         // Primeiro alteração / Teste
-        public async Task<IActionResult> HomeGestor([FromQuery] int id)
+        public async Task<IActionResult> HomeGestor(int id)
         {
             ApiConnection client = new ApiConnection("usuario/gestor/"+id+"/subordinados");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);

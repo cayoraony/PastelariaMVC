@@ -18,13 +18,18 @@
       @foreach (var tarefa in @Model.Lista)
       {
         <tr>
-        <td>@tarefa.IdTarefa</td>
-        <td>@tarefa.Descricao</td>
-        <td>@tarefa.DataLimite</td>
-        <td>@tarefa.DataCadastro</td>
-        <td>@tarefa.DataConclusao</td>
-        <td>@tarefa.DataCancelada</td>
-        <td><button class="uk-button uk-button-primary uk-button-small" type="button">Ver Comentarios</button></td>
+          <td>@tarefa.IdTarefa</td>
+          <td>@tarefa.Descricao</td>
+          <td>@tarefa.DataLimite</td>
+          <td>@tarefa.DataCadastro</td>
+          <td>@tarefa.DataConclusao</td>
+          <td>@tarefa.DataCancelada</td>
+          <td>
+            <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa"
+               class="uk-button uk-button-primary uk-button-small">
+              Ver Comentarios
+            </a>
+          </td>
         </tr>
       }
     </tbody>

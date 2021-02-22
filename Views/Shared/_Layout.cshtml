@@ -20,28 +20,47 @@
 <body>
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
-            <div class="uk-navbar-left">
-                <a class="uk-navbar-item uk-logo" href="#">Pastelaria SMN</a>
+            <div class="uk-navbar uk-flex-between">
 
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a href="#">
-                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
-                            Features
-                        </a>
-                    </li>
-                </ul>
+                @* <div class="uk-flex-left">
+                </div> *@
+                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="1">Pastelaria SMN</a>
+                
+                @* <div class="uk-flex-center">
+                </div> *@
+                    <ul class="uk-navbar-nav">
+                        <li>
+                            <a asp-area="" asp-controller="Usuario" asp-action="ConsultarSubordinado" asp-route-id="15">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                                Minha Conta
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="1">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
+                                Todas Tarefas
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Tarefa" asp-action="TarefaList" asp-route-id="1">
+                                @* 
+                                ToDo - JM
+                                ViewComponent para mostrar a quantidade de tarefas em tempo real 
+                                ********
+                                *@
+                                <span class="uk-badge">11</span>
+                            </a>
+                        </li>
+                    </ul>
+                
 
-                <div class="uk-navbar-item">
-                    <div>Some <a href="#">Link</a></div>
-                </div>
+                @* <div class="uk-flex-right">
+                </div> *@
+                    <div class="uk-navbar-item ">
+                        <span class="uk-text-light uk-text-large">Olá, usuário</span>
+                        <button class="uk-button uk-button-danger uk-button-small">Sair</button>
+                    </div>
 
-                <div class="uk-navbar-item">
-                    <form action="javascript:void(0)">
-                        <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
-                        <button class="uk-button uk-button-default">Button</button>
-                    </form>
-                </div>
             </div>
         </nav>
     </header>

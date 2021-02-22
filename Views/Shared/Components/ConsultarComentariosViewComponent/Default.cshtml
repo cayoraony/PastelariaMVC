@@ -1,9 +1,14 @@
-﻿@model List<Comentario>
+﻿@model ComentarioRespostaViewModel
 
-<h1>aaa</h1>
-
-@foreach (var comentario in @Model)
+<h2>Comentários</h2>
+@if (@Model.Comentarios.Any())
 {
-    <h3>@comentario.IdTarefa</h3>
-    <p>@comentario.Descricao</p>
+    @foreach (var comentario in @Model.Comentarios)
+    {
+        <h3>@comentario.IdTarefa</h3>
+        <p>@comentario.Descricao</p>
+    }
+}else
+{
+    <h3>Lista de comentários está vazia</h3>
 }

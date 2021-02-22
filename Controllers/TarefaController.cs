@@ -205,9 +205,13 @@ namespace PastelariaMvc.Controllers
         }
 
         // ConsultarTarefasUsuario
-        public async Task<IActionResult> TarefaList([FromQuery]int id) /*todas*/
+        public async Task<IActionResult> TarefaList(int id) /*todas*/
         {
-            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
+            // ToDo - JM
+            // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
+            // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
+            // *********
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/tarefa/pendentes");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
@@ -223,10 +227,15 @@ namespace PastelariaMvc.Controllers
             Console.WriteLine(response.StatusCode);
             return View();
         }
-//                      ^^^^==>>>>
-        public async Task<IActionResult> VerTodas([FromQuery]int id) /*todas*/
+//                      
+        public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
-            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
+             // ToDo - JM
+            // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
+            // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
+            // *********
+            
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/tarefa/todas");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
@@ -277,7 +286,7 @@ namespace PastelariaMvc.Controllers
 
 
 
-        public async Task<IActionResult> ConsultarTarefaAsync(int id)
+        public async Task<IActionResult> ConsultarTarefa(int id)
         {
             ApiConnection client = new ApiConnection("tarefa/" + id);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);

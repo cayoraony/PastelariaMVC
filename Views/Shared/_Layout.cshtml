@@ -20,47 +20,51 @@
 <body>
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
-            <div class="uk-navbar uk-flex-between">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="1">Pastelaria SMN</a>
+            </div>
 
-                @* <div class="uk-flex-left">
-                </div> *@
-                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="1">Pastelaria SMN</a>
-                
-                @* <div class="uk-flex-center">
-                </div> *@
-                    <ul class="uk-navbar-nav">
-                        <li>
-                            <a asp-area="" asp-controller="Usuario" asp-action="ConsultarSubordinado" asp-route-id="15">
-                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
-                                Minha Conta
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="1">
-                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
-                                Todas Tarefas
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="1">
-                                @* 
-                                ToDo - JM
-                                ViewComponent para mostrar a quantidade de tarefas em tempo real 
-                                ********
-                                *@
-                                <span class="uk-badge">11</span>
-                            </a>
-                        </li>
-                    </ul>
-                
+            <div class="uk-navbar-center">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarSubordinado" asp-route-id="15">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                            Minha Conta
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="1">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
+                            Todas Tarefas
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="1">
+                            @* 
+                            ToDo - JM
+                            ViewComponent para mostrar a quantidade de tarefas em tempo real 
+                            ********
+                            *@
+                            <span class="uk-badge uk-padding-small">
+                                <span uk-icon="icon: warning"></span>
+                                <span class="uk-margin-small-left">11</span>
+                            </span>
 
-                @* <div class="uk-flex-right">
-                </div> *@
-                    <div class="uk-navbar-item ">
-                        <span class="uk-text-light uk-text-large">Olá, usuário</span>
-                        <button class="uk-button uk-button-danger uk-button-small">Sair</button>
-                    </div>
+                            @* <span uk-icon="icon: warning; ratio: 1.5"></span>
+                            <span class="uk-text-large">11</span> *@
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
+            <div class="uk-navbar-right">
+                <div class="uk-navbar-item ">
+                    <span class="uk-text-light uk-text-large uk-margin-right">Olá, usuário</span>
+                    <a class="uk-button uk-button-danger uk-button-small uk-margin-left">
+                        Sair
+                        <span uk-icon="icon: sign-out"></span>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>

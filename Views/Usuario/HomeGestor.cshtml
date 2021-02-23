@@ -1,15 +1,23 @@
 @model GestorHomeViewModel
 
-<h1>Equipe</h1>
-<a class="uk-button uk-button-default" asp-area="" asp-controller="Usuario" asp-action="Criar">
-  Criar Usuário
-</a>
-<br>
-<a class="uk-button uk-button-default" asp-area="" asp-controller="Tarefa" asp-action="Criar">
-  Criar Tarefa
-</a>
+<div class="uk-margin-medium uk-margin-small-top">
+    <h1 class="uk-text-center uk-heading-line"><span>Minha Equipe</span></h1>
+</div>
 
-<table class="uk-table uk-table-middle uk-table-divider">
+<div class="uk-container uk-flex uk-flex-center uk-margin-medium">
+  <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
+     asp-area="" asp-controller="Usuario" asp-action="Criar"
+  >
+    <span class="uk-text-large uk-text-light">Criar Usuário</span>
+  </a>
+  <a class="uk-button uk-button-text uk-button-large uk-margin-medium-left" 
+     asp-area="" asp-controller="Tarefa" asp-action="Criar"
+  >
+    <span class="uk-text-large uk-text-light">Criar Tarefa</span>
+  </a>
+</div>
+
+<table class="uk-table uk-table-striped">
     <thead>
         <tr>
             <th class="uk-width-small">Id</th>

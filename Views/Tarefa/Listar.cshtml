@@ -1,8 +1,14 @@
 @model ConsultarTarefasUsuarioViewModel
+@{
+    ViewData["Title"] = "Tarefas Em Andamento";
+}
 
-<h1>Tarefas Pendentes - Usuário: id</h1>
 
-<table class="uk-table uk-table-middle uk-table-divider">
+<div class="uk-margin-medium uk-margin-small-top">
+    <h1 class="uk-text-center uk-heading-line"><span>Tarefas Em Andamento</span></h1>
+</div>
+
+<table class="uk-table uk-table-striped">
     <thead>
         <tr>
             <th class="uk-width-small">Id</th>

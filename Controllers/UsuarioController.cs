@@ -48,7 +48,7 @@ namespace PastelariaMvc.Controllers
         // Primeiro alteração / Teste
         public async Task<IActionResult> HomeGestor(int id)
         {
-            ApiConnection client = new ApiConnection("usuario/gestor/"+id+"/subordinados");
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
@@ -59,7 +59,7 @@ namespace PastelariaMvc.Controllers
                 subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
                 client.Close();
 
-                ApiConnection clientParaTotal = new ApiConnection($"usuario/gestor/{id}/tarefa/total");
+                ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
                 HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
                 if (responseParaTotal.IsSuccessStatusCode)
                 {
@@ -113,7 +113,7 @@ namespace PastelariaMvc.Controllers
     
         public async Task<IActionResult> ConsultarSubordinado(int id)
         {
-            ApiConnection client = new ApiConnection("usuario/subordinado/" + id);
+            ApiConnection client = new ApiConnection($"usuario/subordinado/{id}");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
@@ -130,7 +130,7 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> ConsultarGestor(int id)
         {
-            ApiConnection client = new ApiConnection("usuario/gestor/" + id);
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario gestor;
             string result;
@@ -146,7 +146,7 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
         {
-            ApiConnection client = new ApiConnection("usuario/"+id+"/atualizar");
+            ApiConnection client = new ApiConnection($"usuario/{id}/atualizar");
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
             
             if (response.IsSuccessStatusCode)
@@ -159,7 +159,7 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> AtualizarGestor(int id, AtualizarUsuarioViewModel usuario)
         {
-            ApiConnection client = new ApiConnection("usuario/gestor/" + id + "/atualizar");
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar");
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
            
             if (response.IsSuccessStatusCode)

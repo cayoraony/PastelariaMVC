@@ -16,7 +16,7 @@ namespace PastelariaMvc.Components
     {
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-           ApiConnection client = new ApiConnection("tarefa/" + id + "/comentarios");
+           ApiConnection client = new ApiConnection($"tarefa/{id}/comentarios");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             ComentarioRespostaViewModel resposta = new ComentarioRespostaViewModel();

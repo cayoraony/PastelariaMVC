@@ -40,7 +40,7 @@ namespace PastelariaMvc.Controllers
                 // Por enquanto esta estatico, porem depois que pegarmos
                 // O id da session, mudará aqui
                 //*************
-                return RedirectToAction("Listar", "Tarefa", new { id = 1 });
+                return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
             return View();
         }
@@ -150,20 +150,20 @@ namespace PastelariaMvc.Controllers
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
             client.Close();
             return View();
         }
 
-        public async Task<IActionResult> CriarComentario(Comentario comentario)
+        public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
         {
-            ApiConnection client = new ApiConnection("tarefa/comentario/criar");
+            ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, comentario);
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
             Console.WriteLine(response.StatusCode);
             return View();
@@ -190,11 +190,11 @@ namespace PastelariaMvc.Controllers
         // ConsultarTarefasUsuario
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
-            // ToDo - JM
+            // ToDo - JM (OK)
             // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
             // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
             // *********
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/tarefa/pendentes");
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
@@ -213,12 +213,12 @@ namespace PastelariaMvc.Controllers
 //                      
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
-             // ToDo - JM
+             // ToDo - JM (OK)
             // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
             // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
             // *********
 
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/tarefa/todas");
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
@@ -238,7 +238,7 @@ namespace PastelariaMvc.Controllers
         public async Task<IActionResult> Concluir(int id)
         {
             var requestBody = "";
-            ApiConnection client = new ApiConnection("tarefa/"+id+"/concluir");
+            ApiConnection client = new ApiConnection($"tarefa/{id}/concluir");
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
            
             if (response.IsSuccessStatusCode)
@@ -248,7 +248,7 @@ namespace PastelariaMvc.Controllers
                 // Por enquanto esta estatico, porem depois que pegarmos
                 // O id da session, mudará aqui
                 //*************
-                return RedirectToAction("Listar", "Tarefa", new { id = 1 });
+                return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
             return View();
         }
@@ -276,14 +276,15 @@ namespace PastelariaMvc.Controllers
         {
             ApiConnection client = new ApiConnection("tarefa/" + id);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-            Tarefa tarefa;
+            // Tarefa tarefa;
+            Comentario comentario = new Comentario();
             string result;
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsStringAsync();
-                tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
+                comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
                 
-                return View(tarefa);
+                return View(comentario);
             }
             return View();
         }

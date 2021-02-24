@@ -1,4 +1,5 @@
-﻿@model Tarefa
+﻿@* @model Tarefa *@
+@model Comentario
 @{
     ViewData["Title"] = "Consultar Tarefa";
 }
@@ -7,18 +8,18 @@
     <div class="uk-width-1-2">
         <div class="uk-background-muted uk-padding">
             <div class="uk-flex uk-flex-center">
-                <h1 class="uk-text-center uk-heading-line"><span>ID Tarefa: @Model.IdTarefa</span></h1>
+                <h1 class="uk-text-center uk-heading-line"><span>ID Tarefa: @Model.Tarefa.IdTarefa</span></h1>
             </div>
 
             <div class="uk-flex uk-flex-center uk-margin-medium">
                 <a  class="uk-button uk-button-secondary"
-                    asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@Model.IdTarefa"
+                    asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@Model.Tarefa.IdTarefa"
                 >
                     Concluir
                     <span uk-icon="icon: check"></span>
                 </a>
                 <a  class="uk-button uk-button-danger uk-margin-left"
-                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@Model.IdTarefa"
+                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@Model.Tarefa.IdTarefa"
                 >
                     Cancelar
                     <span uk-icon="icon: close"></span>
@@ -26,25 +27,77 @@
             </div>
 
             <ul class="uk-list uk-list-disc">
-                @* <li><span class="uk-text-bold">Id:</span> @Model.IdTarefa</li> *@
-                <li><span class="uk-text-bold">Data Limite:</span> @Model.DataLimite</li>
-                <li><span class="uk-text-bold">Data Cadastro:</span> @Model.DataCadastro</li>
-                <li><span class="uk-text-bold">Status:</span> @Model.IdStatusTarefa</li>
-                <li><span class="uk-text-bold">Descrição:</span> @Model.Descricao </li>
+                @* <li><span class="uk-text-bold">Id:</span> @Model.Tarefa.IdTarefa</li> *@
+                <li>
+                    <span class="uk-text-bold">Data Limite:</span> @Model.Tarefa.DataLimite
+                    <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #editar-datalimite" type="button">
+                        Editar
+                        <span class="uk-margin-small-left" uk-icon="icon: pencil"></span>
+                    </button>
+                </li>
+                <li><span class="uk-text-bold">Data Cadastro:</span> @Model.Tarefa.DataCadastro</li>
+                <li>
+                    <span class="uk-text-bold">Status:</span> 
+                    
+                    @if(@Model.Tarefa.Status.Nome == "Concluída")
+                    {
+                        <div class="uk-alert-success" uk-alert>
+                            <p>Concluída</p>
+                        </div>
+                    } 
+                    else if (@Model.Tarefa.Status.Nome == "Atrasada")
+                    {
+                        <div class="uk-alert-warning" uk-alert>
+                            <p>Atrasada</p>
+                        </div>
+                    } 
+                    else if (@Model.Tarefa.Status.Nome == "Cancelada")
+                    {
+                        <div class="uk-alert-danger" uk-alert>
+                            <p>Atrasada</p>
+                        </div>
+                    } 
+                    else
+                    {
+                        <div class="uk-alert-primary" uk-alert>
+                            <p>Atrasada</p>
+                        </div>
+                    }
+                </li>
+                <li><span class="uk-text-bold">Descrição:</span> @Model.Tarefa.Descricao </li>
             </ul>
 
             <div class="uk-flex uk-flex-center uk-margin-large-top">
                 <a  class="uk-button uk-button-default"
-                    asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@Model.IdGestor">
+                    asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@Model.Tarefa.IdGestor">
                     Voltar
                 </a>
             </div>
+
+            @* Modal Editar DataLimite *@
+            <div id="editar-datalimite" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">Nova Data Limite</h2>
+                    
+                    
+                    <form asp-controller="Tarefa" asp-action="EditarDataLimite" asp-route-id="@Model.Tarefa.IdTarefa" method="post" role="form">
+                        <div class="uk-margin">
+                            <label asp-for="Tarefa.DataLimite" class="uk-form-label uk-text-small"></label>
+                            <input asp-for="Tarefa.DataLimite" class="uk-input" placeholder="Selecione nova data">
+                        </div>
+                        <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
+                    </form>
+
+                    <button class="uk-close-large" type="button" uk-close></button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div class="uk-width-1-2">
         <div class="uk-background-default uk-padding">
-            @await Component.InvokeAsync("ConsultarComentariosViewComponent", new { id = @Model.IdTarefa })
+            @await Component.InvokeAsync("ConsultarComentariosViewComponent", new { id = @Model.Tarefa.IdTarefa })
             <div class="uk-flex uk-flex-center">
                 <button class="uk-button uk-button-primary uk-button-large" uk-toggle="target: #add-comentario" type="button">
                     Adicionar Comentário
@@ -52,17 +105,18 @@
                 </button>
             </div> 
 
+            @* Modal Adicionar Comentario *@
             <div id="add-comentario" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <h2 class="uk-modal-title">Adicione um comentário</h2>
                     
-                    <form asp-controller="Tarefa" asp-action="CriarComentario" method="post" role="form">
+                    <form asp-controller="Tarefa" asp-action="CriarComentario" asp-route-id="@Model.Tarefa.IdTarefa" method="post" role="form">
                         <div class="uk-margin">
                             <label asp-for="Descricao" class="uk-form-label uk-text-small"></label>
                             <input asp-for="Descricao" class="uk-input" type="text" placeholder="Digite o comentário">
 
-                            <label asp-for="IdTarefa" class="uk-hidden"></label>
-                            <input asp-for="IdTarefa" class="uk-hidden" value="@Model.IdTarefa">
+                            <label asp-for="IdUsuario" class="uk-form-label uk-text-small"></label>
+                            <input asp-for="IdUsuario" class="uk-input" placeholder="Digite ID do Autor">
                         </div>
                         <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
                     </form>
@@ -70,6 +124,7 @@
                     <button class="uk-modal-close" type="button"></button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -7,30 +7,100 @@
 <div class="uk-grid-medium uk-child-width-expand@s uk-margin-large-top" uk-grid>
     <div class="uk-width-1-2">
         <div class="uk-background-muted uk-padding">
+
             <div class="uk-flex uk-flex-center">
-                <h1 class="uk-text-center uk-heading-line"><span>ID Tarefa: @Model.Tarefa.IdTarefa</span></h1>
+                <h1 class="uk-text-center uk-heading-line"><span>ID: @Model.Tarefa.IdTarefa</span></h1>
             </div>
 
-            <div class="uk-flex uk-flex-center uk-margin-medium">
+            <div class="">
+                @if(@Model.Tarefa.Status.Nome == "Concluída")
+                {
+                    <div class="uk-alert-success" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Concluída</p>
+                    </div>
+                } 
+                else if (@Model.Tarefa.Status.Nome == "Atrasada")
+                {
+                    <div class="uk-alert-warning" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Atrasada</p>
+                    </div>
+                } 
+                else if (@Model.Tarefa.Status.Nome == "Cancelada")
+                {
+                    <div class="uk-alert-danger" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Cancelada</p>
+                    </div>
+                } 
+                else if(@Model.Tarefa.Status.Nome == "Futura")
+                {
+                    <div class="uk-alert-primary" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Futura</p>
+                    </div>
+                }
+                else if(@Model.Tarefa.Status.Nome == "Agendada")
+                {
+                    <div class="uk-alert-primary" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Agendada</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="uk-alert-danger" uk-alert>
+                        <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Algo deu errado</p>
+                    </div>
+                }
+
+            </div>
+
+            <div class="uk-flex uk-flex-center">
+                <p>
+                    <span class="uk-text-meta">
+                        Cadastrada em: 
+                        <span class="uk-text-bold">@Model.Tarefa.DataCadastro</span>
+                    </span>
+
+                    <span class="uk-text-bold"> | </span>
+
+                    <span class="uk-text-meta">
+                        Prazo até: 
+                        <span class="uk-text-bold">@Model.Tarefa.DataLimite</span> 
+                    </span> 
+                </p>
+            </div>
+
+            <div class="uk-flex uk-flex-center">
+                <button class="uk-button uk-button-primary uk-button-small uk-margin-left" uk-toggle="target: #editar-datalimite" type="button">
+                    Editar Data Limite
+                    <span class="uk-margin-small-left" uk-icon="icon: pencil"></span>
+                </button>
+            </div>
+
+            <div class="uk-flex uk-flex-center uk-margin-large">
+                <p class="uk-text-lead">
+                    <span class="uk-text-bold">Descrição:</span>
+                    @Model.Tarefa.Descricao
+                </p>
+            </div>
+
+            <div class="uk-flex uk-flex-center uk-margin">
+                <a  class="uk-button uk-button-danger uk-margin-right"
+                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@Model.Tarefa.IdTarefa"
+                >
+                    Cancelar
+                    <span uk-icon="icon: close"></span>
+                </a>
                 <a  class="uk-button uk-button-secondary"
                     asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@Model.Tarefa.IdTarefa"
                 >
                     Concluir
                     <span uk-icon="icon: check"></span>
                 </a>
-                <a  class="uk-button uk-button-danger uk-margin-left"
-                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@Model.Tarefa.IdTarefa"
-                >
-                    Cancelar
-                    <span uk-icon="icon: close"></span>
-                </a>
             </div>
 
-            <ul class="uk-list uk-list-disc">
-                @* <li><span class="uk-text-bold">Id:</span> @Model.Tarefa.IdTarefa</li> *@
+            @* <ul class="uk-list uk-list-disc">
                 <li>
                     <span class="uk-text-bold">Data Limite:</span> @Model.Tarefa.DataLimite
-                    <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #editar-datalimite" type="button">
+                    <button class="uk-button uk-button-primary uk-button-small uk-margin-left" uk-toggle="target: #editar-datalimite" type="button">
                         Editar
                         <span class="uk-margin-small-left" uk-icon="icon: pencil"></span>
                     </button>
@@ -48,13 +118,13 @@
                     else if (@Model.Tarefa.Status.Nome == "Atrasada")
                     {
                         <div class="uk-alert-warning" uk-alert>
-                            <p>Atrasada</p>
+                            <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Atrasada</p>
                         </div>
                     } 
                     else if (@Model.Tarefa.Status.Nome == "Cancelada")
                     {
                         <div class="uk-alert-danger" uk-alert>
-                            <p>Atrasada</p>
+                            <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Atrasada</p>
                         </div>
                     } 
                     else
@@ -65,7 +135,7 @@
                     }
                 </li>
                 <li><span class="uk-text-bold">Descrição:</span> @Model.Tarefa.Descricao </li>
-            </ul>
+            </ul> *@
 
             <div class="uk-flex uk-flex-center uk-margin-large-top">
                 <a  class="uk-button uk-button-default"
@@ -78,20 +148,17 @@
             <div id="editar-datalimite" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <h2 class="uk-modal-title">Nova Data Limite</h2>
-                    
+                    <button class="uk-close-large uk-modal-close-default" type="button" uk-close></button>
                     
                     <form asp-controller="Tarefa" asp-action="EditarDataLimite" asp-route-id="@Model.Tarefa.IdTarefa" method="post" role="form">
                         <div class="uk-margin">
                             <label asp-for="Tarefa.DataLimite" class="uk-form-label uk-text-small"></label>
-                            <input asp-for="Tarefa.DataLimite" class="uk-input" placeholder="Selecione nova data">
+                            <input asp-for="Tarefa.DataLimite" class="uk-input" placeholder="Selecione uma nova data">
                         </div>
-                        <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
+                        <input type="submit" class="uk-button uk-button-primary" value="Editar" />
                     </form>
-
-                    <button class="uk-close-large" type="button" uk-close></button>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -108,8 +175,9 @@
             @* Modal Adicionar Comentario *@
             <div id="add-comentario" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
-                    <h2 class="uk-modal-title">Adicione um comentário</h2>
-                    
+                    <h2 class="uk-modal-title">Novo Comentário</h2>
+                    <button class="uk-close-large uk-modal-close-default" type="button" uk-close></button>
+
                     <form asp-controller="Tarefa" asp-action="CriarComentario" asp-route-id="@Model.Tarefa.IdTarefa" method="post" role="form">
                         <div class="uk-margin">
                             <label asp-for="Descricao" class="uk-form-label uk-text-small"></label>
@@ -118,10 +186,10 @@
                             <label asp-for="IdUsuario" class="uk-form-label uk-text-small"></label>
                             <input asp-for="IdUsuario" class="uk-input" placeholder="Digite ID do Autor">
                         </div>
-                        <input type="submit" class="uk-button uk-button-primary uk-button-small" value="Postar" />
+                        <input type="submit" class="uk-button uk-button-primary" value="Postar" />
                     </form>
 
-                    <button class="uk-modal-close" type="button"></button>
+                    
                 </div>
             </div>
 

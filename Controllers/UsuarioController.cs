@@ -111,9 +111,9 @@ namespace PastelariaMvc.Controllers
             return View();
         }
     
-        public async Task<IActionResult> ConsultarSubordinado(int id)
+        public async Task<IActionResult> ConsultarUsuario(int id)
         {
-            ApiConnection client = new ApiConnection($"usuario/subordinado/{id}");
+            ApiConnection client = new ApiConnection($"usuario/{id}");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
@@ -128,21 +128,38 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ConsultarGestor(int id)
-        {
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}");
-            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-            Usuario gestor;
-            string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                gestor = JsonConvert.DeserializeObject<Usuario>(result);
-                client.Close();
-                return View(new UsuarioViewModel { Usuario = gestor });
-            }
-            return View();
-        }
+        // public async Task<IActionResult> ConsultarSubordinado(int id)
+        // {
+        //     ApiConnection client = new ApiConnection($"usuario/subordinado/{id}");
+        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+        //     Usuario usuarioResult;
+        //     string result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         result = await response.Content.ReadAsStringAsync();
+        //         usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+        //         client.Close();
+        //         return View(usuarioResult);
+        //     }
+        //     Console.WriteLine(response.StatusCode);
+        //     return View();
+        // }
+
+        // public async Task<IActionResult> ConsultarGestor(int id)
+        // {
+        //     ApiConnection client = new ApiConnection($"usuario/gestor/{id}");
+        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+        //     Usuario gestor;
+        //     string result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         result = await response.Content.ReadAsStringAsync();
+        //         gestor = JsonConvert.DeserializeObject<Usuario>(result);
+        //         client.Close();
+        //         return View(new UsuarioViewModel { Usuario = gestor });
+        //     }
+        //     return View();
+        // }
 
         public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
         {

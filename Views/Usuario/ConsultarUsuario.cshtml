@@ -7,6 +7,27 @@
     <h1 class="uk-text-center uk-heading-line"><span>Detalhes Usuário Id: 11</span></h1>
 </div>
 
+<div class="uk-container uk-flex uk-flex-center uk-margin-medium">
+
+  @if(@Model.EGestor)
+  {
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarGestor"
+    >
+        <span class="uk-text-large uk-text-light">Editar Dados</span>
+    </a>
+  }
+  else
+  {
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado"
+    >
+        <span class="uk-text-large uk-text-light">Editar Dados</span>
+    </a>
+  }
+    
+</div>
+
 <div class="uk-container uk-container-xsmall">
 
     <div class="uk-section uk-section-muted uk-card uk-card-hover uk-card-default uk-card-body">

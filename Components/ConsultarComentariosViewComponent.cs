@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace PastelariaMvc.Components
 {
     [ViewComponent(Name = "ConsultarComentariosViewComponent")]
-    public class ConsultarComentariosViewComponent: ViewComponent
+    public class ConsultarComentariosViewComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {

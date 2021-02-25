@@ -7,36 +7,38 @@
     <h1 class="uk-text-center uk-heading-line"><span>Atualizar Dados</span></h1>
 </div>
 
-<form asp-controller="Usuario" asp-action="AtualizarGestor" method="put" class="form-horizontal" role="form">
-    <div class="uk-margin">
-      <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Nome" placeholder="Digite o nome">
+<div class="uk-container uk-container-xsmall">
+  <form asp-controller="Usuario" asp-action="AtualizarGestor" method="put" class="form-horizontal" role="form">
+      <div class="uk-margin">
+        <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Nome" placeholder="Digite o nome">
+        </div>
       </div>
-    </div>
 
-    <div class="uk-margin">
-      <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome">
+      <div class="uk-margin">
+        <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome">
+        </div>
       </div>
-    </div>
 
-    <div class="uk-margin">
-      <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
+      <div class="uk-margin">
+        <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
+        </div>
       </div>
-    </div>
 
-    <div class="uk-margin">
-      <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
-      <div class="uk-form-controls">
-          <input class="uk-input" type="password" placeholder="Digite a senha">
+      <div class="uk-margin">
+        <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
+        <div class="uk-form-controls">
+            <input class="uk-input" type="password" placeholder="Digite a senha">
+        </div>
       </div>
-    </div>
 
-    <br />
-    <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Editar Dados" />
+      <br />
+      <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Editar Dados" />
 
-</form>
+  </form>
+</div>

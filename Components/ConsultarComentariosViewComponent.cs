@@ -3,15 +3,13 @@ using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
 using PastelariaMvc.ViewModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PastelariaMvc.Components
 {
-    [ViewComponent(Name = "ConsultarComentariosViewComponent")]
+  [ViewComponent(Name = "ConsultarComentariosViewComponent")]
     public class ConsultarComentariosViewComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync(int id)

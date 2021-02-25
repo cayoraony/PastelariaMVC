@@ -1,4 +1,6 @@
 @model ConsultarTarefasUsuarioViewModel
+@* @model Usuario *@
+
 @{
     ViewData["Title"] = "Todas as Tarefas";
 }
@@ -7,18 +9,32 @@
     <h1 class="uk-text-center uk-heading-line"><span>Todas as Tarefas</span></h1>
 </div>
 
-<div uk-filter="target: .js-filter">
+<div>
 
-    <div class="uk-flex uk-flex-center">
+    @* <div class="uk-flex uk-flex-center">
       <ul class="uk-subnav uk-subnav-pill">
-          <li class="uk-active" uk-filter-control><a href="#">Todas</a></li>
-          <li uk-filter-control="[data-color='Atrasada']"><a href="#">Atrasada</a></li>
-          <li uk-filter-control="[data-color='Agendada']"><a href="#">Agendada</a></li>
-          <li uk-filter-control="[data-color='Futura']"><a href="#">Futura</a></li>
-          <li uk-filter-control="[data-color='Concluída']"><a href="#">Concluída</a></li>
-          <li uk-filter-control="[data-color='Cancelada']"><a href="#">Cancelada</a></li>
+          <li>
+            <a href="#">Todas</a>
+          </li>
+          <li>
+            <a href="#">Atrasada</a>
+          </li>
+          <li>
+            <a href="#">Agendada</a>
+          </li>
+          <li>
+            <a href="#">Futura</a>
+          </li>
+          <li>
+            <a href="#">Concluída</a>
+          </li>
+          <li>
+            <a href="#">Cancelada</a>
+          </li>
       </ul>
-    </div>
+    </div> *@
+
+    @* @await Component.InvokeAsync("ConsultarTarefasStatusViewComponent", new { id = 1, status =  }) *@
 
     <table class="uk-table uk-table-striped">
         <thead>
@@ -33,11 +49,12 @@
                 <th>Ações</th>
             </tr>
         </thead>
+
         <tbody>
-          <div class="js-filter">
+          <div>
           @foreach (var tarefa in @Model.Lista)
           {
-                <tr data-color="@tarefa.Status.Nome"> 
+                <tr> 
                   <td>@tarefa.IdTarefa</td>
                   <td>@tarefa.Descricao</td>
                   <td>@tarefa.Status.Nome</td>

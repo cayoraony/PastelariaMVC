@@ -4,161 +4,163 @@
     <h1 class="uk-text-center uk-heading-line"><span>Cadastrar Usuário</span></h1>
 </div>
 
-<form asp-controller="Usuario" asp-action="Criar" method="post" class="uk-form-stacked" role="form">
-  <div class="uk-margin">
-      <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Nome" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
-
-  <div class="uk-margin">
-      <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Sobrenome" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
-  
-  <div class="uk-margin">
-      <label asp-for="DataNascimento" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="DataNascimento" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
-
-
-  @* <div class="uk-margin">
-      <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
-      <div class="uk-form-controls">
-          <input class="uk-input" type="password" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div> *@
+<div class="uk-container uk-container-xsmall">
+    <form asp-controller="Usuario" asp-action="Criar" method="post" class="uk-form-stacked" role="form">
+    <div class="uk-margin">
+        <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Nome" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
     <div class="uk-margin">
-      <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Senha" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+        <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Sobrenome" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
+    
+    <div class="uk-margin">
+        <label asp-for="DataNascimento" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="DataNascimento" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-   <div class="uk-margin">
-      <label class="uk-form-label uk-text-large" asp-for="EGestor"></label>
-      <div class="uk-form-controls">
-          <select class="uk-select" asp-for="EGestor">
-              <option selected>Escolha uma opção</option>
-              <option value="false" >Não</option>
-              <option value="true" >Sim</option>
-          </select>
-      </div>
-  </div>
 
-  <div class="uk-margin">
-      <label asp-for="IdGestor" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="IdGestor" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    @* <div class="uk-margin">
+        <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
+        <div class="uk-form-controls">
+            <input class="uk-input" type="password" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div> *@
 
-  @* <div class="uk-margin">
-      <label class="uk-form-label uk-text-large" asp-for="EstaAtivo"></label>
-      <div class="uk-form-controls">
-          <select class="uk-select" asp-for="EstaAtivo">
-              <option selected>Escolha uma opção</option>
-              <option value="false" >Não</option>
-              <option value="true" >Sim</option>
-          </select>
-      </div>
-  </div> *@ 
+        <div class="uk-margin">
+        <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Senha" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label class="uk-form-label uk-text-large" asp-for="EGestor"></label>
+        <div class="uk-form-controls">
+            <select class="uk-select" asp-for="EGestor">
+                <option selected>Escolha uma opção</option>
+                <option value="false" >Não</option>
+                <option value="true" >Sim</option>
+            </select>
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Telefone.DDD" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Telefone.DDD" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="IdGestor" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="IdGestor" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Telefone.Numero" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Telefone.Numero" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    @* <div class="uk-margin">
+        <label class="uk-form-label uk-text-large" asp-for="EstaAtivo"></label>
+        <div class="uk-form-controls">
+            <select class="uk-select" asp-for="EstaAtivo">
+                <option selected>Escolha uma opção</option>
+                <option value="false" >Não</option>
+                <option value="true" >Sim</option>
+            </select>
+        </div>
+    </div> *@ 
 
-  @* <div class="uk-margin">
-      <label asp-for="Telefone.IdTipo" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Telefone.IdTipo" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div> *@
+    <div class="uk-margin">
+        <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label class="uk-form-label uk-text-large" asp-for="Telefone.IdTipo"></label>
-      <div class="uk-form-controls">
-          <select class="uk-select" asp-for="Telefone.IdTipo">
-              <option selected>Escolha uma opção</option>
-              <option value="1" >Residencial</option>
-              <option value="2" >Celular</option>
-              <option value="3" >Emergencial</option>
-              <option value="4" >Corporativo</option>
-          </select>
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Telefone.DDD" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Telefone.DDD" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.Rua" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.Rua" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Telefone.Numero" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Telefone.Numero" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.Bairro" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.Bairro" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    @* <div class="uk-margin">
+        <label asp-for="Telefone.IdTipo" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Telefone.IdTipo" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div> *@
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.Numero" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label class="uk-form-label uk-text-large" asp-for="Telefone.IdTipo"></label>
+        <div class="uk-form-controls">
+            <select class="uk-select" asp-for="Telefone.IdTipo">
+                <option selected>Escolha uma opção</option>
+                <option value="1" >Residencial</option>
+                <option value="2" >Celular</option>
+                <option value="3" >Emergencial</option>
+                <option value="4" >Corporativo</option>
+            </select>
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.Complemento" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.Complemento" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Endereco.Rua" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.Rua" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.CEP" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.CEP" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Endereco.Bairro" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.Bairro" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.Cidade" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.Cidade" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Endereco.Numero" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <div class="uk-margin">
-      <label asp-for="Endereco.UF" class="uk-form-label uk-text-large"></label>
-      <div class="uk-form-controls">
-          <input class="uk-input" asp-for="Endereco.UF" placeholder="Digite a descriçao da tarefa">
-      </div>
-  </div>
+    <div class="uk-margin">
+        <label asp-for="Endereco.Complemento" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.Complemento" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
 
-  <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Criar Usuário" />
-</form>
+    <div class="uk-margin">
+        <label asp-for="Endereco.CEP" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.CEP" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label asp-for="Endereco.Cidade" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.Cidade" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label asp-for="Endereco.UF" class="uk-form-label uk-text-large"></label>
+        <div class="uk-form-controls">
+            <input class="uk-input" asp-for="Endereco.UF" placeholder="Digite a descriçao da tarefa">
+        </div>
+    </div>
+
+    <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Criar Usuário" />
+    </form>
+</div>

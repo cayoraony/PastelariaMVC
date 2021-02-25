@@ -1,10 +1,31 @@
-﻿@model Usuario
+@model Usuario
 @{
-    ViewData["Title"] = "Consultar Subordinado";
+    ViewData["Title"] = "Consultar Usuário";
 }
 
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Detalhes Usuário Id: 11</span></h1>
+</div>
+
+<div class="uk-container uk-flex uk-flex-center uk-margin-medium">
+
+  @if(@Model.EGestor)
+  {
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarGestor"
+    >
+        <span class="uk-text-large uk-text-light">Editar Dados</span>
+    </a>
+  }
+  else
+  {
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado"
+    >
+        <span class="uk-text-large uk-text-light">Editar Dados</span>
+    </a>
+  }
+    
 </div>
 
 <div class="uk-container uk-container-xsmall">
@@ -17,7 +38,10 @@
                 <li><span uk-text-bold>Nome:</span> @Model.Nome</li>
                 <li><span uk-text-bold>Sobrenome:</span> @Model.Sobrenome</li>
                 <li><span uk-text-bold>Data Nascimento:</span> @Model.DataNascimento</li>
-                <li><span uk-text-bold>Gestor:</span> @Model.Gestor.Nome @Model.Gestor.Sobrenome</li>
+                @if(!@Model.EGestor)
+                {
+                  <li><span uk-text-bold>Gestor:</span> @Model.Gestor.Nome @Model.Gestor.Sobrenome</li>
+                }
             </ul>
         </div>
     </div>

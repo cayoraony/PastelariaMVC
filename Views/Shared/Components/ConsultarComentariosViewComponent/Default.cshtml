@@ -1,9 +1,42 @@
-﻿@model List<Comentario>
+﻿@model ComentarioRespostaViewModel
 
-<h1>aaa</h1>
+<div class="uk-margin-medium-bottom">
+    <h2 class="uk-text-center uk-heading-line"><span>Comentários</span></h2>
+</div>
 
-@foreach (var comentario in @Model)
+@if (@Model.Comentarios.Any())
 {
-    <h3>@comentario.IdTarefa</h3>
-    <p>@comentario.Descricao</p>
+    <ul class="uk-comment-list">
+        @foreach (var comentario in @Model.Comentarios)
+        {
+            <li>
+                <article class="uk-comment uk-comment-primary">
+                    <header class="uk-comment-header">
+                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-comment-avatar" src="" width="80" height="80" alt="Foto">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h4 class="uk-comment-title uk-margin-remove">
+                                    Nome do usuario (deveria aparecer)
+                                    @* @comentario.Usuario.Nome *@
+                                </h4>
+                                <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                    @* <li>Id: @comentario.Usuario.IdUsuario</li> *@
+                                    <li>Id: ID user</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="uk-comment-body">
+                        <p>@comentario.Descricao</p>
+                    </div>
+                </article>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <h3>Lista de comentários está vazia</h3>
 }

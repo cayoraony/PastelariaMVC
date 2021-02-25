@@ -27,5 +27,10 @@ namespace PastelariaMvc.Models
         [Display(Name = "Status da Tarefa")]
         public int IdStatusTarefa { get; set; }
         public StatusTarefa Status { get; set; }
+
+        public Tarefa()
+        {
+            this.Status = new StatusTarefa();
+        }
     }
 }

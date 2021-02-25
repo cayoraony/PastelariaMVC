@@ -1,0 +1,35 @@
+@model ConsultarTarefasUsuarioViewModel
+@{
+    ViewData["Title"] = "Tarefas Em Andamento";
+}
+
+
+<div class="uk-margin-medium uk-margin-small-top">
+    <h1 class="uk-text-center uk-heading-line"><span>Tarefas Em Andamento</span></h1>
+</div>
+
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th class="uk-width-small">Id</th>
+            <th>Descrição</th>
+            <th>Data Limite</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (var tarefa in @Model.Lista)
+      {
+        <tr>
+          <td>@tarefa.IdTarefa</td>
+          <td>@tarefa.Descricao</td>
+          <td>@tarefa.DataLimite</td>
+          <td>
+            <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa">
+              <button class="uk-button uk-button-primary uk-button-small" type="button">Detalhes</button>
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+</table>

@@ -161,6 +161,20 @@ namespace PastelariaMvc.Controllers
         //     return View();
         // }
 
+        // public async Task<IActionResult> AtualizarUsuario(int id, AtualizarUsuarioViewModel usuario)
+        // {
+        //     ApiConnection client = new ApiConnection($"usuario/{id}/atualizar/teste");
+        //     HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+            
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         client.Close();
+        //         return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
+        //     }
+
+        //     return View();
+        // }
+
         public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
         {
             ApiConnection client = new ApiConnection($"usuario/{id}/atualizar");
@@ -169,7 +183,7 @@ namespace PastelariaMvc.Controllers
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
             return View();
         }
@@ -182,7 +196,7 @@ namespace PastelariaMvc.Controllers
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
             return View();
         }

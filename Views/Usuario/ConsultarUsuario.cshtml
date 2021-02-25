@@ -4,7 +4,7 @@
 }
 
 <div class="uk-margin-medium uk-margin-small-top">
-    <h1 class="uk-text-center uk-heading-line"><span>Detalhes Usuário Id: 11</span></h1>
+    <h1 class="uk-text-center uk-heading-line"><span>Detalhes Usuário Id: @Model.IdUsuario</span></h1>
 </div>
 
 <div class="uk-container uk-flex uk-flex-center uk-margin-medium">
@@ -12,7 +12,7 @@
   @if(@Model.EGestor)
   {
     <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
-        asp-area="" asp-controller="Usuario" asp-action="AtualizarGestor"
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarGestor" asp-route-id="@Model.IdUsuario"
     >
         <span class="uk-text-large uk-text-light">Editar Dados</span>
     </a>
@@ -20,7 +20,7 @@
   else
   {
     <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
-        asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado"
+        asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado" asp-route-id="@Model.IdUsuario"
     >
         <span class="uk-text-large uk-text-light">Editar Dados</span>
     </a>

@@ -13,20 +13,6 @@ namespace PastelariaMvc.Controllers
 {
     public class TarefaController : Controller
     {
-        // Provalvemente não será necessário usa-la, pois vai ter outros meios de alterar sem usar isso
-        // public async Task<IActionResult> AlterarStatusDaTarefa(int id, AlterarStatusDaTarefaViewModel tarefa)
-        // {
-        //     ApiConnection client = new ApiConnection($"tarefa/{id}/status");
-        //     HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, tarefa);
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         client.Close();
-        //         return RedirectToAction("Index", "Home");
-        //     }
-        //     client.Close();
-        //     return View();
-        // }
-
         public async Task<IActionResult> Cancelar(int id)
         {
             var requestBody = "";
@@ -45,33 +31,6 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        // Ainda não está usando, mas pode usar nos Filtros
-        // public async Task<IActionResult> ConsultarTarefasStatusUsuario([FromQuery] int idUsuario, [FromQuery] int idStatusTarefa)
-        // {
-        //     ApiConnection client = new ApiConnection($"usuario/{idUsuario}/tarefa/status/{idStatusTarefa}");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
-        //     TarefasViewModel tarefasViewModel = new TarefasViewModel();
-
-        //     string result;
-
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasViewModel.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-
-        //         return View(tarefasViewModel);
-        //         }
-
-        //     return View();
-        // }
-
-        // public IActionResult Index()
-        // {
-        //     return View();
-        // }
-
         public async Task<IActionResult> Criar(Tarefa tarefa)
         {
             ApiConnection client = new ApiConnection("tarefa/criar");
@@ -87,56 +46,6 @@ namespace PastelariaMvc.Controllers
             Console.WriteLine(response.StatusCode);
             return View();
         }
-
-
-        // public async Task<IActionResult> ConsultarTarefasGestor(int id)
-        // {
-        //     // ToDo - JM
-        //     // Mudar a PROC para que tanto o gestor como subordinado
-        //     // usem o mesmo endpoint
-        //     // ******************
-        //     ApiConnection client = new ApiConnection("usuario/gestor/" + id + "/tarefa/pendentes");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     TarefasGestorViewModel tarefas = new TarefasGestorViewModel();
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-        //         return View(tarefas);
-        //     }
-        //     else
-        //     {
-        //         Console.WriteLine(response.StatusCode);
-        //     }
-
-        //     return View();
-        // }
-
-        // public async Task<IActionResult> ConsultarTodasTarefasGestor([FromQuery] int idGestor)
-        // {
-        //     // ToDo - JM
-        //     // Mudar a PROC para que tanto o gestor como subordinado
-        //     // usem o mesmo endpoint
-        //     // ******************
-        //     ApiConnection client = new ApiConnection($"usuario/gestor/{idGestor}/tarefa/todas");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
-        //     TarefasViewModel tarefasViewModel = new TarefasViewModel();
-        //     string result;
-
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasViewModel.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-
-        //         return View(tarefasViewModel);
-        //     }
-
-        //     return View("index");
-        // }
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
@@ -169,23 +78,7 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        // Ainda não está usando, mas pode usar nos Filtros
-        // public async Task<IActionResult> ConsultarTarefasGestorStatus([FromQuery] int idGestor, [FromQuery] int idStatus)
-        // {
-        //     ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/tarefa/status/"+idStatus);
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     TarefasGestorStatusViewModel tarefasResult = new TarefasGestorStatusViewModel();
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-        //         return View(tarefasResult);
-        //     }
-        //     Console.WriteLine(response.StatusCode);  
-        //     return View();
-        // }
+
 
         // ConsultarTarefasUsuario
         public async Task<IActionResult> Listar(int id) /*todas*/
@@ -253,25 +146,6 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        // public async Task<IActionResult> EditarDataLimite([FromQuery] int idTarefa, EditarDataLimiteViewModel novaData)
-        // {
-        //     ApiConnection client = new ApiConnection($"tarefa/{idTarefa}/datalimite");
-        //     HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, novaData);
-
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         Console.WriteLine("entrou");
-        //         client.Close();
-        //         Console.WriteLine(novaData.DataLimite.GetType());
-        //         // return RedirectToAction("Index", "Home");
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     Console.WriteLine("errado");
-        //     // client.Close();
-        //     return View();
-        // }
-
-
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
             ApiConnection client = new ApiConnection("tarefa/" + id);
@@ -288,6 +162,47 @@ namespace PastelariaMvc.Controllers
             }
             return View();
         }
+
+                // Ainda não está usando, mas pode usar nos Filtros
+        // public async Task<IActionResult> ConsultarTarefasGestorStatus([FromQuery] int idGestor, [FromQuery] int idStatus)
+        // {
+        //     ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/tarefa/status/"+idStatus);
+        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+        //     TarefasGestorStatusViewModel tarefasResult = new TarefasGestorStatusViewModel();
+        //     string result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         result = await response.Content.ReadAsStringAsync();
+        //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+        //         client.Close();
+        //         return View(tarefasResult);
+        //     }
+        //     Console.WriteLine(response.StatusCode);  
+        //     return View();
+        // }
+
+        
+        // Ainda não está usando, mas pode usar nos Filtros
+        // public async Task<IActionResult> ConsultarTarefasStatusUsuario([FromQuery] int idUsuario, [FromQuery] int idStatusTarefa)
+        // {
+        //     ApiConnection client = new ApiConnection($"usuario/{idUsuario}/tarefa/status/{idStatusTarefa}");
+        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+
+        //     TarefasViewModel tarefasViewModel = new TarefasViewModel();
+
+        //     string result;
+
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         result = await response.Content.ReadAsStringAsync();
+        //         tarefasViewModel.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+        //         client.Close();
+
+        //         return View(tarefasViewModel);
+        //         }
+
+        //     return View();
+        // }
 
     }
 }

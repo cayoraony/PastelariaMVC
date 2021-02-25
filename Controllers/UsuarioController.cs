@@ -226,8 +226,6 @@ namespace PastelariaMvc.Controllers
                 string fulljson = await response.Content.ReadAsStringAsync();
                 LoginTokenViewModel usuariologado = new LoginTokenViewModel();
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
-                Console.WriteLine(usuariologado.Token);
-
                 client.Close();
                 return View("~/Views/Home/Index.cshtml");
             }

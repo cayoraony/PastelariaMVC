@@ -18,18 +18,6 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CriarGestor(Usuario usuario)
-        {
-            ApiConnection client = new ApiConnection("usuario/gestor/criar");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            if (response.IsSuccessStatusCode)
-            {
-                client.Close();
-                return View("~/Views/Home/Index.cshtml");
-            }
-            Console.WriteLine(response.StatusCode);
-            return View();
-        }
 
         public async Task<IActionResult> LoginGestor(Usuario ugestor)
         {
@@ -46,33 +34,43 @@ namespace PastelariaMvc.Controllers
         }
 
         // Primeiro alteração / Teste
+        // Error : Ok
         public async Task<IActionResult> HomeGestor(int id)
         {
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados");
-            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
-            string result;
-            if (response.IsSuccessStatusCode)
+            try
             {
-                result = await response.Content.ReadAsStringAsync();
-                subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
-                client.Close();
+                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados");
+                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
-                ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
-                HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
-                if (responseParaTotal.IsSuccessStatusCode)
+                string result;
+                if (response.IsSuccessStatusCode)
                 {
-                    subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
-                    
-                    clientParaTotal.Close();
-                    return View(subordinadosResult);
+                    result = await response.Content.ReadAsStringAsync();
+                    subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+                    client.Close();
+
+                    ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
+                    HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
+                    if (responseParaTotal.IsSuccessStatusCode)
+                    {
+                        subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
+
+                        clientParaTotal.Close();
+                        return View(subordinadosResult);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
                 }
             }
-            Console.WriteLine(response.StatusCode);  
-            return View();
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
+            return View();        
         }
-
 
         public async Task<IActionResult> Criar([FromForm] Usuario usuario)
         {
@@ -86,118 +84,139 @@ namespace PastelariaMvc.Controllers
             {
                 stringApi = "usuario/subordinado/criar";
             }
-            ApiConnection client = new ApiConnection(stringApi);
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                client.Close();
-                return RedirectToAction("Index", "Home");   
+                //Gambiarrazada :)
+                if(usuario.Nome != "")
+                {
+                    ApiConnection client = new ApiConnection(stringApi);
+                    HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
+                
+                    if (response.IsSuccessStatusCode)
+                    {
+                        client.Close();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                    }
+                } 
             }
-            Console.WriteLine(response.StatusCode);
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
             return View();
         }
-    
+   
 
-        public async Task<IActionResult> CriarSubordinado([FromForm] Usuario usuario)
-        {
-            ApiConnection client = new ApiConnection("usuario/subordinado/criar");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            if (response.IsSuccessStatusCode)
-            {
-                client.Close();
-                return RedirectToAction("Index", "Home");   
-            }
-            Console.WriteLine(response.StatusCode);
-            return View();
-        }
-    
         public async Task<IActionResult> ConsultarUsuario(int id)
         {
-            ApiConnection client = new ApiConnection($"usuario/{id}");
-            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-            Usuario usuarioResult;
-            string result;
-            if (response.IsSuccessStatusCode)
+            try
             {
-                result = await response.Content.ReadAsStringAsync();
-                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                client.Close();
-                return View(usuarioResult);
+                ApiConnection client = new ApiConnection($"usuario/{id}");
+                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+                Usuario usuarioResult;
+                string result;
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                    client.Close();
+                    return View(usuarioResult);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
             }
-            Console.WriteLine(response.StatusCode);
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
             return View();
+
         }
 
-        // public async Task<IActionResult> ConsultarSubordinado(int id)
-        // {
-        //     ApiConnection client = new ApiConnection($"usuario/subordinado/{id}");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     Usuario usuarioResult;
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-        //         client.Close();
-        //         return View(usuarioResult);
-        //     }
-        //     Console.WriteLine(response.StatusCode);
-        //     return View();
-        // }
 
-        // public async Task<IActionResult> ConsultarGestor(int id)
-        // {
-        //     ApiConnection client = new ApiConnection($"usuario/gestor/{id}");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     Usuario gestor;
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         gestor = JsonConvert.DeserializeObject<Usuario>(result);
-        //         client.Close();
-        //         return View(new UsuarioViewModel { Usuario = gestor });
-        //     }
-        //     return View();
-        // }
 
         public async Task<IActionResult> AtualizarSubordinado(int id, AtualizarUsuarioViewModel usuario)
         {
-            ApiConnection client = new ApiConnection($"usuario/{id}/atualizar");
-            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-            
-            if (response.IsSuccessStatusCode)
+            try
             {
-                client.Close();
-                return RedirectToAction(nameof(Index));
+
+                ApiConnection client = new ApiConnection($"usuario/{id}/atualizar");
+                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    client.Close();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
+            }
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             return View();
         }
 
+
+
         public async Task<IActionResult> AtualizarGestor(int id, AtualizarUsuarioViewModel usuario)
         {
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar");
-            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-           
-            if (response.IsSuccessStatusCode)
+            try
             {
-                client.Close();
-                return RedirectToAction(nameof(Index));
+                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar");
+                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    client.Close();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
+            }
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             return View();
+            
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
         {
-            var requestBody = "";
-            ApiConnection client = new ApiConnection($"usuario/{id}/status");
-            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
-           
-            if (response.IsSuccessStatusCode)
+            try
             {
-                client.Close();
-                return RedirectToAction(nameof(Index));
+                var requestBody = "";
+                ApiConnection client = new ApiConnection($"usuario/{id}/status");
+                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    client.Close();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
             }
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
+            
             return View();
         }
 

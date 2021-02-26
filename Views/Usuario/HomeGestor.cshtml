@@ -1,20 +1,20 @@
 @model GestorHomeViewModel
 
+
+
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Minha Equipe</span></h1>
 </div>
 
 <div class="uk-container uk-flex uk-flex-center uk-margin-medium">
-  <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
-     asp-area="" asp-controller="Usuario" asp-action="Criar"
-  >
-    <span class="uk-text-large uk-text-light">Criar Usuário</span>
-  </a>
-  <a class="uk-button uk-button-text uk-button-large uk-margin-medium-left" 
-     asp-area="" asp-controller="Tarefa" asp-action="Criar"
-  >
-    <span class="uk-text-large uk-text-light">Criar Tarefa</span>
-  </a>
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right"
+        asp-area="" asp-controller="Usuario" asp-action="Criar">
+        <span class="uk-text-large uk-text-light">Criar Usuário</span>
+    </a>
+    <a class="uk-button uk-button-text uk-button-large uk-margin-medium-left"
+        asp-area="" asp-controller="Tarefa" asp-action="Criar">
+        <span class="uk-text-large uk-text-light">Criar Tarefa</span>
+    </a>
 </div>
 
 <table class="uk-table uk-table-striped">
@@ -27,30 +27,32 @@
         </tr>
     </thead>
     <tbody>
-      @foreach (var user in @Model.Subordinados)
-      {
-          <tr>
-            <td>@user.IdUsuario</td>
-            <td>@user.Nome @user.Sobrenome</td>
-            <td>
-              @* 
-              ToDo - JM
-              O link deve encaminhar para Tela de tarefas pendentes do usuário
-              Então, vai passar o IdUsuario para se comunicar com a API 
-              Então, deve mudar o endpoint da API e PROC
-              *@
+        @foreach (var user in @Model.Subordinados)
+        {
+            <tr>
+                <td>@user.IdUsuario</td>
+                <td>@user.Nome @user.Sobrenome</td>
+                <td>
+                    @*
+                        ToDo - JM
+                        O link deve encaminhar para Tela de tarefas pendentes do usuário
+                        Então, vai passar o IdUsuario para se comunicar com a API
+                        Então, deve mudar o endpoint da API e PROC
+                    *@
 
-              @* <a asp-area="" asp-controller="Usuario" asp-action="ConsultarSubordinado" asp-route-id="@user.IdUsuario"> *@
-              <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@user.IdUsuario">
-                @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario })
-              </a>
-            </td>
-            <td><a class="uk-button uk-button-primary uk-button-small" type="button"
-                   asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@user.IdUsuario">
-                  Detalhes
-                </a>
-            </td>
-          </tr>
-      }
+                    @* <a asp-area="" asp-controller="Usuario" asp-action="ConsultarSubordinado" asp-route-id="@user.IdUsuario"> *@
+                    <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@user.IdUsuario">
+                        @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario })
+                    </a>
+                </td>
+                <td>
+                    <a class="uk-button uk-button-primary uk-button-small" type="button"
+                        asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@user.IdUsuario">
+                        Detalhes
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+}

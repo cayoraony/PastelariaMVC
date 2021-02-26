@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
@@ -19,8 +21,9 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
+                string token = HttpContext.Session.GetString("Token");
                 var requestBody = "";
-                ApiConnection client = new ApiConnection($"tarefa/{id}/cancelar");
+                ApiConnection client = new ApiConnection($"tarefa/{id}/cancelar", token);
                 //ta em patch na API tem q trocar pra get
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
                 if (response.IsSuccessStatusCode)
@@ -42,7 +45,6 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            // return View();
         }
 
         
@@ -50,7 +52,8 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
-                ApiConnection client = new ApiConnection("tarefa/criar");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection("tarefa/criar", token);
                 Console.WriteLine(tarefa.IdStatusTarefa);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
 
@@ -71,7 +74,6 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            // return View();
         }
 
 
@@ -84,8 +86,8 @@ namespace PastelariaMvc.Controllers
             // ******************
             try
             {
-
-                ApiConnection client = new ApiConnection($"tarefa/{id}/datalimite");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"tarefa/{id}/datalimite", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, tarefa);
 
                 if (response.IsSuccessStatusCode)
@@ -103,15 +105,14 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            // return View();
         }
 
         public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
         {
             try
             {
-
-                ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar", token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, comentario);
                 if (response.IsSuccessStatusCode)
                 {
@@ -128,11 +129,10 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            // return View();
         }
 
 
-        [Authorize]
+    
         // ConsultarTarefasUsuario
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
@@ -142,8 +142,8 @@ namespace PastelariaMvc.Controllers
             // *********
             try
             {
-
-                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento");
+               string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
                 string result;
@@ -165,10 +165,9 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            // return View();
         }
         
-        [Authorize]
+    
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
             // ToDo - JM (OK)
@@ -177,8 +176,9 @@ namespace PastelariaMvc.Controllers
             // *********
             try
             {
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas", token);
 
-                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas");
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
                 string result;
@@ -187,8 +187,8 @@ namespace PastelariaMvc.Controllers
                     result = await response.Content.ReadAsStringAsync();
                     tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
                     client.Close();
-                    Console.WriteLine(response.StatusCode);
-                
+                    
+
                     return View(tarefas);
                 }
                 else
@@ -201,15 +201,15 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            // return View();
         }
 
         public async Task<IActionResult> Concluir(int id)
         {
             try
             {
+                string token = HttpContext.Session.GetString("Token");
                 var requestBody = "";
-                ApiConnection client = new ApiConnection($"tarefa/{id}/concluir");
+                ApiConnection client = new ApiConnection($"tarefa/{id}/concluir", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
            
                 if (response.IsSuccessStatusCode)
@@ -231,17 +231,15 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            
-            // return View();
         }
 
-        [Authorize]
+    
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
             try
             {
-
-                ApiConnection client = new ApiConnection("tarefa/" + id);
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection("tarefa/" + id, token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 // Tarefa tarefa;
                 Comentario comentario = new Comentario();
@@ -262,8 +260,7 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            
-            // return View();
+  
         }
 
                 // Ainda não está usando, mas pode usar nos Filtros

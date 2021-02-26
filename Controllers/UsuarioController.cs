@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
@@ -40,7 +41,8 @@ namespace PastelariaMvc.Controllers
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             try
             {
-                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
                 string result;
@@ -89,7 +91,8 @@ namespace PastelariaMvc.Controllers
                 //Gambiarrazada :)
                 if(usuario.Nome != "")
                 {
-                    ApiConnection client = new ApiConnection(stringApi);
+                    string token = HttpContext.Session.GetString("Token");
+                    ApiConnection client = new ApiConnection(stringApi, token);
                     HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
                 
                     if (response.IsSuccessStatusCode)
@@ -115,7 +118,8 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
-                ApiConnection client = new ApiConnection($"usuario/{id}");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/{id}", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 Usuario usuarioResult;
                 string result;
@@ -135,7 +139,6 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            return View();
 
         }
 
@@ -159,8 +162,8 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
-
-                ApiConnection client = new ApiConnection($"usuario/{id}/atualizar");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
 
                 if (response.IsSuccessStatusCode)
@@ -179,7 +182,6 @@ namespace PastelariaMvc.Controllers
                 
                 
             }
-            return View();
         }
 
 
@@ -188,7 +190,8 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
-                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar");
+                string token = HttpContext.Session.GetString("Token");
+                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
 
                 if (response.IsSuccessStatusCode)
@@ -208,7 +211,6 @@ namespace PastelariaMvc.Controllers
                 
                 
             }
-            return View();
             
         }
 
@@ -216,8 +218,9 @@ namespace PastelariaMvc.Controllers
         {
             try
             {
+                string token = HttpContext.Session.GetString("Token");
                 var requestBody = "";
-                ApiConnection client = new ApiConnection($"usuario/{id}/status");
+                ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
 
                 if (response.IsSuccessStatusCode)
@@ -235,7 +238,6 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
         }
 
         public async Task<IActionResult> Login(Usuario usuario)
@@ -249,10 +251,15 @@ namespace PastelariaMvc.Controllers
                 string fulljson = await response.Content.ReadAsStringAsync();
                 LoginTokenViewModel usuariologado = new LoginTokenViewModel();
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
+                HttpContext.Session.SetString("Token", usuariologado.Token);
+
+
+                var name = HttpContext.Session.GetString("Token");
+                Console.WriteLine(name);
                 client.Close();
                 return View("~/Views/Home/Index.cshtml");
             }
-            Console.WriteLine(response.StatusCode);
+            
 
 
             return View();

@@ -131,6 +131,7 @@ namespace PastelariaMvc.Controllers
         }
 
 
+
         // ConsultarTarefasUsuario
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
@@ -263,10 +264,25 @@ namespace PastelariaMvc.Controllers
             return View();
         }
 
+                // Ainda não está usando, mas pode usar nos Filtros
+        // public async Task<IActionResult> ConsultarTarefasGestorStatus([FromQuery] int idGestor, [FromQuery] int idStatus)
+        // {
+        //     ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/tarefa/status/"+idStatus);
+        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+        //     TarefasGestorStatusViewModel tarefasResult = new TarefasGestorStatusViewModel();
+        //     string result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         result = await response.Content.ReadAsStringAsync();
+        //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+        //         client.Close();
+        //         return View(tarefasResult);
+        //     }
+        //     Console.WriteLine(response.StatusCode);  
+        //     return View();
+        // }
 
-
-
-
+        
         // Ainda não está usando, mas pode usar nos Filtros
         // public async Task<IActionResult> ConsultarTarefasStatusUsuario([FromQuery] int idUsuario, [FromQuery] int idStatusTarefa)
         // {

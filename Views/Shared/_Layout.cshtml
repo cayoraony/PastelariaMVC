@@ -47,7 +47,10 @@
                             *@
                             <span class="uk-badge uk-padding-small">
                                 <span uk-icon="icon: warning"></span>
-                                <span class="uk-margin-small-left">11</span>
+                                <span class="uk-margin-left">
+                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse("1") })
+                                    @* @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario }) *@
+                                </span>
                             </span>
 
                             @* <span uk-icon="icon: warning; ratio: 1.5"></span>

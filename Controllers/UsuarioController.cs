@@ -135,7 +135,7 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            return View();
+            // return View();
 
         }
 
@@ -179,7 +179,7 @@ namespace PastelariaMvc.Controllers
                 
                 
             }
-            return View();
+            // return View();
         }
 
 
@@ -208,7 +208,7 @@ namespace PastelariaMvc.Controllers
                 
                 
             }
-            return View();
+            // return View();
             
         }
 
@@ -235,7 +235,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
         public async Task<IActionResult> Login(Usuario usuario)

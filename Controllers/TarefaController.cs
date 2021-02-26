@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
@@ -41,7 +42,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
         
@@ -70,7 +71,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
 
@@ -102,7 +103,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
         public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
@@ -127,11 +128,11 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
 
-
+        [Authorize]
         // ConsultarTarefasUsuario
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
@@ -164,10 +165,10 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-            return View();
+            // return View();
         }
         
-
+        [Authorize]
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
             // ToDo - JM (OK)
@@ -200,7 +201,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
         public async Task<IActionResult> Concluir(int id)
@@ -231,9 +232,10 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
             try
@@ -261,7 +263,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             
-            return View();
+            // return View();
         }
 
                 // Ainda não está usando, mas pode usar nos Filtros

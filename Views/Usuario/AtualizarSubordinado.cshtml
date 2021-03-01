@@ -8,7 +8,7 @@
 </div>
 
 <div class="uk-container uk-container-xsmall">
-  <form asp-controller="Usuario" asp-action="AtualizarSubordinado" method="put" class="form-horizontal" role="form">
+  <form asp-controller="Usuario" asp-action="SubordinadoPut" asp-route-id="@Model.IdUsuario" method="put" class="form-horizontal" role="form">
       <div class="uk-margin">
         <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">

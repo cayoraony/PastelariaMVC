@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
 using PastelariaMvc.ViewModel;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace PastelariaMvc.Controllers
 {
@@ -277,10 +278,11 @@ namespace PastelariaMvc.Controllers
         public async Task<IActionResult> Login(Usuario usuario)
         {
 
-            if(HttpContext.Session.GetString("Token") != "")
+            if(HttpContext.Session.GetString("Token") != null)
             {
-                return View("~/Views/Home/Index.cshtml");
+                return RedirectToAction("Index", "Home");
             }
+            
 
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
@@ -292,9 +294,17 @@ namespace PastelariaMvc.Controllers
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
                 HttpContext.Session.SetString("Token", usuariologado.Token);
 
+                var handler = new JwtSecurityTokenHandler();
+                var tokenTest = handler.ReadToken(usuariologado.Token) as JwtSecurityToken;
+
+
+                var idUsuario = tokenTest.Claims.ToList()[0].Value;
+                Console.WriteLine(idUsuario);
+
+
 
                 var token = HttpContext.Session.GetString("Token");
-                Console.WriteLine(token);
+                //Console.WriteLine(token);
                 client.Close();
                 return View("~/Views/Home/Index.cshtml");
             }

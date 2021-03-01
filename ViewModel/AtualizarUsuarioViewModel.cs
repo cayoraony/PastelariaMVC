@@ -14,6 +14,7 @@ namespace PastelariaMvc.ViewModel
         public string Sobrenome { get; set; }
         [Display(Name = "Senha:")]
         public string Senha { get; set; }
+        public int IdUsuario { get; set; }
     }
 }
 

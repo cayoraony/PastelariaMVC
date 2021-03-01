@@ -34,6 +34,10 @@ namespace PastelariaMvc.Controllers
                     //*************
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
                 }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -62,7 +66,10 @@ namespace PastelariaMvc.Controllers
                     return RedirectToAction("Listar", "Tarefa", new { id = tarefa.IdGestor });
                     // return RedirectToAction("Listar", "Tarefa", new {@id = id});
                 }
-
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -94,6 +101,10 @@ namespace PastelariaMvc.Controllers
                     client.Close();
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
                 }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -117,6 +128,10 @@ namespace PastelariaMvc.Controllers
                 {
                     client.Close();
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
                 }
                 else
                 {
@@ -155,6 +170,10 @@ namespace PastelariaMvc.Controllers
                 
                     return View(tarefas);
                 }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -186,9 +205,11 @@ namespace PastelariaMvc.Controllers
                     result = await response.Content.ReadAsStringAsync();
                     tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
                     client.Close();
-                    
-
                     return View(tarefas);
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
                 }
                 else
                 {
@@ -220,7 +241,10 @@ namespace PastelariaMvc.Controllers
                     //*************
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
                 }
-
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -248,6 +272,10 @@ namespace PastelariaMvc.Controllers
                     comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
                 
                     return View(comentario);
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
                 }
                 else
                 {

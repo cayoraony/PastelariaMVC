@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PastelariaMvc</title>
+    
+    @* UIKit *@
+    <link rel="stylesheet" href="~/css/uikit.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+
+    @* UIKit CDN *@
+    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
+
+    @* BOOTSTRAP *@
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" /> *@
+
+
+</head>
+<body uk-height-viewport>
+    <header class="uk-margin-large-bottom">
+        <nav class="uk-navbar-container uk-margin" uk-navbar>
+            <div class="uk-navbar-center">
+                <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="1">Pastelaria SMN</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="uk-container">
+        <main class="uk-container">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer id="page-footer" class="uk-margin-xlarge-top" uk-sticky>
+      <div class="uk-container">
+          <p class="uk-text-small"> &copy; 2021 - Pastelaria SMN </p>
+      </div>
+    </footer>
+
+    <script src="~/js/uikit.js"></script>
+    <script src="~/js/uikit-icons.js"></script>
+
+    @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,11 +1,44 @@
-﻿@{  Layout = null;  }
+﻿@{  
+    Layout = "~/Views/Shared/_LayoutDisconnected.cshtml";  
+}
 
 @model Usuario
 
+
+<div class="uk-card uk-card-default uk-card-hover uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+    <div class="uk-card-media-left uk-cover-container">
+        <img src="~/img/pastel1.jpg" alt="Foto de pastel" uk-cover>
+        <canvas width="600" height="400"></canvas>
+    </div>
+    <div>
+        <div class="uk-card-body">
+            <h1 class="uk-card-title uk-text-lead uk-text-center">Faça seu Login</h1>
+            <form asp-controller="Usuario" asp-action="Login" method="post" class="uk-form-stacked" role="form">
+                
+                <div class="uk-margin">
+                    <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite seu email">
+                    </div>
+                </div>  
+
+                <div class="uk-margin">
+                    <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" asp-for="Senha" type="password" placeholder="Digite sua senha">
+                    </div>
+                </div>  
+
+                <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Login" />
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@* 
 <p>Login</p>
 <form asp-controller="Usuario" asp-action="Login" method="post" class="form-horizontal" role="form">
-    @* <label asp-for="EnderecoEmail" class="col-md-2 control-label"></label>
-        <input asp-for="EnderecoEmail" class="form-control" /> *@
 
     <label asp-for="Email.EnderecoEmail" class="col-md-2 control-label"></label>
     <input asp-for="Email.EnderecoEmail" class="form-control" />
@@ -16,4 +49,4 @@
     <br />
     <input type="submit" class="btn btn-success" value="Logar" />
 
-</form>
+</form> *@

@@ -277,9 +277,10 @@ namespace PastelariaMvc.Controllers
         public async Task<IActionResult> Login(Usuario usuario)
         {
 
-            if(HttpContext.Session.GetString("Token") != "")
+            if(HttpContext.Session.GetString("Token") != null)
             {
-                return View("~/Views/Home/Index.cshtml");
+                return RedirectToAction("HomeGestor", "Usuario", new { id = 1 });
+                // return View("~/Views/Home/Index.cshtml");
             }
 
             ApiConnection client = new ApiConnection("usuario/login");
@@ -305,7 +306,8 @@ namespace PastelariaMvc.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Login", "Usuario");
+            // return View("~/Views/Usa/Index.cshtml");
         }
 
 

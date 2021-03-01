@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Principal;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -20,19 +22,19 @@ namespace PastelariaMvc.Controllers
         }
 
 
-        public async Task<IActionResult> LoginGestor(Usuario ugestor)
-        {
-            Console.WriteLine(ugestor);
-            ApiConnection client = new ApiConnection("usuario/gestor/login");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, ugestor);
-            if (response.IsSuccessStatusCode)
-            {
-                client.Close();
-                return RedirectToAction(nameof(Index));    
-            }
-            Console.WriteLine(response.StatusCode);
-            return View();
-        }
+        // public async Task<IActionResult> LoginGestor(Usuario ugestor)
+        // {
+        //     Console.WriteLine(ugestor);
+        //     ApiConnection client = new ApiConnection("usuario/gestor/login");
+        //     HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, ugestor);
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         client.Close();
+        //         return RedirectToAction(nameof(Index));    
+        //     }
+        //     Console.WriteLine(response.StatusCode);
+        //     return View();
+        // }
 
         // Primeiro alteração / Teste
         // Error : Ok
@@ -61,6 +63,15 @@ namespace PastelariaMvc.Controllers
                         clientParaTotal.Close();
                         return View(subordinadosResult);
                     }
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
+                else if (response.StatusCode.ToString() == "Forbidden")
+                {
+                    Console.WriteLine("n é gestor");
+                    return RedirectToAction("Login", "Usuario");
                 }
                 else
                 {
@@ -100,6 +111,14 @@ namespace PastelariaMvc.Controllers
                         client.Close();
                         return RedirectToAction("Index", "Home");
                     }
+                    else if (response.StatusCode.ToString() == "Unauthorized")
+                    {
+                        return RedirectToAction("Login", "Usuario");
+                    }
+                    else if (response.StatusCode.ToString() == "Forbidden")
+                    {
+                        return RedirectToAction("Login", "Usuario");
+                    }
                     else
                     {
                         return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -129,6 +148,10 @@ namespace PastelariaMvc.Controllers
                     usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                     client.Close();
                     return View(usuarioResult);
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
                 }
                 else
                 {
@@ -171,6 +194,10 @@ namespace PastelariaMvc.Controllers
                     client.Close();
                     return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
                 }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -199,7 +226,10 @@ namespace PastelariaMvc.Controllers
                     client.Close();
                     return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
                 }
-
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -228,6 +258,10 @@ namespace PastelariaMvc.Controllers
                     client.Close();
                     return RedirectToAction(nameof(Index));
                 }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -243,6 +277,11 @@ namespace PastelariaMvc.Controllers
         public async Task<IActionResult> Login(Usuario usuario)
         {
 
+            if(HttpContext.Session.GetString("Token") != "")
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
             
@@ -254,15 +293,19 @@ namespace PastelariaMvc.Controllers
                 HttpContext.Session.SetString("Token", usuariologado.Token);
 
 
-                var name = HttpContext.Session.GetString("Token");
-                Console.WriteLine(name);
+                var token = HttpContext.Session.GetString("Token");
+                Console.WriteLine(token);
                 client.Close();
                 return View("~/Views/Home/Index.cshtml");
             }
             
-
-
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("~/Views/Home/Index.cshtml");
         }
 
 

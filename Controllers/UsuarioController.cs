@@ -130,7 +130,7 @@ namespace PastelariaMvc.Controllers
    
 
         [HttpGet]
-        public async Task<IActionResult> ConsultarUsuario(int? id)
+        public async Task<IActionResult> ConsultarUsuario(int id)
         {
             try
             {
@@ -141,10 +141,22 @@ namespace PastelariaMvc.Controllers
                 string result;
                 if (response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine("teste 2");
                     result = await response.Content.ReadAsStringAsync();
                     usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                     client.Close();
-                    return View(usuarioResult);
+
+                    if(DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) || 
+                       DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()) )
+                    {
+                        return View(usuarioResult);
+                    }
+
+                    Console.WriteLine("ID TOKEN: " + DecodeToken.getId(token));
+                    Console.WriteLine("ID Usuario: " + usuarioResult.IdUsuario);
+                    Console.WriteLine("ID Gestor: " + usuarioResult.IdGestor);
+
+                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {

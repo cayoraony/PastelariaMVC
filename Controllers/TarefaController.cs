@@ -51,8 +51,13 @@ namespace PastelariaMvc.Controllers
             
         }
 
+        [HttpGet]
+        public IActionResult Criar()
+        {  
+            return View();
+        }
         
-        public async Task<IActionResult> Criar(Tarefa tarefa)
+        public async Task<IActionResult> CriarTarefa(Tarefa tarefa)
         {
             try
             {
@@ -149,6 +154,7 @@ namespace PastelariaMvc.Controllers
 
     
         // ConsultarTarefasUsuario
+        [HttpGet]
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
             // ToDo - JM (OK)
@@ -186,7 +192,7 @@ namespace PastelariaMvc.Controllers
             }
         }
         
-    
+        [HttpGet]
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
             // ToDo - JM (OK)
@@ -257,7 +263,7 @@ namespace PastelariaMvc.Controllers
             }
         }
 
-    
+        [HttpGet]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
             try

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using PastelariaMvc.Infra;
+
+@{var token = Context.Session.GetString("Token"); }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,47 +26,70 @@
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
             <div class="uk-navbar-left">
-                <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="1">Pastelaria SMN</a>
+                @if(DecodeToken.getEGestor(token))
+                {
+                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@DecodeToken.getId(token)">
+                        Pastelaria SMN
+                    </a>
+                }
+                else
+                {
+                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@DecodeToken.getId(token)">
+                        Pastelaria SMN
+                    </a>
+                }
             </div>
 
             <div class="uk-navbar-center">
                 <ul class="uk-navbar-nav">
+                    @* <li>
+                        if(@Model.EGestor)
+                        {
+                            <a asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@Model.IdUsuario">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
+                                Minha Home
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Usuario" asp-action="HomeGes" asp-route-id="@Model.IdUsuario">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
+                                Minha Home
+                            </a>
+                        }
+                        
+                    </li> *@
                     <li>
-                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="17">
+                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@DecodeToken.getId(token)">
                             <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
                             Minha Conta
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="1">
+                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@DecodeToken.getId(token)">
                             <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
                             Todas Tarefas
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="1">
-                            @* 
-                            ToDo - JM
-                            ViewComponent para mostrar a quantidade de tarefas em tempo real 
-                            ********
-                            *@
+                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@DecodeToken.getId(token)">
                             <span class="uk-badge uk-padding-small">
                                 <span uk-icon="icon: warning"></span>
                                 <span class="uk-margin-left">
-                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse("1") })
-                                    @* @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario }) *@
+                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(DecodeToken.getId(token).ToString() )})
                                 </span>
                             </span>
 
-                            @* <span uk-icon="icon: warning; ratio: 1.5"></span>
-                            <span class="uk-text-large">11</span> *@
                         </a>
                     </li>
+
                 </ul>
             </div>
 
             <div class="uk-navbar-right">
                 <div class="uk-navbar-item ">
+                    @* ToDo *@
+                    @* Trazer o nome do usuario no Token *@
                     <span class="uk-text-light uk-text-large uk-margin-right">Olá, usuário</span>
                     <a asp-controller="Usuario" asp-action="Logout" class="uk-button uk-button-danger uk-button-small uk-margin-left">
                         Sair

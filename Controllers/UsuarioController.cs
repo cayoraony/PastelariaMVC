@@ -18,28 +18,15 @@ namespace PastelariaMvc.Controllers
 {
     public class UsuarioController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
         }
 
-
-        // public async Task<IActionResult> LoginGestor(Usuario ugestor)
-        // {
-        //     Console.WriteLine(ugestor);
-        //     ApiConnection client = new ApiConnection("usuario/gestor/login");
-        //     HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, ugestor);
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         client.Close();
-        //         return RedirectToAction(nameof(Index));    
-        //     }
-        //     Console.WriteLine(response.StatusCode);
-        //     return View();
-        // }
-
         // Primeiro alteração / Teste
         // Error : Ok
+        [HttpGet]
         public async Task<IActionResult> HomeGestor(int id)
         {
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
@@ -142,8 +129,8 @@ namespace PastelariaMvc.Controllers
         
    
 
-
-        public async Task<IActionResult> ConsultarUsuario(int id)
+        [HttpGet]
+        public async Task<IActionResult> ConsultarUsuario(int? id)
         {
             try
             {
@@ -284,7 +271,13 @@ namespace PastelariaMvc.Controllers
             
         }
 
-        public async Task<IActionResult> Login(Usuario usuario)
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> LoginPost(Usuario usuario)
         {
 
             if(HttpContext.Session.GetString("Token") != null)
@@ -298,23 +291,44 @@ namespace PastelariaMvc.Controllers
             if (response.IsSuccessStatusCode)
             {
                 string fulljson = await response.Content.ReadAsStringAsync();
+                // var usuariologado = UserLogged(fulljson);
+
                 LoginTokenViewModel usuariologado = new LoginTokenViewModel();
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
                 HttpContext.Session.SetString("Token", usuariologado.Token);
 
-                var handler = new JwtSecurityTokenHandler();
-                var tokenTest = handler.ReadToken(usuariologado.Token) as JwtSecurityToken;
+                var teste = HttpContext.Session.GetString("Token");
 
-                var idUsuario = tokenTest.Claims.ToList()[0].Value;
-                Console.WriteLine(idUsuario);
+                var idUsuario = DecodeToken.getId(teste);
+                var eGestor = DecodeToken.getEGestor(teste);
+                // var handler = new JwtSecurityTokenHandler();
+                // var tokenTest = handler.ReadToken(usuariologado.Token) as JwtSecurityToken;
+
+                // var idUsuario = tokenTest.Claims.ToList()[0].Value;
+                Console.WriteLine("id " + idUsuario);
+                Console.WriteLine("bool " + eGestor);
 
                 var token = HttpContext.Session.GetString("Token");
                 //Console.WriteLine(token);
                 client.Close();
-                return View("~/Views/Home/Index.cshtml");
+                if(eGestor)
+                {
+                    return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});
+                }
+                else if(!eGestor)
+                {
+                    return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Index");
+                }
+                
             }
             
-            return View();
+            // ToDo - JM
+            // Fazer alguma notificação ou encaminhar para página que mostre senha errada
+            return RedirectToAction("Login", "Usuario");
         }
 
         public IActionResult Logout()

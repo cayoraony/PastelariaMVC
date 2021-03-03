@@ -17,6 +17,11 @@ namespace PastelariaMvc.Controllers
     public class TarefaController : Controller
     {
 
+        // ToDO - jm
+        // Concluir/Cancelar será permitido apenas pelo Gestor/Subordinado da Tarefa?
+        // Se sim, retirar os botões de ListarTarefaAnadamento
+        // Gestor do subordinado cuja tarefa é o gestor pode Concluir/Cancelar?
+        // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Cancelar(int id)
         {
             try
@@ -70,7 +75,6 @@ namespace PastelariaMvc.Controllers
                 {
                     client.Close();
                     return RedirectToAction("Listar", "Tarefa", new { id = tarefa.IdGestor });
-                    // return RedirectToAction("Listar", "Tarefa", new {@id = id});
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
@@ -93,9 +97,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
-            // ToDo - JM
-            // Implementar Modal para editar DataLimite
-            // ******************
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -157,30 +158,40 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
-            // ToDo - JM (OK)
-            // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
-            // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
-            // *********
             try
             {
-               string token = HttpContext.Session.GetString("Token");
+                string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
+
                 ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+                
                 ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
                 string result;
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsStringAsync();
                     tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-                    client.Close();
-                    Console.WriteLine(response.StatusCode);
-                
-                    return View(tarefas);
+
+                    foreach (var tarefa in tarefas.Lista)
+                    {
+                        if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                        {
+                            client.Close();
+                            Console.WriteLine(response.StatusCode);
+                    
+                            return View(tarefas);
+                        }
+                    }
+
+                    return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
                 }
+
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
                     return RedirectToAction("Login", "Usuario");
                 }
+
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -190,34 +201,46 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
+
         }
         
         [HttpGet]
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
-            // ToDo - JM (OK)
-            // VAI MUDAR O ENDPOINT DA API PARA QUE SIRVA PARA ID USUARIO,
-            // INDEPENDENTE DE SER GESTOR OU SUBORDINADO
-            // *********
             try
             {
                 string token = HttpContext.Session.GetString("Token");
-                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas", token);
+                int idLogado = DecodeToken.getId(token);
 
+                ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+
                 ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
                 string result;
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsStringAsync();
                     tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-                    client.Close();
-                    return View(tarefas);
+                    
+                    foreach (var tarefa in tarefas.Lista)
+                    {
+                        if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                        {
+                            client.Close();
+                            Console.WriteLine(response.StatusCode);
+                    
+                            return View(tarefas);
+                        }
+                    }
+
+                    return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
                 }
+
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
                     return RedirectToAction("Login", "Usuario");
                 }
+                
                 else
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
@@ -230,6 +253,11 @@ namespace PastelariaMvc.Controllers
             
         }
 
+        // ToDO - jm
+        // Concluir/Cancelar será permitido apenas pelo Gestor/Subordinado da Tarefa?
+        // Se sim, retirar os botões de ListarTarefaAnadamento
+        // Gestor do subordinado cuja tarefa é o gestor pode Concluir/Cancelar?
+        // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Concluir(int id)
         {
             try
@@ -242,10 +270,7 @@ namespace PastelariaMvc.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
-                    // ToDo - JM
-                    // Por enquanto esta estatico, porem depois que pegarmos
-                    // O id da session, mudará aqui
-                    //*************
+
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
@@ -269,6 +294,8 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
+
                 ApiConnection client = new ApiConnection("tarefa/" + id, token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 // Tarefa tarefa;
@@ -279,8 +306,14 @@ namespace PastelariaMvc.Controllers
                     result = await response.Content.ReadAsStringAsync();
                     comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
                 
-                    return View(comentario);
+                    if(comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
+                    {
+                            return View(comentario);
+                    }
+                    
+                    return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
                 }
+                
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
                     return RedirectToAction("Login", "Usuario");

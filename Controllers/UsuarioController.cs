@@ -33,6 +33,13 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
+
+                if(id != idLogado)
+                {
+                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+                }
+
                 ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
@@ -177,11 +184,46 @@ namespace PastelariaMvc.Controllers
 
         
         [HttpGet]
-        public IActionResult AtualizarSubordinado(int id)
+        public async Task<IActionResult> AtualizarSubordinado(int id)
         {
-            AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-            usuario.IdUsuario = id;
-            return View(usuario);
+            try 
+            {
+                string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
+
+                ApiConnection client = new ApiConnection($"usuario/{id}", token);
+                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+                Usuario usuarioResult;
+                string result;
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                    client.Close();
+
+                    if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
+                    {
+                        AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                        usuario.IdUsuario = id;
+
+                        return View(usuario);
+                    }
+
+                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
+            }
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
         }
 
         //[HttpPut]
@@ -191,6 +233,7 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+
                 ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
 
@@ -217,11 +260,52 @@ namespace PastelariaMvc.Controllers
 
 
 
-        public IActionResult AtualizarGestor(int id)
+        public async Task<IActionResult> AtualizarGestor(int id)
         {
-            AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-            usuario.IdUsuario = id;
-            return View(usuario);
+            try 
+            {
+                string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
+
+                ApiConnection client = new ApiConnection($"usuario/{id}", token);
+                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+                Usuario usuarioResult;
+                string result;
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                    client.Close();
+
+                    if(usuarioResult.IdUsuario == idLogado)
+                    {
+                        AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                        usuario.IdUsuario = id;
+
+                        return View(usuario);
+                    }
+
+                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+                }
+                else if (response.StatusCode.ToString() == "Unauthorized")
+                {
+                    return RedirectToAction("Login", "Usuario");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                }
+            }
+            catch (Exception exception)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+            }
+
+
+
+
+
+            
         }
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)

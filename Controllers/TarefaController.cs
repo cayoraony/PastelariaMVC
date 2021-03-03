@@ -67,6 +67,7 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+                tarefa.IdGestor = short.Parse(DecodeToken.getId(token).ToString());
                 ApiConnection client = new ApiConnection("tarefa/criar", token);
                 Console.WriteLine(tarefa.IdStatusTarefa);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
@@ -129,6 +130,7 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+                comentario.IdUsuario = DecodeToken.getId(token);
                 ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar", token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, comentario);
                 if (response.IsSuccessStatusCode)

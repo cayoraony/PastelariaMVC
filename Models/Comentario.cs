@@ -14,5 +14,10 @@ namespace PastelariaMvc.Models
         public Tarefa Tarefa { get; set; }
         public int IdUsuario { get; set; }
         public Usuario Usuario { get; set; }
+
+        public Comentario()
+        {
+            this.Usuario = new Usuario();
+        }
     }
 }

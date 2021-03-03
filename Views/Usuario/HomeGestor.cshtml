@@ -20,6 +20,7 @@
         <tr>
             <th class="uk-width-small">Id</th>
             <th>Nome</th>
+            <th>Status</th>
             <th>Tarefas</th>
             <th>Ações</th>
         </tr>
@@ -30,6 +31,16 @@
             <tr>
                 <td>@user.IdUsuario</td>
                 <td>@user.Nome @user.Sobrenome</td>
+                <td>
+                    @if(user.EstaAtivo)
+                    {
+                        <span>Ativado</span>
+                    }
+                    else
+                    {
+                        <span>Desativado</span>
+                    }
+                </td>
                 <td>
                     <div class="uk-flex uk-flex-left">
                         <a class="uk-margin-right" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@user.IdUsuario">

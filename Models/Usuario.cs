@@ -15,7 +15,7 @@ namespace PastelariaMvc.Models
         // public Date DataNascimento { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
-        public bool EstaAtivo { get; set; } = true;
+        public bool EstaAtivo { get; set; }
         public int IdEndereco { get; set; }
         public Endereco Endereco { get; set; }
         public short IdEmail { get; set; }

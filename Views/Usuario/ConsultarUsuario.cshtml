@@ -1,3 +1,10 @@
+@using Microsoft.AspNetCore.Http
+@using PastelariaMvc.Infra;
+
+@{var token = Context.Session.GetString("Token"); }
+@{var idLogado = DecodeToken.getId(token); }
+@{var eGestorLogado = DecodeToken.getEGestor(token); }
+
 @model Usuario
 @{
     ViewData["Title"] = "Consultar Usuário";
@@ -20,7 +27,7 @@
   else
   {
     <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right" 
-        asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado" asp-route-id="@Model.IdUsuario"
+       asp-area="" asp-controller="Usuario" asp-action="AtualizarSubordinado" asp-route-id="@Model.IdUsuario"
     >
         <span class="uk-text-large uk-text-light">Editar Dados</span>
     </a>
@@ -29,6 +36,38 @@
 </div>
 
 <div class="uk-container uk-container-xsmall">
+
+    @if(eGestorLogado)
+    {
+        <div class="uk-section uk-section-muted uk-card uk-card-hover uk-card-default uk-card-body">
+            <h2 class="uk-text-center uk-heading-line">Status:</h2>
+            @if(Model.EstaAtivo)
+            {
+                <div class="uk-alert-success" uk-alert>
+                    <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Ativado</p>
+                </div>
+                <div class="uk-flex uk-flex-center uk-margin">
+                    <a class="uk-button uk-button-danger uk-button"
+                       asp-area="" asp-controller="Usuario" asp-action="AtivarDesativar" asp-route-id="@Model.IdUsuario">
+                        Desativar
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="uk-alert-danger" uk-alert>
+                    <p class="uk-text-bold uk-text-large uk-text-center uk-text-uppercase">Desativado</p>
+                </div>
+                <div class="uk-flex uk-flex-center uk-margin">
+                    <a class="uk-button uk-button-primary uk-button"
+                       asp-area="" asp-controller="Usuario" asp-action="AtivarDesativar" asp-route-id="@Model.IdUsuario">
+                        Ativar
+                    </a>
+                </div>
+            }           
+        </div>
+        <br>
+    }
 
     <div class="uk-section uk-section-muted uk-card uk-card-hover uk-card-default uk-card-body">
         <div class="uk-container uk-container-small">

@@ -2,6 +2,8 @@
 @using PastelariaMvc.Infra;
 
 @{var token = Context.Session.GetString("Token"); }
+@{var idLogado = DecodeToken.getId(token); }
+@{var eGestorLogado = DecodeToken.getEGestor(token); }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,13 +30,13 @@
             <div class="uk-navbar-left">
                 @if(DecodeToken.getEGestor(token))
                 {
-                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@DecodeToken.getId(token)">
+                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
                         Pastelaria SMN
                     </a>
                 }
                 else
                 {
-                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@DecodeToken.getId(token)">
+                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
                         Pastelaria SMN
                     </a>
                 }
@@ -42,41 +44,24 @@
 
             <div class="uk-navbar-center">
                 <ul class="uk-navbar-nav">
-                    @* <li>
-                        if(@Model.EGestor)
-                        {
-                            <a asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@Model.IdUsuario">
-                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
-                                Minha Home
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-area="" asp-controller="Usuario" asp-action="HomeGes" asp-route-id="@Model.IdUsuario">
-                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
-                                Minha Home
-                            </a>
-                        }
-                        
-                    </li> *@
                     <li>
-                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@DecodeToken.getId(token)">
+                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@idLogado">
                             <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
                             Minha Conta
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@DecodeToken.getId(token)">
+                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@idLogado">
                             <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
                             Todas Tarefas
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@DecodeToken.getId(token)">
+                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
                             <span class="uk-badge uk-padding-small">
                                 <span uk-icon="icon: warning"></span>
                                 <span class="uk-margin-left">
-                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(DecodeToken.getId(token).ToString() )})
+                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(idLogado.ToString() )})
                                 </span>
                             </span>
 

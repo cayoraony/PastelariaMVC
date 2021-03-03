@@ -105,6 +105,7 @@ namespace PastelariaMvc.Controllers
             {
 
                 string token = HttpContext.Session.GetString("Token");
+                usuario.IdGestor = short.Parse(DecodeToken.getId(token).ToString());
                 ApiConnection client = new ApiConnection(stringApi, token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
 
@@ -342,6 +343,7 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
+                int idLogado = DecodeToken.getId(token);
                 var requestBody = "";
                 ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
@@ -349,7 +351,7 @@ namespace PastelariaMvc.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {

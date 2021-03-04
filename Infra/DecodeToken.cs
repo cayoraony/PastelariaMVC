@@ -25,5 +25,15 @@ namespace PastelariaMvc.Infra
 
             return bool.Parse(eGestor);
         }
+        
+        public static string getNome(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var tokenTest = handler.ReadToken(token) as JwtSecurityToken;
+
+            var nomeUsuario = tokenTest.Claims.ToList()[2].Value;
+
+            return nomeUsuario;
+        }
     }
 }

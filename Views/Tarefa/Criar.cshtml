@@ -1,4 +1,12 @@
-﻿@model Tarefa
+﻿@using Microsoft.AspNetCore.Http
+@using PastelariaMvc.Infra;
+
+@{var token = Context.Session.GetString("Token"); }
+@{var idLogado = DecodeToken.getId(token); }
+@{var eGestorLogado = DecodeToken.getEGestor(token); }
+
+@* @model Tarefa *@
+@model CriarTarefaViewModel
 
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Cadastrar Tarefa</span></h1>
@@ -8,16 +16,16 @@
     <form asp-controller="Tarefa" asp-action="CriarTarefa" method="post" class="uk-form-stacked" role="form">
             
         <div class="uk-margin">
-            <label asp-for="Descricao" class="uk-form-label uk-text-large"></label>
+            <label asp-for="Tarefa.Descricao" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Descricao" type="text" placeholder="Digite a descriçao da tarefa">
+                <input class="uk-input" asp-for="Tarefa.Descricao" type="text" placeholder="Digite a descriçao da tarefa">
             </div>
         </div>    
 
         <div class="uk-margin">
-            <label asp-for="DataLimite" class="uk-form-label uk-text-large"></label>
+            <label asp-for="Tarefa.DataLimite" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="DataLimite" type="datetime-local" placeholder="Escolha a data limite da tarefa">
+                <input class="uk-input" asp-for="Tarefa.DataLimite" type="datetime-local" placeholder="Escolha a data limite da tarefa">
             </div>
         </div>   
 
@@ -30,12 +38,24 @@
         </div>     *@
 
         @* Dá pra fazer um select com o nome de todos os subordinados, e a partir do select pega o Id *@
-        <div class="uk-margin">
+        @* <div class="uk-margin">
             <label asp-for="IdSubordinado" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input class="uk-input" asp-for="IdSubordinado" type="number" placeholder="Digite o Id Subordinado">
             </div>
-        </div>    
+        </div>     *@
+
+        @if(eGestorLogado)
+        {
+            <div class="uk-margin">
+                <label asp-for="Tarefa.IdSubordinado" class="uk-form-label uk-text-large"></label>
+                <select asp-for="Tarefa.IdSubordinado" class="uk-select"
+                    asp-items="@(new SelectList(Model.Subordinados,"IdUsuario","Nome"))">
+                <option>Escolha o subordinado</option>
+                </select>
+            </div>
+        }
+        
 
         @* <div class="uk-margin">
             <label asp-for="IdStatusTarefa" class="uk-form-label uk-text-large"></label>
@@ -45,9 +65,9 @@
         </div>    *@
 
         <div class="uk-margin">
-            <label class="uk-form-label uk-text-large" asp-for="IdStatusTarefa"></label>
+            <label class="uk-form-label uk-text-large" asp-for="Tarefa.IdStatusTarefa"></label>
             <div class="uk-form-controls">
-                <select class="uk-select" asp-for="IdStatusTarefa">
+                <select class="uk-select" asp-for="Tarefa.IdStatusTarefa">
                     <option selected>Escolha um status</option>
                     <option value="1" >Concluída</option>
                     <option value="2" >Futura</option>

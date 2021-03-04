@@ -57,9 +57,30 @@ namespace PastelariaMvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Criar()
+        public async Task<IActionResult> Criar()
         {  
-            return View();
+
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+            bool eGestorLogado = DecodeToken.getEGestor(token);
+            CriarTarefaViewModel criarTarefa = new CriarTarefaViewModel();
+
+            if(eGestorLogado)
+            {
+                ApiConnection client = new ApiConnection($"usuario/gestor/{idLogado}/subordinados", token);
+                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+                string result;
+                if (response.IsSuccessStatusCode)
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                    criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+                    client.Close();
+                }
+
+                return View(criarTarefa);
+            }
+
+            return View(criarTarefa);
         }
         
         public async Task<IActionResult> CriarTarefa(Tarefa tarefa)
@@ -67,7 +88,14 @@ namespace PastelariaMvc.Controllers
             try
             {
                 string token = HttpContext.Session.GetString("Token");
-                tarefa.IdGestor = short.Parse(DecodeToken.getId(token).ToString());
+                int idLogado = DecodeToken.getId(token);
+                tarefa.IdGestor = short.Parse(idLogado.ToString());
+
+                if(!DecodeToken.getEGestor(token))
+                {
+                    tarefa.IdSubordinado = short.Parse(idLogado.ToString());
+                }
+
                 ApiConnection client = new ApiConnection("tarefa/criar", token);
                 Console.WriteLine(tarefa.IdStatusTarefa);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);

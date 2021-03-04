@@ -16,15 +16,15 @@ namespace PastelariaMvc.Models
         public DateTime? DataConclusao { get; set; } = null;
         public DateTime? DataCancelada { get; set; } = null;
 
-        [Display(Name = "Id Usuário Gestor")]
+        [Display(Name = "Gestor")]
         public int IdGestor { get; set; }
         public Usuario Gestor { get; set; }
 
-        [Display(Name = "Id Usuário Subordinado")]
+        [Display(Name = "Subordinado")]
         public int IdSubordinado{ get; set; }
         public Usuario Subordinado { get; set; }
         
-        [Display(Name = "Status da Tarefa")]
+        [Display(Name = "Status")]
         public int IdStatusTarefa { get; set; }
         public StatusTarefa Status { get; set; }
 

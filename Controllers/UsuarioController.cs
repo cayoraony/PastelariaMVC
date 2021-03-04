@@ -69,13 +69,19 @@ namespace PastelariaMvc.Controllers
                     Console.WriteLine("n é gestor");
                     return RedirectToAction("Login", "Usuario");
                 }
+                else if (response.StatusCode.ToString() == "BadRequest")
+                {
+                    return RedirectToAction("Criar", "Usuario");
+                }
                 else
                 {
+                    Console.WriteLine("Caiu no Else");
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
                 }
             }
             catch (Exception exception)
             {
+                Console.WriteLine("Caiu no Catch");
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             return View();        

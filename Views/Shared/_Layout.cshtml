@@ -4,6 +4,7 @@
 @{var token = Context.Session.GetString("Token"); }
 @{var idLogado = DecodeToken.getId(token); }
 @{var eGestorLogado = DecodeToken.getEGestor(token); }
+@{var nomeLogado = DecodeToken.getNome(token); }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +76,7 @@
                 <div class="uk-navbar-item ">
                     @* ToDo *@
                     @* Trazer o nome do usuario no Token *@
-                    <span class="uk-text-light uk-text-large uk-margin-right">Olá, usuário</span>
+                    <span class="uk-text-light uk-text-large uk-margin-right">Olá, @nomeLogado</span>
                     <a asp-controller="Usuario" asp-action="Logout" class="uk-button uk-button-danger uk-button-small uk-margin-left">
                         Sair
                         <span uk-icon="icon: sign-out"></span>

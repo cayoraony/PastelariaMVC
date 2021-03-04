@@ -1,1 +1,46 @@
-﻿<h1>@ViewBag.ErroMessage</h1>
+﻿@using Microsoft.AspNetCore.Http
+@using PastelariaMvc.Infra;
+
+@{var token = Context.Session.GetString("Token"); }
+@{var idLogado = DecodeToken.getId(token); }
+@{var eGestorLogado = DecodeToken.getEGestor(token); }
+
+<div class="uk-container uk-flex-column uk-flex-center uk-margin-large-bottom">
+  <div class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <p class="uk-text-center uk-text-large">Humm... Algo deu errado.</p>
+  </div>
+
+  <div class="uk-margin-medium uk-flex uk-flex-center">
+    <div class="uk-card uk-card-default uk-card-body">
+        <h3 class="uk-card-title uk-text-center uk-text-bold">Mensagem de Erro:</h3>
+        <p class="uk-text-lead uk-text-large uk-text-center">
+          @ViewBag.ErroMessage
+        </p>
+    </div>
+  </div>
+
+  <div class="uk-margin-medium uk-flex uk-flex-center uk-flex-middle">
+    @if(eGestorLogado)
+    {
+      <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right"
+          asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
+          @* <span class="uk-margin-small-right" uk-icon="icon: home; ratio: 1.3;"></span> *@
+          <span class="uk-text-large uk-text-light">
+            Acessar minha Home
+          </span>
+      </a>
+    }
+    else
+    {
+      <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right"
+          asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
+          @* <span class="uk-margin-small-right" uk-icon="icon: home; ratio: 1.3;"></span> *@
+          <span class="uk-text-large uk-text-light">
+            Acessar minha Home
+          </span>
+      </a>
+    }
+      
+  </div>
+</div>

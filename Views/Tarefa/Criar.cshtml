@@ -5,7 +5,6 @@
 @{var idLogado = DecodeToken.getId(token); }
 @{var eGestorLogado = DecodeToken.getEGestor(token); }
 
-@* @model Tarefa *@
 @model CriarTarefaViewModel
 
 <div class="uk-margin-medium uk-margin-small-top">
@@ -54,15 +53,7 @@
                 <option>Escolha o subordinado</option>
                 </select>
             </div>
-        }
-        
-
-        @* <div class="uk-margin">
-            <label asp-for="IdStatusTarefa" class="uk-form-label uk-text-large"></label>
-            <div class="uk-form-controls">
-                <input class="uk-input" asp-for="IdStatusTarefa" type="number" placeholder="Digite o Id Subordinado"/>
-            </div>
-        </div>    *@
+        }        
 
         <div class="uk-margin">
             <label class="uk-form-label uk-text-large" asp-for="Tarefa.IdStatusTarefa"></label>
@@ -79,9 +70,5 @@
         </div>
 
         <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Registrar" />
-        @* <button class="uk-button uk-button-primary uk-button-large" type="submit">
-            Criar Tarefa
-        </button> *@
-
     </form>
 </div>

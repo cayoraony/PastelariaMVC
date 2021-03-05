@@ -111,14 +111,15 @@ namespace PastelariaMvc.Controllers
             {
 
                 string token = HttpContext.Session.GetString("Token");
-                usuario.IdGestor = short.Parse(DecodeToken.getId(token).ToString());
+                int idLogado = DecodeToken.getId(token);
+                usuario.IdGestor = short.Parse(idLogado.ToString());
                 ApiConnection client = new ApiConnection(stringApi, token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
 
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {

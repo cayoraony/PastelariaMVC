@@ -22,6 +22,28 @@
     @* BOOTSTRAP *@
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" /> *@
+    <script>
+        function validarSenha(id) {
+            let intId = parseInt(id);
+            let NovaSenha = document.getElementById('Senha').value;
+            let CNovaSenha = document.getElementById('CSenha').value;
+
+            if (NovaSenha != CNovaSenha) {
+                alert("Senha diferentes, preencha novamente");
+            } else if (intId == 1) {
+                document.getElementById('criarUsuario').submit();
+                alert("Formulário enviado");
+            } else if (intId == 2) {
+                document.getElementById('editarGestor').submit();
+                alert("Formulário enviado");
+            } else if (intId == 3) {
+                document.getElementById('editarSub').submit();
+                alert("Formulário enviado");
+            } else {
+                alert("Algo deu errado...");
+            }
+        }
+    </script>
 
 
 </head>

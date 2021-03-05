@@ -124,6 +124,7 @@ namespace PastelariaMvc.Controllers
 
                 string token = HttpContext.Session.GetString("Token");
                 usuario.IdGestor = short.Parse(DecodeToken.getId(token).ToString());
+                usuario.EstaAtivo = true;
                 ApiConnection client = new ApiConnection(stringApi, token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
 

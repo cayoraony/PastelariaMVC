@@ -22,6 +22,19 @@
     @* BOOTSTRAP *@
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" /> *@
+    <script>
+        function validarSenha(){
+        NovaSenha = document.getElementById('Senha').value;
+        CNovaSenha = document.getElementById('CSenha').value;
+        
+        if (NovaSenha != CNovaSenha)
+            { alert("SENHAS DIFERENTES!\nFAVOR DIGITAR SENHAS IGUAIS"); }
+
+        else
+            { document.getElementById('fromUsuario').submit(); }
+            
+        }
+    </script>
 
 
 </head>

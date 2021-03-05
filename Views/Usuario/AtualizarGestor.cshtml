@@ -8,7 +8,7 @@
 </div>
 
 <div class="uk-container uk-container-xsmall">
-  <form asp-controller="Usuario" asp-action="GestorPut" asp-route-id="@Model.IdUsuario" method="put" class="form-horizontal" role="form">
+  <form asp-controller="Usuario" asp-action="GestorPut" asp-route-id="@Model.IdUsuario" method="put" class="form-horizontal" role="form" id="fromUsuario">
       <div class="uk-margin">
         <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
@@ -26,19 +26,19 @@
       <div class="uk-margin">
         <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
-            <input class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
+            <input class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha" id="Senha">
         </div>
       </div>
 
       <div class="uk-margin">
         <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
         <div class="uk-form-controls">
-            <input class="uk-input" type="password" placeholder="Digite a senha">
+            <input class="uk-input" type="password" placeholder="Digite a senha" id="CSenha">
         </div>
       </div>
 
       <br />
-      <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Editar Dados" />
+      <input class="uk-button uk-button-primary uk-button-large" value="Editar Dados" onClick="validarSenha()"/>
 
   </form>
 </div>

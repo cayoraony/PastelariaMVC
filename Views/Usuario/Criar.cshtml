@@ -5,7 +5,7 @@
 </div>
 
 <div class="uk-container uk-container-xsmall">
-<form asp-controller="Usuario" asp-action="CriarUsuario" method="post" class="uk-form-stacked" role="form">
+<form asp-controller="Usuario" asp-action="CriarUsuario" method="post" class="uk-form-stacked" role="form" id="fromUsuario">
     <div class="uk-margin">
         <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
@@ -37,16 +37,16 @@
     <div class="uk-margin">
         <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
-            <input class="uk-input" asp-for="Senha" placeholder="Digite a senha">
+            <input class="uk-input" asp-for="Senha" placeholder="Digite a senha" id="Senha">
         </div>
     </div>
 
-    @* <div class="uk-margin">
+    <div class="uk-margin">
         <label asp-for="ConfirmarSenha" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
-            <input class="uk-input" asp-for="ConfirmarSenha" placeholder="Confirme a senha">
+            <input class="uk-input" asp-for="ConfirmarSenha" placeholder="Confirme a senha" id="CSenha">
         </div>
-    </div> *@
+    </div>
 
     <div class="uk-margin">
         <label class="uk-form-label uk-text-large" asp-for="EGestor"></label>
@@ -167,7 +167,7 @@
         </div>
     </div>
 
-    <input type="submit" class="uk-button uk-button-primary uk-button-large" value="Criar Usuário"/>
+    <input class="uk-button uk-button-primary uk-button-large" value="Criar Usuário" onClick="validarSenha()"/>
 
     @* Modal para confirmar Criar *@
     @* <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>

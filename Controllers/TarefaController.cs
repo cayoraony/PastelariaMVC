@@ -24,6 +24,10 @@ namespace PastelariaMvc.Controllers
         // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Cancelar(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -59,7 +63,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Criar()
         {  
-
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             bool eGestorLogado = DecodeToken.getEGestor(token);
@@ -85,6 +92,10 @@ namespace PastelariaMvc.Controllers
         
         public async Task<IActionResult> CriarTarefa(Tarefa tarefa)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -126,6 +137,10 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -155,6 +170,10 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -188,6 +207,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Listar(int id) /*todas*/
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -237,6 +260,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> VerTodas(int id) /*todas*/
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -290,6 +317,10 @@ namespace PastelariaMvc.Controllers
         // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Concluir(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -321,6 +352,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");

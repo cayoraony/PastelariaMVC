@@ -29,6 +29,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> HomeGestor(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             try
             {
@@ -91,12 +95,20 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public IActionResult Criar()
         {  
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CriarUsuario([FromForm] Usuario usuario)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             string stringApi;
 
             if (usuario.EGestor)
@@ -146,6 +158,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -193,6 +209,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try 
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -237,6 +257,10 @@ namespace PastelariaMvc.Controllers
         //Por algum motivo não funciona se colocar esse decorator
         public async Task<IActionResult> SubordinadoPut(int id,AtualizarUsuarioViewModel usuario)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -269,6 +293,10 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> AtualizarGestor(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try 
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -317,6 +345,10 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -346,6 +378,10 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> AtivarDesativar(int id)
         {
+            if(HttpContext.Session.GetString("Token") == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
@@ -378,6 +414,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if(HttpContext.Session.GetString("Token") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

@@ -108,7 +108,6 @@ namespace PastelariaMvc.Controllers
                 }
 
                 ApiConnection client = new ApiConnection("tarefa/criar", token);
-                Console.WriteLine(tarefa.IdStatusTarefa);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
 
                 if (response.IsSuccessStatusCode)
@@ -231,7 +230,6 @@ namespace PastelariaMvc.Controllers
                         if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
                         {
                             client.Close();
-                            Console.WriteLine(response.StatusCode);
                     
                             return View(tarefas);
                         }
@@ -284,7 +282,6 @@ namespace PastelariaMvc.Controllers
                         if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
                         {
                             client.Close();
-                            Console.WriteLine(response.StatusCode);
                     
                             return View(tarefas);
                         }
@@ -408,8 +405,7 @@ namespace PastelariaMvc.Controllers
         //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
         //         client.Close();
         //         return View(tarefasResult);
-        //     }
-        //     Console.WriteLine(response.StatusCode);  
+        //     }  
         //     return View();
         // }
 
@@ -449,7 +445,6 @@ namespace PastelariaMvc.Controllers
         //         client.Close();
         //         return View(tarefasResult);
         //     }
-        //     Console.WriteLine(response.StatusCode);
         //     return View();
         // }
     }

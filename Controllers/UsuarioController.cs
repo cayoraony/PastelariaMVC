@@ -70,7 +70,7 @@ namespace PastelariaMvc.Controllers
                 }
                 else if (response.StatusCode.ToString() == "Forbidden")
                 {
-                    Console.WriteLine("n é gestor");
+                    
                     return RedirectToAction("Login", "Usuario");
                 }
                 else if (response.StatusCode.ToString() == "BadRequest")
@@ -79,13 +79,11 @@ namespace PastelariaMvc.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("Caiu no Else");
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Caiu no Catch");
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
             return View();        
@@ -175,7 +173,6 @@ namespace PastelariaMvc.Controllers
                 string result;
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("teste 2");
                     result = await response.Content.ReadAsStringAsync();
                     usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                     client.Close();
@@ -186,15 +183,17 @@ namespace PastelariaMvc.Controllers
                         return View(usuarioResult);
                     }
 
-                    Console.WriteLine("ID TOKEN: " + DecodeToken.getId(token));
-                    Console.WriteLine("ID Usuario: " + usuarioResult.IdUsuario);
-                    Console.WriteLine("ID Gestor: " + usuarioResult.IdGestor);
+                   
 
                     return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
                     return RedirectToAction("Login", "Usuario");
+                }
+                else if (response.StatusCode.ToString() == "InternalServerError")
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
                 }
                 else
                 {
@@ -453,11 +452,8 @@ namespace PastelariaMvc.Controllers
                 // var tokenTest = handler.ReadToken(usuariologado.Token) as JwtSecurityToken;
 
                 // var idUsuario = tokenTest.Claims.ToList()[0].Value;
-                Console.WriteLine("id " + idUsuario);
-                Console.WriteLine("bool " + eGestor);
 
                 var token = HttpContext.Session.GetString("Token");
-                //Console.WriteLine(token);
                 client.Close();
                 if(eGestor)
                 {
@@ -498,7 +494,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return View("~/Views/Home/Index.cshtml");
             }
-            Console.WriteLine(response.StatusCode);
+            
             
             
             return View();

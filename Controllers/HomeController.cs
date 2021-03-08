@@ -37,8 +37,7 @@ namespace PastelariaMvc.Controllers
                 usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                 client.Close();
                 return View(usuarioResult);
-            }
-            Console.WriteLine(response.StatusCode);  
+            } 
             return View();
         }
 

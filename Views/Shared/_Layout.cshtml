@@ -13,6 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PastelariaMvc</title>
     
+    @*Plugin DataTable*@
+    @* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css"> *@
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.jqueryui.min.css">
+
     @* UIKit *@
     <link rel="stylesheet" href="~/css/uikit.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -24,20 +30,30 @@
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" /> *@
     <script>
-        function validarSenha(){
-        NovaSenha = document.getElementById('Senha').value;
-        CNovaSenha = document.getElementById('CSenha').value;
-        
-        if (NovaSenha != CNovaSenha)
-            { alert("SENHAS DIFERENTES!\nFAVOR DIGITAR SENHAS IGUAIS"); }
+        function validarSenha(id) {
+            let intId = parseInt(id);
+            let NovaSenha = document.getElementById('Senha').value;
+            let CNovaSenha = document.getElementById('CSenha').value;
 
-        else
-            { document.getElementById('fromUsuario').submit(); }
-            
+            if (NovaSenha != CNovaSenha) {
+                alert("Senha diferentes, preencha novamente");
+            } else if (intId == 1) {
+                document.getElementById('criarUsuario').submit();
+                alert("Formulário enviado");
+            } else if (intId == 2) {
+                document.getElementById('editarGestor').submit();
+                alert("Formulário enviado");
+            } else if (intId == 3) {
+                document.getElementById('editarSub').submit();
+                alert("Formulário enviado");
+            } else {
+                alert("Algo deu errado...");
+            }
         }
+
     </script>
 
-
+    @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
     <header>
@@ -106,19 +122,29 @@
         </main>
     </div>
 
-    <!--
-        <div class="footer">
-            <div class="uk-container">
-                &copy; 2021 - PastelariaMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </div>
-    -->
     <footer class="border-top footer text-muted">
         <div class="uk-height-small"></div>
     </footer>
 
     <script src="~/js/uikit.js"></script>
     <script src="~/js/uikit-icons.js"></script>
+
+    @*CDN JQuery*@
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+    @* <script src="~/js/jquery.js"></script> *@
+
+
+    @* <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.jqueryui.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script> *@
+
+    
+    @* <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script> *@
+    @* <script src="https://cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json"></script> *@
 
     @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@

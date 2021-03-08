@@ -3,6 +3,26 @@
     ViewData["Title"] = "Tarefas Em Andamento";
 }
 
+@section styles {
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css" />
+}
+
+@section scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.uikit.min.js"></script>
+    <script>
+        // DataTable - ListarTarefa 
+        $(document).ready( function () {
+            $('#ListarTarefas').DataTable( {
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json"
+                }
+            } );
+        });
+    </script>
+}
+
 
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Tarefas Em Andamento</span></h1>
@@ -15,7 +35,7 @@
     </a>
 </div>
 
-<table class="uk-table uk-table-striped">
+<table id="ListarTarefas" class="uk-table uk-table-striped">
     <thead>
         <tr>
             <th class="uk-width-small">Id</th>

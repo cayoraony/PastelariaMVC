@@ -7,6 +7,13 @@
 @section styles {
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css" />
+
+    <style>
+       .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+           border: 1px solid #c0c0c0 !important;
+           background: transparent !important;
+       }
+    </style>
 }
 
 @section scripts {
@@ -39,53 +46,54 @@
     </a>
 </div>
 
-<table id="HomeGestor" class="uk-table uk-table-striped">
-    <thead>
-        <tr>
-            <th class="uk-width-small">Id</th>
-            <th>Nome</th>
-            <th>Status</th>
-            <th>Tarefas</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in @Model.Subordinados)
-        {
+<div class="uk-overflow-auto">
+    <table id="HomeGestor" class="uk-table uk-table-striped uk-table-responsive uk-table-responsive">
+        <thead>
             <tr>
-                <td>@user.IdUsuario</td>
-                <td>@user.Nome @user.Sobrenome</td>
-                <td>
-                    @if(user.EstaAtivo)
-                    {
-                        <span>Ativado</span>
-                    }
-                    else
-                    {
-                        <span>Desativado</span>
-                    }
-                </td>
-                <td>
-                    <div class="uk-flex uk-flex-left">
-                        <a class="uk-margin-right" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@user.IdUsuario">
-                            @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario })
-                        </a>
-                        <span class="uk-text-primary">|</span>
-                        <a class="uk-margin-left" asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@user.IdUsuario" >
-                            <span uk-icon="icon: album">
-                                <span  class="uk-margin-small-right">Todas</span>
-                            </span>
-                        </a>
-                    </div>
-                </td>
-                <td>
-                    <a class="uk-button uk-button-primary uk-button-small" type="button"
-                        asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@user.IdUsuario">
-                        Detalhes
-                    </a>
-                </td>
+                <th class="uk-width-small">Id</th>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Tarefas</th>
+                <th>Ações</th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var user in @Model.Subordinados)
+            {
+                <tr>
+                    <td>@user.IdUsuario</td>
+                    <td>@user.Nome @user.Sobrenome</td>
+                    <td>
+                        @if(user.EstaAtivo)
+                        {
+                            <span>Ativado</span>
+                        }
+                        else
+                        {
+                            <span>Desativado</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="uk-flex uk-flex-left">
+                            <a class="uk-margin-right" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@user.IdUsuario">
+                                @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = user.IdUsuario })
+                            </a>
+                            <span class="uk-text-primary">|</span>
+                            <a class="uk-margin-left" asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@user.IdUsuario" >
+                                <span uk-icon="icon: album">
+                                    <span  class="uk-margin-small-right">Todas</span>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="uk-button uk-button-primary uk-button-small" type="button"
+                            asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@user.IdUsuario">
+                            Detalhes
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

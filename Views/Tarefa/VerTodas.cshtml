@@ -8,6 +8,13 @@
 @section styles {
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css" />
+
+    <style>
+       .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+           border: 1px solid #c0c0c0 !important;
+           background: transparent !important;
+       }
+    </style>
 }
 
 @section scripts {
@@ -29,9 +36,9 @@
     <h1 class="uk-text-center uk-heading-line"><span>Todas as Tarefas</span></h1>
 </div>
 
+@*
 <div>
-
-    @* <div class="uk-flex uk-flex-center">
+     <div class="uk-flex uk-flex-center">
       <ul class="uk-subnav uk-subnav-pill">
           <li>
             <a href="#">Todas</a>
@@ -52,10 +59,12 @@
             <a href="#">Cancelada</a>
           </li>
       </ul>
-    </div> *@
+    </div> 
+     @await Component.InvokeAsync("ConsultarTarefasStatusViewComponent", new { id = 1, status =  }) 
+  </div> 
+*@
 
-    @* @await Component.InvokeAsync("ConsultarTarefasStatusViewComponent", new { id = 1, status =  }) *@
-
+<div class="uk-overflow-auto">
     <table id="VerTodas" class="uk-table uk-table-striped">
         <thead>
             <tr>
@@ -93,6 +102,4 @@
           </div>
         </tbody>
     </table>
-
-
 </div>

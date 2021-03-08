@@ -6,6 +6,13 @@
 @section styles {
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css" />
+
+    <style>
+       .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+           border: 1px solid #c0c0c0 !important;
+           background: transparent !important;
+       }
+    </style>
 }
 
 @section scripts {
@@ -35,41 +42,43 @@
     </a>
 </div>
 
-<table id="ListarTarefas" class="uk-table uk-table-striped">
-    <thead>
-        <tr>
-            <th class="uk-width-small">Id</th>
-            <th>Status</th>
-            <th>Descrição</th>
-            <th>Data Limite</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-      @foreach (var tarefa in @Model.Lista)
-      {
-        <tr>
-          <td>@tarefa.IdTarefa</td>
-          <td>@tarefa.Status.Nome</td>
-          <td>@tarefa.Descricao</td>
-          <td>@tarefa.DataLimite</td>
-          <td>
-            <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa">
-              <button class="uk-button uk-button-primary uk-button-small uk-margin-right" type="button">Detalhes</button>
-            </a>
+<div class="uk-overflow-auto">
+    <table id="ListarTarefas" class="uk-table uk-table-striped uk-table-responsive">
+        <thead>
+            <tr>
+                <th class="uk-width-small">Id</th>
+                <th>Status</th>
+                <th>Descrição</th>
+                <th>Data Limite</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var tarefa in @Model.Lista)
+        {
+            <tr>
+            <td>@tarefa.IdTarefa</td>
+            <td>@tarefa.Status.Nome</td>
+            <td>@tarefa.Descricao</td>
+            <td>@tarefa.DataLimite</td>
+            <td>
+                <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa">
+                <button class="uk-button uk-button-primary uk-button-small uk-margin-right" type="button">Detalhes</button>
+                </a>
 
-            @* <a  class="uk-button uk-button-danger uk-button-small uk-margin-right"
-                asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@tarefa.IdTarefa"
-            >
-                <span uk-icon="icon: close"></span>
-            </a>
-            <a  class="uk-button uk-button-secondary uk-button-small"
-                asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@tarefa.IdTarefa"
-            >
-                <span uk-icon="icon: check"></span>
-            </a> *@
-          </td>
-        </tr>
-      }
-    </tbody>
-</table>
+                @* <a  class="uk-button uk-button-danger uk-button-small uk-margin-right"
+                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@tarefa.IdTarefa"
+                >
+                    <span uk-icon="icon: close"></span>
+                </a>
+                <a  class="uk-button uk-button-secondary uk-button-small"
+                    asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@tarefa.IdTarefa"
+                >
+                    <span uk-icon="icon: check"></span>
+                </a> *@
+            </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

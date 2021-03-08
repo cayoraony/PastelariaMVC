@@ -126,6 +126,8 @@ namespace PastelariaMvc.Controllers
                 int idLogado = DecodeToken.getId(token);
                 usuario.IdGestor = short.Parse(idLogado.ToString());
                 usuario.EstaAtivo = true;
+                if(usuario.Endereco.Complemento == null)
+                    usuario.Endereco.Complemento = "";
                 ApiConnection client = new ApiConnection(stringApi, token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
 

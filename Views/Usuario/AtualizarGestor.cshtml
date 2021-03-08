@@ -3,6 +3,22 @@
     ViewData["Title"] = "Atualizar Dados";
 }
 
+@section scripts {
+  <script>
+    function validarSenha() {
+      let NovaSenha = document.getElementById('Senha').value;
+      let CNovaSenha = document.getElementById('CSenha').value;
+
+      if (NovaSenha == CNovaSenha) {
+          document.getElementById('editarGestor').submit();
+          alert("Formulário enviado");
+      } else {
+          alert("Senha diferentes, preencha novamente");
+      }
+  }
+  </script>
+}
+
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Atualizar Dados</span></h1>
 </div>
@@ -54,7 +70,7 @@
             </div>
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button>
-                <input onClick="validarSenha(2)" class="uk-button uk-button-primary" value="Editar Dados" />
+                <input onClick="validarSenha()" class="uk-button uk-button-primary" value="Editar Dados" />
             </div>
         </div>       
       </div>

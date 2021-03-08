@@ -12,7 +12,7 @@ namespace PastelariaMvc.Models
         public string Rua { get; set; }
         public string Bairro { get; set; }
         public string Numero { get; set; }
-        public string Complemento { get; set; }
+        public string Complemento { get; set; } = null;
         public string CEP { get; set; }
         public string Cidade { get; set; }
 

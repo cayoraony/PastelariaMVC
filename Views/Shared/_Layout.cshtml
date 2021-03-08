@@ -22,6 +22,8 @@
     @* UIKit *@
     <link rel="stylesheet" href="~/css/uikit.css" />
 
+    <link rel="stylesheet" href="~/css/styles.css" />
+
     @* UIKit CDN *@
     @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
 
@@ -52,66 +54,69 @@
 
     </script>
 
+
     @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
-            <div class="uk-navbar-left">
-                @if(DecodeToken.getEGestor(token))
-                {
-                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
-                        Pastelaria SMN
-                    </a>
-                }
-                else
-                {
-                    <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
-                        Pastelaria SMN
-                    </a>
-                }
-            </div>
 
-            <div class="uk-navbar-center">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@idLogado">
-                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
-                            Minha Conta
+            @* <button type="button" data-uk-toggle="target: .navbar-collapse; cls: hidden-up-to-s" class="uk-navbar-toggle uk-hidden@s" data-uk-navbar-toggle-icon></button> *@
+            @* <div class="navbar-collapse hidden-up-to-s">             *@
+                <div class="uk-navbar-left">
+                    @if(DecodeToken.getEGestor(token))
+                    {
+                        <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
+                            Pastelaria SMN
                         </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@idLogado">
-                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
-                            Todas Tarefas
+                    }
+                    else
+                    {
+                        <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
+                            Pastelaria SMN
                         </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
-                            <span class="uk-badge uk-padding-small">
-                                <span uk-icon="icon: warning"></span>
-                                <span class="uk-margin-left">
-                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(idLogado.ToString() )})
-                                </span>
-                            </span>
-
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="uk-navbar-right">
-                <div class="uk-navbar-item ">
-                    @* ToDo *@
-                    @* Trazer o nome do usuario no Token *@
-                    <span class="uk-text-light uk-text-large uk-margin-right">Olá, @nomeLogado</span>
-                    <a asp-controller="Usuario" asp-action="Logout" class="uk-button uk-button-danger uk-button-small uk-margin-left">
-                        Sair
-                        <span uk-icon="icon: sign-out"></span>
-                    </a>
+                    }
                 </div>
-            </div>
+
+                <div class="uk-navbar-center">
+                    <ul class="uk-navbar-nav">
+                        <li>
+                            <a asp-area="" asp-controller="Usuario" asp-action="ConsultarUsuario" asp-route-id="@idLogado">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                                Minha Conta
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Tarefa" asp-action="VerTodas" asp-route-id="@idLogado">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: list"></span>
+                                Todas Tarefas
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
+                                <span class="uk-badge uk-padding-small">
+                                    <span uk-icon="icon: warning"></span>
+                                    <span class="uk-margin-left">
+                                        @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(idLogado.ToString() )})
+                                    </span>
+                                </span>
+
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="uk-navbar-right">
+                    <div class="uk-navbar-item ">
+                        <span class="uk-text-light uk-text-large uk-margin-right">Olá, @nomeLogado</span>
+                        <a asp-controller="Usuario" asp-action="Logout" class="uk-button uk-button-danger uk-button-small uk-margin-left">
+                            Sair
+                            <span uk-icon="icon: sign-out"></span>
+                        </a>
+                    </div>
+                </div>
+            @* </div> *@
         </nav>
     </header>
 

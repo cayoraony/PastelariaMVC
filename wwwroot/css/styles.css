@@ -2,3 +2,12 @@
   min-height: 100vh !important;
 }
 
+.hidden-up-to-s {
+  display: none;
+}
+@media (min-width: 640px) { 
+  .hidden-up-to-s {
+      display: block;
+  }
+}
+

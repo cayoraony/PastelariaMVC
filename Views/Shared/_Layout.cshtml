@@ -15,6 +15,7 @@
     
     @* UIKit *@
     <link rel="stylesheet" href="~/css/uikit.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
     @* UIKit CDN *@
     @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
@@ -42,7 +43,7 @@
     <header>
         <nav class="uk-navbar-container uk-margin" uk-navbar>
             <div class="uk-navbar-left">
-                @if(DecodeToken.getEGestor(token))
+                @if (DecodeToken.getEGestor(token))
                 {
                     <a class="uk-navbar-item uk-logo" asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
                         Pastelaria SMN
@@ -75,7 +76,7 @@
                             <span class="uk-badge uk-padding-small">
                                 <span uk-icon="icon: warning"></span>
                                 <span class="uk-margin-left">
-                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(idLogado.ToString() )})
+                                    @await Component.InvokeAsync("TarefasAndamentoViewComponent", new { id = short.Parse(idLogado.ToString()) })
                                 </span>
                             </span>
 
@@ -105,17 +106,22 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="uk-container">
-            &copy; 2021 - PastelariaMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!--
+        <div class="footer">
+            <div class="uk-container">
+                &copy; 2021 - PastelariaMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
         </div>
+    -->
+    <footer class="border-top footer text-muted">
+        <div class="uk-height-small"></div>
     </footer>
 
     <script src="~/js/uikit.js"></script>
     <script src="~/js/uikit-icons.js"></script>
 
     @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

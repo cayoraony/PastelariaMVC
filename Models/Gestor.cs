@@ -7,7 +7,6 @@ namespace PastelariaMvc.Models
         public short IdUsuario { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
-        // public Date DataNascimento { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
         public bool EstaAtivo { get; set; } = true;

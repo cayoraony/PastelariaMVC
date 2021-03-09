@@ -9,10 +9,6 @@ namespace PastelariaMvc.Components
     [ViewComponent(Name="TarefasAndamentoViewComponent")]
     public class TarefasAndamentoViewComponent : ViewComponent
     {
-        // ToDo - JM
-        // Mudar a PROC para que tanto o gestor como subordinado
-        // usem o mesmo endpoint
-        // ******************
         public async Task<IViewComponentResult> InvokeAsync(short id)
         {
             ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/total");
@@ -21,10 +17,6 @@ namespace PastelariaMvc.Components
             if(response.IsSuccessStatusCode){
                 result = await response.Content.ReadAsStringAsync();
                 return View(short.Parse(result));
-            }
-            else
-            {
-                
             }
             return View();
         }

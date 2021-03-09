@@ -16,21 +16,14 @@ namespace PastelariaMvc.Components
         {
             ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/status/{status}");
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             tarefas.Lista = new List<Tarefa>();
-            // List<Tarefa> Lista = new List<Tarefa>();
             string result;
-            
             if (response.IsSuccessStatusCode)
             {
-                
                 result = await response.Content.ReadAsStringAsync();
-                
                 tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-                //return View(Lista);
             }
-
             return View(tarefas);
         }
     }

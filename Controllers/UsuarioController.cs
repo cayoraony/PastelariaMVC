@@ -119,7 +119,6 @@ namespace PastelariaMvc.Controllers
             }
             try
             {
-
                 string token = HttpContext.Session.GetString("Token");
                 int idLogado = DecodeToken.getId(token);
                 usuario.IdGestor = short.Parse(idLogado.ToString());
@@ -128,7 +127,6 @@ namespace PastelariaMvc.Controllers
                     usuario.Endereco.Complemento = "";
                 ApiConnection client = new ApiConnection(stringApi, token);
                 HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
@@ -146,16 +144,12 @@ namespace PastelariaMvc.Controllers
                 {
                     return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
                 }
-
             }
             catch (Exception exception)
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
         }
-
-        
-   
 
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
@@ -176,15 +170,11 @@ namespace PastelariaMvc.Controllers
                     result = await response.Content.ReadAsStringAsync();
                     usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                     client.Close();
-
-                    if(DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) || 
-                       DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()) )
+                    if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
+                       DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
                     {
                         return View(usuarioResult);
                     }
-
-                   
-
                     return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
@@ -207,8 +197,6 @@ namespace PastelariaMvc.Controllers
 
         }
 
-
-        
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
         {
@@ -220,7 +208,6 @@ namespace PastelariaMvc.Controllers
             {
                 string token = HttpContext.Session.GetString("Token");
                 int idLogado = DecodeToken.getId(token);
-
                 ApiConnection client = new ApiConnection($"usuario/{id}", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 Usuario usuarioResult;
@@ -238,7 +225,6 @@ namespace PastelariaMvc.Controllers
 
                         return View(usuario);
                     }
-
                     return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
@@ -256,21 +242,17 @@ namespace PastelariaMvc.Controllers
             }
         }
 
-        //[HttpPut]
-        //Por algum motivo não funciona se colocar esse decorator
-        public async Task<IActionResult> SubordinadoPut(int id,AtualizarUsuarioViewModel usuario)
+        public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            if(HttpContext.Session.GetString("Token") == null)
+            if (HttpContext.Session.GetString("Token") == null)
             {
                 return RedirectToAction("Login", "Usuario");
             }
             try
             {
                 string token = HttpContext.Session.GetString("Token");
-
                 ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
@@ -288,11 +270,8 @@ namespace PastelariaMvc.Controllers
             catch (Exception exception)
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
-               
             }
         }
-
-
 
         public async Task<IActionResult> AtualizarGestor(int id)
         {
@@ -304,7 +283,6 @@ namespace PastelariaMvc.Controllers
             {
                 string token = HttpContext.Session.GetString("Token");
                 int idLogado = DecodeToken.getId(token);
-
                 ApiConnection client = new ApiConnection($"usuario/{id}", token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 Usuario usuarioResult;
@@ -314,7 +292,6 @@ namespace PastelariaMvc.Controllers
                     result = await response.Content.ReadAsStringAsync();
                     usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
                     client.Close();
-
                     if(usuarioResult.IdUsuario == idLogado)
                     {
                         AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
@@ -322,7 +299,6 @@ namespace PastelariaMvc.Controllers
 
                         return View(usuario);
                     }
-
                     return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
@@ -338,12 +314,6 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-
-
-
-
-
-            
         }
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
@@ -357,7 +327,6 @@ namespace PastelariaMvc.Controllers
                 string token = HttpContext.Session.GetString("Token");
                 ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
@@ -375,8 +344,7 @@ namespace PastelariaMvc.Controllers
             catch (Exception exception)
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
-            }
-            
+            }  
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
@@ -392,7 +360,6 @@ namespace PastelariaMvc.Controllers
                 var requestBody = "";
                 ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
-
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
@@ -410,8 +377,7 @@ namespace PastelariaMvc.Controllers
             catch (Exception exception)
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
-            }
-            
+            }  
         }
 
         [HttpGet]
@@ -423,36 +389,23 @@ namespace PastelariaMvc.Controllers
             }
             return View();
         }
-
         public async Task<IActionResult> LoginPost(Usuario usuario)
         {
-
             if(HttpContext.Session.GetString("Token") != null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            
             if (response.IsSuccessStatusCode)
             {
                 string fulljson = await response.Content.ReadAsStringAsync();
-                // var usuariologado = UserLogged(fulljson);
-
                 LoginTokenViewModel usuariologado = new LoginTokenViewModel();
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
                 HttpContext.Session.SetString("Token", usuariologado.Token);
-
                 var teste = HttpContext.Session.GetString("Token");
-
                 var idUsuario = DecodeToken.getId(teste);
                 var eGestor = DecodeToken.getEGestor(teste);
-                // var handler = new JwtSecurityTokenHandler();
-                // var tokenTest = handler.ReadToken(usuariologado.Token) as JwtSecurityToken;
-
-                // var idUsuario = tokenTest.Claims.ToList()[0].Value;
-
                 var token = HttpContext.Session.GetString("Token");
                 client.Close();
                 if(eGestor)
@@ -466,10 +419,8 @@ namespace PastelariaMvc.Controllers
                 else
                 {
                     return RedirectToAction("Error", "Index");
-                }
-                
+                }   
             }
-            
             // ToDo - JM
             // Fazer alguma notificação ou encaminhar para página que mostre senha errada
             return RedirectToAction("Login", "Usuario");
@@ -479,27 +430,6 @@ namespace PastelariaMvc.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Usuario");
-            // return View("~/Views/Usa/Index.cshtml");
         }
-
-
-        /*public async Task<IActionResult> LoginSubordinado(Usuario subordinado)
-        {
-            
-            ApiConnection client = new ApiConnection("usuario/subordinado/login");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, subordinado);
-                
-            if (response.IsSuccessStatusCode)
-            {
-                client.Close();
-                return View("~/Views/Home/Index.cshtml");
-            }
-            
-            
-            
-            return View();
-        }*/
-
-
     }
 }

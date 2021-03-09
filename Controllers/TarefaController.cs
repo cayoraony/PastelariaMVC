@@ -70,6 +70,10 @@ namespace PastelariaMvc.Controllers
                     criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
                     client.Close();
                 }
+                else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
+                {
+                    return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
+                }
 
                 return View(criarTarefa);
             }

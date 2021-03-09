@@ -1,27 +1,19 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using PastelariaMvc.Infra;
+using PastelariaMvc.Models;
+using PastelariaMvc.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
-using PastelariaMvc.Infra;
-using PastelariaMvc.Models;
-using PastelariaMvc.ViewModel;
 
 namespace PastelariaMvc.Controllers
 {
     public class TarefaController : Controller
     {
-
-        // ToDO - jm
-        // Concluir/Cancelar será permitido apenas pelo Gestor/Subordinado da Tarefa?
-        // Se sim, retirar os botões de ListarTarefaAnadamento
-        // Gestor do subordinado cuja tarefa é o gestor pode Concluir/Cancelar?
-        // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Cancelar(int id)
         {
             if(HttpContext.Session.GetString("Token") == null)
@@ -33,15 +25,10 @@ namespace PastelariaMvc.Controllers
                 string token = HttpContext.Session.GetString("Token");
                 var requestBody = "";
                 ApiConnection client = new ApiConnection($"tarefa/{id}/cancelar", token);
-                //ta em patch na API tem q trocar pra get
                 HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
                 if (response.IsSuccessStatusCode)
                 {
                     client.Close();
-                    // ToDo - JM
-                    // Por enquanto esta estatico, porem depois que pegarmos
-                    // O id da session, mudará aqui
-                    //*************
                     return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
                 }
                 else if (response.StatusCode.ToString() == "Unauthorized")
@@ -200,11 +187,8 @@ namespace PastelariaMvc.Controllers
             
         }
 
-
-    
-        // ConsultarTarefasUsuario
         [HttpGet]
-        public async Task<IActionResult> Listar(int id) /*todas*/
+        public async Task<IActionResult> Listar(int id)
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
@@ -256,7 +240,7 @@ namespace PastelariaMvc.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> VerTodas(int id) /*todas*/
+        public async Task<IActionResult> VerTodas(int id)
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
@@ -306,12 +290,6 @@ namespace PastelariaMvc.Controllers
             }
             
         }
-
-        // ToDO - jm
-        // Concluir/Cancelar será permitido apenas pelo Gestor/Subordinado da Tarefa?
-        // Se sim, retirar os botões de ListarTarefaAnadamento
-        // Gestor do subordinado cuja tarefa é o gestor pode Concluir/Cancelar?
-        // Se sim, deixar os botões de ListarTarefaAnadamento
         public async Task<IActionResult> Concluir(int id)
         {
             if(HttpContext.Session.GetString("Token") == null)
@@ -349,7 +327,7 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
+            if (HttpContext.Session.GetString("Token") == null)
             {
                 return RedirectToAction("Login", "Usuario");
             }
@@ -357,25 +335,21 @@ namespace PastelariaMvc.Controllers
             {
                 string token = HttpContext.Session.GetString("Token");
                 int idLogado = DecodeToken.getId(token);
-
                 ApiConnection client = new ApiConnection("tarefa/" + id, token);
                 HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-                // Tarefa tarefa;
                 Comentario comentario = new Comentario();
                 string result;
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadAsStringAsync();
                     comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
-                
-                    if(comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
+
+                    if (comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
                     {
-                            return View(comentario);
+                        return View(comentario);
                     }
-                    
                     return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
                 }
-                
                 else if (response.StatusCode.ToString() == "Unauthorized")
                 {
                     return RedirectToAction("Login", "Usuario");
@@ -389,63 +363,6 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
             }
-  
         }
-
-                // Ainda não está usando, mas pode usar nos Filtros
-        // public async Task<IActionResult> ConsultarTarefasGestorStatus([FromQuery] int idGestor, [FromQuery] int idStatus)
-        // {
-        //     ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/tarefa/status/"+idStatus);
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     TarefasGestorStatusViewModel tarefasResult = new TarefasGestorStatusViewModel();
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-        //         return View(tarefasResult);
-        //     }  
-        //     return View();
-        // }
-
-        
-        // Ainda não está usando, mas pode usar nos Filtros
-        // public async Task<IActionResult> ConsultarTarefasStatusUsuario([FromQuery] int idUsuario, [FromQuery] int idStatusTarefa)
-        // {
-        //     ApiConnection client = new ApiConnection($"usuario/{idUsuario}/tarefa/status/{idStatusTarefa}");
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
-        //     TarefasViewModel tarefasViewModel = new TarefasViewModel();
-
-        //     string result;
-
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasViewModel.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-
-        //         return View(tarefasViewModel);
-        //         }
-
-        //     return View();
-        // }
-        // Ainda não está usando, mas pode usar nos Filtros
-        // public async Task<IActionResult> ConsultarTarefasGestorStatus([FromQuery] int idGestor, [FromQuery] int idStatus)
-        // {
-        //     ApiConnection client = new ApiConnection("usuario/gestor/"+idGestor+"/tarefa/status/"+idStatus);
-        //     HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-        //     TarefasGestorStatusViewModel tarefasResult = new TarefasGestorStatusViewModel();
-        //     string result;
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         result = await response.Content.ReadAsStringAsync();
-        //         tarefasResult.Tarefas = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-        //         client.Close();
-        //         return View(tarefasResult);
-        //     }
-        //     return View();
-        // }
     }
 }

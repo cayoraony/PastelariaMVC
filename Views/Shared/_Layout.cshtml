@@ -12,26 +12,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PastelariaMvc</title>
-    
-    @*Plugin DataTable*@
-    @* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css"> *@
     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.jqueryui.min.css">
-
-    @* UIKit *@
     <link rel="stylesheet" href="~/css/uikit.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
     <link rel="stylesheet" href="~/css/styles.css" />
-
-    @* UIKit CDN *@
-    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
-
-    @* BOOTSTRAP *@
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" /> *@
-
     @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
@@ -83,8 +69,6 @@
 
             <div class="uk-navbar-right">
                 <div class="uk-navbar-item ">
-                    @* ToDo *@
-                    @* Trazer o nome do usuario no Token *@
                     <span class="uk-text-light uk-text-large uk-margin-right">Olá, @nomeLogado</span>
                     <a asp-controller="Usuario" asp-action="Logout" class="uk-button uk-button-danger uk-button-small uk-margin-left">
                         Sair
@@ -104,19 +88,9 @@
     <footer class="border-top footer text-muted">
         <div class="uk-height-small"></div>
     </footer>
-
     <script src="~/js/uikit.js"></script>
     <script src="~/js/uikit-icons.js"></script>
-
-    @*CDN JQuery*@
-    @* <script
-        src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-        crossorigin="anonymous"></script> *@
     <script src="~/js/jquery.js"></script>
-
-    @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

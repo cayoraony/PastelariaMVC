@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using PastelariaMvc.Models;
+using System.Collections.Generic;
 
 namespace PastelariaMvc.ViewModel
 {

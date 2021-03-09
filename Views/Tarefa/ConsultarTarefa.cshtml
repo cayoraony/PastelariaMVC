@@ -125,8 +125,6 @@
                     Voltar
                 </a>
             </div>
-
-            @* Modal Editar DataLimite *@
             <div id="editar-datalimite" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <h2 class="uk-modal-title">Nova Data Limite</h2>
@@ -155,8 +153,6 @@
                     <span class="uk-margin-small-left" uk-icon="icon: plus"></span>
                 </button>
             </div> 
-
-            @* Modal Adicionar Comentario *@
             <div id="add-comentario" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
                     <h2 class="uk-modal-title">Novo Comentário</h2>
@@ -166,9 +162,6 @@
                         <div class="uk-margin">
                             <label asp-for="Descricao" class="uk-form-label uk-text-small"></label>
                             <input asp-for="Descricao" class="uk-input" type="text" placeholder="Digite o comentário">
-
-                            @* <label asp-for="IdUsuario" class="uk-form-label uk-text-small"></label>
-                            <input asp-for="IdUsuario" class="uk-input" placeholder="Digite ID do Autor"> *@
                         </div>
                         <input type="submit" class="uk-button uk-button-primary" value="Postar" />
                     </form>

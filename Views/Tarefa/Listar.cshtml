@@ -19,7 +19,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.uikit.min.js"></script>
     <script>
-        // DataTable - ListarTarefa 
         $(document).ready( function () {
             $('#ListarTarefas').DataTable( {
                 "language": {
@@ -65,17 +64,6 @@
                 <a asp-area="" asp-controller="Tarefa" asp-action="ConsultarTarefa" asp-route-id="@tarefa.IdTarefa">
                 <button class="uk-button uk-button-primary uk-button-small uk-margin-right" type="button">Detalhes</button>
                 </a>
-
-                @* <a  class="uk-button uk-button-danger uk-button-small uk-margin-right"
-                    asp-area="" asp-controller="Tarefa" asp-action="Cancelar" asp-route-id="@tarefa.IdTarefa"
-                >
-                    <span uk-icon="icon: close"></span>
-                </a>
-                <a  class="uk-button uk-button-secondary uk-button-small"
-                    asp-area="" asp-controller="Tarefa" asp-action="Concluir" asp-route-id="@tarefa.IdTarefa"
-                >
-                    <span uk-icon="icon: check"></span>
-                </a> *@
             </td>
             </tr>
         }

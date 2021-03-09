@@ -1,5 +1,4 @@
 @model ConsultarTarefasUsuarioViewModel
-@* @model Usuario *@
 
 @{
     ViewData["Title"] = "Todas as Tarefas";
@@ -21,7 +20,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.uikit.min.js"></script>
     <script>
-        // DataTable - ListarTarefa 
         $(document).ready( function () {
             $('#VerTodas').DataTable( {
                 "language": {
@@ -35,34 +33,6 @@
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Todas as Tarefas</span></h1>
 </div>
-
-@*
-<div>
-     <div class="uk-flex uk-flex-center">
-      <ul class="uk-subnav uk-subnav-pill">
-          <li>
-            <a href="#">Todas</a>
-          </li>
-          <li>
-            <a href="#">Atrasada</a>
-          </li>
-          <li>
-            <a href="#">Agendada</a>
-          </li>
-          <li>
-            <a href="#">Futura</a>
-          </li>
-          <li>
-            <a href="#">Concluída</a>
-          </li>
-          <li>
-            <a href="#">Cancelada</a>
-          </li>
-      </ul>
-    </div> 
-     @await Component.InvokeAsync("ConsultarTarefasStatusViewComponent", new { id = 1, status =  }) 
-  </div> 
-*@
 
 <div class="uk-overflow-auto">
     <table id="VerTodas" class="uk-table uk-table-striped">

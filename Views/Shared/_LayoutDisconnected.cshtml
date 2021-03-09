@@ -5,17 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PastelariaMvc</title>
     
-    @* UIKit *@
     <link rel="stylesheet" href="~/css/uikit.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
-    @* UIKit CDN *@
-    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/css/uikit.min.css" /> *@
-
-    @* BOOTSTRAP *@
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" /> *@
-
 
 </head>
 <body uk-height-viewport>
@@ -32,14 +23,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <!--
-    <div class="footer">
-        <div class="uk-container">
-            &copy; 2021 - PastelariaMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </div>
-        -->
     <footer id="page-footer" class="uk-margin-xlarge-top" uk-sticky>
         <div class="uk-container">
             <p class="uk-text-small"> &copy; 2021 - Pastelaria SMN </p>
@@ -48,9 +31,6 @@
 
     <script src="~/js/uikit.js"></script>
     <script src="~/js/uikit-icons.js"></script>
-
-    @* <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.16/dist/js/uikit-icons.min.js"></script> *@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

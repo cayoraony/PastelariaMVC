@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PastelariaMvc.Infra;
 using PastelariaMvc.Models;
 using PastelariaMvc.ViewModel;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace PastelariaMvc.Controllers
 {
@@ -23,9 +19,6 @@ namespace PastelariaMvc.Controllers
         {
             return View();
         }
-
-        // Primeiro alteração / Teste
-        // Error : Ok
         [HttpGet]
         public async Task<IActionResult> HomeGestor(int id)
         {
@@ -385,7 +378,17 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") != null)
             {
-                return RedirectToAction("Index", "Home");
+                var teste = HttpContext.Session.GetString("Token");
+                var idUsuario = DecodeToken.getId(teste);
+                var eGestor = DecodeToken.getEGestor(teste);
+                if (eGestor)
+                {
+                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+                }
+                else if (!eGestor)
+                {
+                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+                }
             }
             return View();
         }
@@ -393,7 +396,17 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") != null)
             {
-                return RedirectToAction("Index", "Home");
+                var teste = HttpContext.Session.GetString("Token");
+                var idUsuario = DecodeToken.getId(teste);
+                var eGestor = DecodeToken.getEGestor(teste);
+                if (eGestor)
+                {
+                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+                }
+                else if (!eGestor)
+                {
+                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+                }
             }
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);

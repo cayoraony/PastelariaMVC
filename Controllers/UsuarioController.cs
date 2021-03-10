@@ -137,7 +137,6 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
-        
 
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)

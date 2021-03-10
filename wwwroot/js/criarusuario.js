@@ -64,7 +64,7 @@ function validarSenha() {
       $('.inputDDD').unmask();
 
       document.getElementById('criarUsuario').submit();
-      alert("Formulário enviado");
+      alert("Formulário enviado, aguarde a criação do usuário");
   } else {
       alert("Senha diferentes, preencha novamente");
   }
@@ -124,8 +124,10 @@ function validarCampos() {
         uf: {
             required: true,
         }
+    },
+    messages: {
+        required: "Campo obrigatório. Preencha o campo."
     }
-  }).validator.addMethod("cRequired", $.validator.methods.required,
-    "Campo obrigatório. Preencha o campo.");
+  });
 
 }

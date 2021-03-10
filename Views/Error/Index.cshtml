@@ -1,9 +1,13 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@{
+    Layout = "";
+}
+    
+@*using Microsoft.AspNetCore.Http
 @using PastelariaMvc.Infra;
 
 @{var token = Context.Session.GetString("Token"); }
 @{var idLogado = DecodeToken.getId(token); }
-@{var eGestorLogado = DecodeToken.getEGestor(token); }
+@{var eGestorLogado = DecodeToken.getEGestor(token); }*@
 
 <div class="uk-container uk-flex-column uk-flex-center uk-margin-large-bottom">
   <div class="uk-alert-danger" uk-alert>
@@ -19,26 +23,6 @@
         </p>
     </div>
   </div>
-
-  <div class="uk-margin-medium uk-flex uk-flex-center uk-flex-middle">
-    @if(eGestorLogado)
-    {
-      <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right"
-          asp-area="" asp-controller="Usuario" asp-action="HomeGestor" asp-route-id="@idLogado">
-          <span class="uk-text-large uk-text-light">
-            Acessar minha Home
-          </span>
-      </a>
-    }
-    else
-    {
-      <a class="uk-button uk-button-text uk-button-large uk-margin-medium-right"
-          asp-area="" asp-controller="Tarefa" asp-action="Listar" asp-route-id="@idLogado">
-          <span class="uk-text-large uk-text-light">
-            Acessar minha Home
-          </span>
-      </a>
-    }
-      
-  </div>
+<h1>AAAAAAAAAAA</h1>
+  
 </div>

@@ -27,58 +27,53 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Login", "Usuario");
             }
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+
+            if(id != idLogado)
             {
-                string token = HttpContext.Session.GetString("Token");
-                int idLogado = DecodeToken.getId(token);
+                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+            }
 
-                if(id != idLogado)
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+                client.Close();
+
+                ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
+                HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
+                if (responseParaTotal.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+                    subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
+
+                    clientParaTotal.Close();
+                    return View(subordinadosResult);
                 }
-
-                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
-                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-
-                string result;
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                    subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
-                    client.Close();
-
-                    ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
-                    HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
-                    if (responseParaTotal.IsSuccessStatusCode)
-                    {
-                        subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
-
-                        clientParaTotal.Close();
-                        return View(subordinadosResult);
-                    }
-                }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else if (response.StatusCode.ToString() == "Forbidden")
-                {
+            }
+            else if (response.StatusCode.ToString() == "Unauthorized")
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+            else if (response.StatusCode.ToString() == "Forbidden")
+            {
                     
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else if (response.StatusCode.ToString() == "BadRequest")
-                {
-                    return RedirectToAction("Criar", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
-                }
+                return RedirectToAction("Login", "Usuario");
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "BadRequest")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Criar", "Usuario");
             }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
+            }
+            
             return View();        
         }
 
@@ -110,44 +105,39 @@ namespace PastelariaMvc.Controllers
             {
                 stringApi = "usuario/subordinado/criar";
             }
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+            usuario.IdGestor = short.Parse(idLogado.ToString());
+            usuario.EstaAtivo = true;
+            if(usuario.Endereco.Complemento == null)
+                usuario.Endereco.Complemento = "";
+            ApiConnection client = new ApiConnection(stringApi, token);
+            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
+            Console.WriteLine(response.StatusCode.ToString());
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                int idLogado = DecodeToken.getId(token);
-                usuario.IdGestor = short.Parse(idLogado.ToString());
-                usuario.EstaAtivo = true;
-                if(usuario.Endereco.Complemento == null)
-                    usuario.Endereco.Complemento = "";
-                ApiConnection client = new ApiConnection(stringApi, token);
-                HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-                Console.WriteLine(response.StatusCode.ToString());
-                if (response.IsSuccessStatusCode)
-                {
-                    client.Close();
-                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
-                }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else if (response.StatusCode.ToString() == "Forbidden")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                client.Close();
+                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Login", "Usuario");
+            }
+            else if (response.StatusCode.ToString() == "Forbidden")
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+            else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
+            {
+                return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
+        
 
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
@@ -156,44 +146,38 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario usuarioResult;
+            string result;
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                ApiConnection client = new ApiConnection($"usuario/{id}", token);
-                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-                Usuario usuarioResult;
-                string result;
-                if (response.IsSuccessStatusCode)
+                result = await response.Content.ReadAsStringAsync();
+                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
+                if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
+                    DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
                 {
-                    result = await response.Content.ReadAsStringAsync();
-                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                    client.Close();
-                    if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
-                       DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
-                    {
-                        return View(usuarioResult);
-                    }
-                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
+                    return View(usuarioResult);
                 }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else if (response.StatusCode.ToString() == "InternalServerError")
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Login", "Usuario");
             }
-
+            else if (response.StatusCode.ToString() == "InternalServerError")
+            {
+                return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+            }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
@@ -202,41 +186,34 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try 
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario usuarioResult;
+            string result;
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                int idLogado = DecodeToken.getId(token);
-                ApiConnection client = new ApiConnection($"usuario/{id}", token);
-                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-                Usuario usuarioResult;
-                string result;
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                    client.Close();
+                result = await response.Content.ReadAsStringAsync();
+                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
 
-                    if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
-                    {
-                        AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-                        usuario.IdUsuario = id;
+                if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
+                {
+                    AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                    usuario.IdUsuario = id;
 
-                        return View(usuario);
-                    }
-                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+                    return View(usuario);
                 }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Login", "Usuario");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
 
@@ -246,28 +223,22 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
-                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-                if (response.IsSuccessStatusCode)
-                {
-                    client.Close();
-                    return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
-                }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                client.Close();
+                return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Login", "Usuario");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
 
@@ -277,40 +248,34 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try 
+            
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            Usuario usuarioResult;
+            string result;
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                int idLogado = DecodeToken.getId(token);
-                ApiConnection client = new ApiConnection($"usuario/{id}", token);
-                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-                Usuario usuarioResult;
-                string result;
-                if (response.IsSuccessStatusCode)
+                result = await response.Content.ReadAsStringAsync();
+                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+                client.Close();
+                if(usuarioResult.IdUsuario == idLogado)
                 {
-                    result = await response.Content.ReadAsStringAsync();
-                    usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                    client.Close();
-                    if(usuarioResult.IdUsuario == idLogado)
-                    {
-                        AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-                        usuario.IdUsuario = id;
+                    AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                    usuario.IdUsuario = id;
 
-                        return View(usuario);
-                    }
-                    return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+                    return View(usuario);
                 }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
+                return RedirectToAction("Login", "Usuario");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
 
@@ -320,29 +285,23 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
-                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
-                if (response.IsSuccessStatusCode)
-                {
-                    client.Close();
-                    return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
-                }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                client.Close();
+                return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
-            }  
+                return RedirectToAction("Login", "Usuario");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+            } 
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
@@ -351,31 +310,25 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            try
+            
+            string token = HttpContext.Session.GetString("Token");
+            int idLogado = DecodeToken.getId(token);
+            var requestBody = "";
+            ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
+            HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
+            if (response.IsSuccessStatusCode)
             {
-                string token = HttpContext.Session.GetString("Token");
-                int idLogado = DecodeToken.getId(token);
-                var requestBody = "";
-                ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
-                HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
-                if (response.IsSuccessStatusCode)
-                {
-                    client.Close();
-                    return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
-                }
-                else if (response.StatusCode.ToString() == "Unauthorized")
-                {
-                    return RedirectToAction("Login", "Usuario");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-                }
+                client.Close();
+                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            catch (Exception exception)
+            else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Index", "Error", new { Erro = exception.Message.ToString() });
-            }  
+                return RedirectToAction("Login", "Usuario");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+            } 
         }
 
         [HttpGet]

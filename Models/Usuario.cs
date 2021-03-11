@@ -16,11 +16,13 @@ namespace PastelariaMvc.Models
 
         [Display(Name = "Data de Nascimento")]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [StringLength(32, MinimumLength = 8, ErrorMessage = "Tamanho mínimo é de 8 caracteres e máximo de 32")]
         public string Senha { get; set; }
 
         [Display(Name = "Confirmar Senha")]

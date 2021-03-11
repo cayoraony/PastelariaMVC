@@ -11,9 +11,8 @@
     @* <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
-    <script src="~/js/criarusuario.js"></script>
+    @* <script src="~/js/criarusuario.js"></script> *@
     <script>
-
         $("#cep").blur(function () {
             var cep = this.value.replace(/[^0-9]/, "");
 
@@ -31,27 +30,22 @@
             });
         });
 
+        // Mascaras
         $(document).ready(function () {
             $('.inputCep').mask('00000-000');
             $('.inputDDD').mask('00');
         });
 
-        function validarSenha() {
-            let NovaSenha = document.getElementById('Senha').value;
-            let CNovaSenha = document.getElementById('CSenha').value;
-
-            if (NovaSenha == CNovaSenha) {
-                $('.inputCep').unmask();
-                //$('.inputTel').unmask();
-                $('.inputDDD').unmask();
-
-                document.getElementById('criarUsuario').submit();
-                alert("Formulário enviado, aguarde a criação do usuário");
-
-            } else {
-                alert("Senha diferentes, preencha novamente");
-            }
+        function unMask() {
+            $('.inputCep').unmask();
+            // $('.inputTel').unmask();
+            // $('.inputDDD').unmask();
         }
+
+        //function submitForm() {
+           // document.getElementById('criarUsuario').submit();
+           // alert("Formulário enviado, aguarde a criação do usuário");
+        //}
     </script>
 }
 
@@ -59,6 +53,7 @@
     <h1 class="uk-text-center uk-heading-line"><span>Cadastrar Usuário</span></h1>
 </div>
 
+@* onsubmit="return submitForm(event)" *@
 <div class="uk-container uk-container-xsmall">
     <form id="criarUsuario" asp-controller="Usuario" asp-action="CriarUsuario" method="post" class="uk-form-stacked" role="form">
         <div class="uk-margin">
@@ -72,7 +67,7 @@
         <div class="uk-margin">
             <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input name="sobrenome" asp-for="Sobrenome" class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome do usuário">
+                <input name="sobrenome" asp-for="Sobrenome" class="uk-input" placeholder="Digite o sobrenome do usuário">
                 <span asp-validation-for="Sobrenome" class="uk-text-danger"></span>
             </div>
         </div>
@@ -207,9 +202,10 @@
             </div>
         </div>
         
-        <button type="submit">Enviar</button>
-        @*
-        <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>
+        <button type="submit" onclick="return unMask()" class="uk-button uk-button-primary">Enviar</button>
+        @* <button type="submit" class="uk-button uk-button-primary">Enviar</button> *@
+        
+        @* <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>
         <div id="criar-usuario" class="uk-flex-top" uk-modal>
             <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -222,12 +218,11 @@
                 </div>
                 <div class="uk-modal-footer uk-text-right">
                     <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                    <input onClick="validarSenha()" class="uk-button uk-button-primary" value="Criar Usuario" />
-                     <button type="submit" class="uk-button uk-button-primary">Criar</button> 
+                    <input onClick="submitForm" class="uk-button uk-button-primary" value="Criar Usuario" />
                 </div>
             </div>
-        </div>
-        *@
+        </div> *@
+       
     </form>
 </div>
 

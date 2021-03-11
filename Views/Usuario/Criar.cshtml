@@ -67,7 +67,7 @@
         <div class="uk-margin">
             <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input name="sobrenome" asp-for="Sobrenome" class="uk-input" placeholder="Digite o sobrenome do usuário">
+                <input asp-for="Sobrenome" class="uk-input" placeholder="Digite o sobrenome do usuário">
                 <span asp-validation-for="Sobrenome" class="uk-text-danger"></span>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="uk-margin">
             <label asp-for="DataNascimento" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="DataNascimento" placeholder="Digite ou selecione a data de nascimento" required>
+                <input class="uk-input" asp-for="DataNascimento" placeholder="Digite ou selecione a data de nascimento">
                 <span asp-validation-for="DataNascimento" class="uk-text-danger"></span>
             </div>
         </div>
@@ -111,7 +111,7 @@
         <div class="uk-margin">
             <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite o endereço de email" required>
+                <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite o endereço de email">
                 <span asp-validation-for="Email.EnderecoEmail" class="uk-text-danger"></span>
             </div>
         </div>
@@ -119,7 +119,7 @@
         <div class="uk-margin">
             <label asp-for="Telefone.DDD" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputDDD" asp-for="Telefone.DDD" placeholder="Digite o DDD" required>
+                <input class="uk-input inputDDD" asp-for="Telefone.DDD" placeholder="Digite o DDD">
                 <span asp-validation-for="Telefone.DDD" class="uk-text-danger"></span>
             </div>
         </div>
@@ -127,7 +127,7 @@
         <div class="uk-margin">
             <label asp-for="Telefone.Numero" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputTel" asp-for="Telefone.Numero" placeholder="Digite o número do telefone" required>
+                <input class="uk-input inputTel" asp-for="Telefone.Numero" placeholder="Digite o número do telefone">
                 <span asp-validation-for="Telefone.Numero" class="uk-text-danger"></span>
             </div>
         </div>
@@ -135,7 +135,7 @@
         <div class="uk-margin">
             <label class="uk-form-label uk-text-large" asp-for="Telefone.IdTipo"></label>
             <div class="uk-form-controls">
-                <select class="uk-select" asp-for="Telefone.IdTipo" required>
+                <select class="uk-select" asp-for="Telefone.IdTipo">
                     <option value="" selected disabled hidden>Escolha uma opção</option>
                     <option value="1">Residencial</option>
                     <option value="2">Celular</option>
@@ -149,7 +149,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.CEP" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputCep" id="cep" asp-for="Endereco.CEP" placeholder="Digite apenas os números do CEP" required>
+                <input class="uk-input inputCep" id="cep" asp-for="Endereco.CEP" placeholder="Digite apenas os números do CEP">
                 <span asp-validation-for="Endereco.CEP" class="uk-text-danger"></span>
             </div>
         </div>
@@ -157,7 +157,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.Rua" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="endereco" asp-for="Endereco.Rua" placeholder="Digite a rua" required>
+                <input class="uk-input" id="endereco" asp-for="Endereco.Rua" placeholder="Digite a rua">
                 <span asp-validation-for="Endereco.Rua" class="uk-text-danger"></span>
             </div>
         </div>
@@ -165,7 +165,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.Bairro" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="bairro" asp-for="Endereco.Bairro" placeholder="Digite o bairro" required>
+                <input class="uk-input" id="bairro" asp-for="Endereco.Bairro" placeholder="Digite o bairro">
                 <span asp-validation-for="Endereco.Bairro" class="uk-text-danger"></span>
             </div>
         </div>
@@ -173,7 +173,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.Numero" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite o número do local" required>
+                <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite o número do local">
                 <span asp-validation-for="Endereco.Numero" class="uk-text-danger"></span>
             </div>
         </div>
@@ -189,7 +189,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.Cidade" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="cidade" asp-for="Endereco.Cidade" placeholder="Digite a cidade" required>
+                <input class="uk-input" id="cidade" asp-for="Endereco.Cidade" placeholder="Digite a cidade">
                 <span asp-validation-for="Endereco.Cidade" class="uk-text-danger"></span>
             </div>
         </div>
@@ -197,7 +197,7 @@
         <div class="uk-margin">
             <label asp-for="Endereco.UF" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="uf" asp-for="Endereco.UF" placeholder="Digite o estado" required>
+                <input class="uk-input" id="uf" asp-for="Endereco.UF" placeholder="Digite o estado">
                 <span asp-validation-for="Endereco.UF" class="uk-text-danger"></span>
             </div>
         </div>

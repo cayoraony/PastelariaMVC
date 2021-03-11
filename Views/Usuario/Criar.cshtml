@@ -25,7 +25,7 @@
             });
         });
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.inputCep').mask('00000-000');
             $('.inputDDD').mask('00');
         });
@@ -57,6 +57,7 @@
             <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input class="uk-input" asp-for="Nome" placeholder="Digite o nome do usuário">
+                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
         </div>
 
@@ -78,6 +79,7 @@
             <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input id="Senha" class="uk-input" asp-for="Senha" placeholder="Digite a senha">
+                <span asp-validation-for="Senha" class="text-danger"></span>
             </div>
         </div>
 
@@ -85,6 +87,7 @@
             <label asp-for="ConfirmarSenha" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input id="CSenha" class="uk-input" asp-for="ConfirmarSenha" placeholder="Confirme a senha">
+                <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
             </div>
         </div>
 
@@ -181,6 +184,8 @@
                 <input class="uk-input" id="uf" asp-for="Endereco.UF" placeholder="Digite o estado">
             </div>
         </div>
+        <button type="submit">Enviar</button>
+        @*
         <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>
         <div id="criar-usuario" class="uk-flex-top" uk-modal>
             <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -198,6 +203,6 @@
                 </div>
             </div>
         </div>
-
+        *@
     </form>
 </div>

@@ -7,6 +7,7 @@ namespace PastelariaMvc.Models
     public class Usuario
     {
         public short IdUsuario { get; set; }
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         [Display(Name = "Data de Nascimento")]

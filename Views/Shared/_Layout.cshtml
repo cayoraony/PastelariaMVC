@@ -16,13 +16,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.jqueryui.min.css">
     <link rel="stylesheet" href="~/css/uikit.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/styles.css" />
     @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
     <header>
-         <nav class="uk-navbar-container uk-margin" uk-navbar>
+        <nav class="uk-navbar-container uk-margin" uk-navbar>
             <div class="uk-navbar-left">
                 @if (DecodeToken.getEGestor(token))
                 {
@@ -91,7 +90,9 @@
     <script src="~/js/uikit.js"></script>
     <script src="~/js/uikit-icons.js"></script>
     <script src="~/js/jquery.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

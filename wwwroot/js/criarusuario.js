@@ -54,21 +54,21 @@ function inputMask() {
   });
 }
 
-function validarSenha() {
-  let NovaSenha = document.getElementById('Senha').value;
-  let CNovaSenha = document.getElementById('CSenha').value;
+// function validarSenha() {
+//   let NovaSenha = document.getElementById('Senha').value;
+//   let CNovaSenha = document.getElementById('CSenha').value;
 
-  if (NovaSenha == CNovaSenha) {
-      $('.inputCep').unmask();
-      //$('.inputTel').unmask();
-      $('.inputDDD').unmask();
+//   if (NovaSenha == CNovaSenha) {
+//       $('.inputCep').unmask();
+//       //$('.inputTel').unmask();
+//       $('.inputDDD').unmask();
 
-      document.getElementById('criarUsuario').submit();
-      alert("Formulário enviado, aguarde a criação do usuário");
-  } else {
-      alert("Senha diferentes, preencha novamente");
-  }
-}
+//       document.getElementById('criarUsuario').submit();
+//       alert("Formulário enviado, aguarde a criação do usuário");
+//   } else {
+//       alert("Senha diferentes, preencha novamente");
+//   }
+// }
 
 function validarCampos() {
   $("#criarUsuario").validate({

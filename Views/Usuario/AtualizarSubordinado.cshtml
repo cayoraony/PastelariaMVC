@@ -29,6 +29,7 @@
         <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
             <input class="uk-input" asp-for="Nome" placeholder="Digite o nome">
+            <span asp-validation-for="Nome" class="uk-text-danger"></span>
         </div>
       </div>
 
@@ -36,6 +37,7 @@
         <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
             <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome">
+            <span asp-validation-for="Sobrenome" class="uk-text-danger"></span>
         </div>
       </div>
 
@@ -43,14 +45,16 @@
         <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
         <div class="uk-form-controls">
             <input id="Senha" class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
+            <span asp-validation-for="Senha" class="uk-text-danger"></span>
         </div>
       </div>
 
       <div class="uk-margin">
-        <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
-        <div class="uk-form-controls">
-            <input id="CSenha"class="uk-input" type="password" placeholder="Confirme a senha">
-        </div>
+          <label asp-for="ConfirmarSenha" class="uk-form-label uk-text-large"></label>
+          <div class="uk-form-controls">
+              <input id="Senha" class="uk-input" asp-for="ConfirmarSenha" type="password" placeholder="Digite a senha">
+              <span asp-validation-for="ConfirmarSenha" class="uk-text-danger"></span>
+          </div>
       </div>
 
       <br />

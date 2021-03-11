@@ -18,6 +18,7 @@
             <label asp-for="Tarefa.Descricao" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input class="uk-input" asp-for="Tarefa.Descricao" type="text" placeholder="Digite a descriçao da tarefa">
+                <span asp-validation-for="Tarefa.Descricao" class="uk-text-danger"></span>
             </div>
         </div>    
 
@@ -25,31 +26,35 @@
             <label asp-for="Tarefa.DataLimite" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
                 <input class="uk-input" asp-for="Tarefa.DataLimite" type="datetime-local" placeholder="Escolha a data limite da tarefa">
+                <span asp-validation-for="Tarefa.DataLimite" class="uk-text-danger"></span>
             </div>
         </div>   
 
         @if(eGestorLogado)
         {
-            <div class="uk-margin">
-                <label asp-for="Tarefa.IdSubordinado" class="uk-form-label uk-text-large"></label>
-                <select asp-for="Tarefa.IdSubordinado" class="uk-select"
-                    asp-items="@(new SelectList(Model.Subordinados,"IdUsuario","Nome"))">
-                <option>Escolha o subordinado</option>
-                </select>
-            </div>
+        <div class="uk-margin">
+            <label asp-for="Tarefa.IdSubordinado" class="uk-form-label uk-text-large"></label>
+            <select asp-for="Tarefa.IdSubordinado" class="uk-select"
+                asp-items="@(new SelectList(Model.Subordinados,"IdUsuario","Nome"))">
+                <option value="" selected disabled hidden>Escolha o subordinado</option>
+
+            </select>
+            <span asp-validation-for="Tarefa.IdSubordinado" class="uk-text-danger"></span>
+        </div>
         }        
 
         <div class="uk-margin">
             <label class="uk-form-label uk-text-large" asp-for="Tarefa.IdStatusTarefa"></label>
             <div class="uk-form-controls">
                 <select class="uk-select" asp-for="Tarefa.IdStatusTarefa">
-                    <option selected>Escolha um status</option>
-                    <option value="1" >Concluída</option>
-                    <option value="2" >Futura</option>
-                    <option value="3" >Agendada</option>
-                    <option value="4" >Atrasada</option>
-                    <option value="5" >Cancelada</option>
+                    <option value="" selected disabled hidden>Escolha um status</option>
+                    <option value="1">Concluída</option>
+                    <option value="2">Futura</option>
+                    <option value="3">Agendada</option>
+                    <option value="4">Atrasada</option>
+                    <option value="5">Cancelada</option>
                 </select>
+                <span asp-validation-for="Tarefa.IdStatusTarefa" class="uk-text-danger"></span>
             </div>
         </div>
 

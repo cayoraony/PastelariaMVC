@@ -118,7 +118,6 @@ namespace PastelariaMvc.Controllers
                 usuario.Endereco.Complemento = "";
             ApiConnection client = new ApiConnection(stringApi, token);
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            Console.WriteLine(response.StatusCode.ToString());
             if (response.IsSuccessStatusCode)
             {
                 client.Close();

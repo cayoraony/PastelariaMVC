@@ -7,14 +7,24 @@ namespace PastelariaMvc.Models
     public class Usuario
     {
         public short IdUsuario { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string Nome { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string Sobrenome { get; set; }
+
         [Display(Name = "Data de Nascimento")]
+        [Required(ErrorMessage = "Campo obrigatório")]
+        [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
+
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Campo obrigatório")]
+        [StringLength(32, MinimumLength = 8, ErrorMessage = "Tamanho mínimo é de 8 caracteres e máximo de 32")]
         public string Senha { get; set; }
+
         [Display(Name = "Confirmar Senha")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Campo obrigatório")]
@@ -30,6 +40,7 @@ namespace PastelariaMvc.Models
         public short IdGestor { get; set; }
         public Gestor Gestor { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Gestor")]
         public bool EGestor { get; set; }
         public Usuario()

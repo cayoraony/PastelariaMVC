@@ -177,6 +177,11 @@ namespace PastelariaMvc.Controllers
             string result;
             if (response.IsSuccessStatusCode)
             {
+                if (response.StatusCode.ToString() == "NoContent")
+                {
+                    Console.WriteLine(response.StatusCode.ToString());
+                    return RedirectToAction("Criar", "Tarefa");
+                }
                 result = await response.Content.ReadAsStringAsync();
                 tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
 
@@ -222,6 +227,11 @@ namespace PastelariaMvc.Controllers
             string result;
             if (response.IsSuccessStatusCode)
             {
+                if (response.StatusCode.ToString() == "NoContent")
+                {
+                    Console.WriteLine(response.StatusCode.ToString());
+                    return RedirectToAction("Criar", "Tarefa");
+                }
                 result = await response.Content.ReadAsStringAsync();
                 tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
                     

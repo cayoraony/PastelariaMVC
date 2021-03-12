@@ -24,52 +24,59 @@
 </div>
 
 <div class="uk-container uk-container-xsmall">
-  <form id="editarSub" asp-controller="Usuario" asp-action="SubordinadoPut" asp-route-id="@Model.IdUsuario" method="put" class="form-horizontal" role="form">
-      <div class="uk-margin">
-        <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
-        <div class="uk-form-controls">
-            <input class="uk-input" asp-for="Nome" placeholder="Digite o nome">
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
-        <div class="uk-form-controls">
-            <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome">
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
-        <div class="uk-form-controls">
-            <input id="Senha" class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <label class="uk-form-label uk-text-large">Confirmar Senha:</label>
-        <div class="uk-form-controls">
-            <input id="CSenha"class="uk-input" type="password" placeholder="Confirme a senha">
-        </div>
-      </div>
-
-      <br />
-      <a class="uk-button uk-button-primary uk-button-large" href="#editar-gestor" uk-toggle>Editar Dados</a>
-      <div id="editar-gestor" class="uk-flex-top" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-
-            <div class="uk-modal-header">
-                <h2 class="uk-modal-title">Atenção</h2>
+    <form id="editarSub" asp-controller="Usuario" asp-action="SubordinadoPut" asp-route-id="@Model.IdUsuario" method="put" class="form-horizontal" role="form">
+        <div class="uk-margin">
+            <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
+            <div class="uk-form-controls">
+                <input class="uk-input" asp-for="Nome" placeholder="Digite o nome">
+                <span asp-validation-for="Nome" class="uk-text-danger"></span>
             </div>
-            <div class="uk-modal-body">
-                <p>Tem certeza que deseja continuar?</p>
+        </div>
+
+        <div class="uk-margin">
+            <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
+            <div class="uk-form-controls">
+                <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome">
+                <span asp-validation-for="Sobrenome" class="uk-text-danger"></span>
             </div>
-            <div class="uk-modal-footer uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button>
-                <input onClick="validarSenha()" class="uk-button uk-button-primary" value="Editar Dados" />
+        </div>
+
+        <div class="uk-margin">
+            <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
+            <div class="uk-form-controls">
+                <input id="Senha" class="uk-input" asp-for="Senha" type="password" placeholder="Digite a senha">
+                <span asp-validation-for="Senha" class="uk-text-danger"></span>
             </div>
-        </div>       
-      </div>
-  </form>
+        </div>
+
+        <div class="uk-margin">
+            <label asp-for="ConfirmarSenha" class="uk-form-label uk-text-large"></label>
+            <div class="uk-form-controls">
+                <input id="Senha" class="uk-input" asp-for="ConfirmarSenha" type="password" placeholder="Digite a senha">
+                <span asp-validation-for="ConfirmarSenha" class="uk-text-danger"></span>
+            </div>
+        </div>
+
+        <br />
+        @*
+        <a class="uk-button uk-button-primary uk-button-large" href="#editar-gestor" uk-toggle>Editar Dados</a>
+        <div id="editar-gestor" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+
+                <div class="uk-modal-header">
+                    <h2 class="uk-modal-title">Atenção</h2>
+                </div>
+                <div class="uk-modal-body">
+                    <p>Tem certeza que deseja continuar?</p>
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button>
+                    <input onClick="validarSenha()" class="uk-button uk-button-primary" value="Editar Dados" />
+                </div>
+            </div>
+        </div>
+        *@
+        <button type="submit" class="uk-button uk-button-primary">Enviar</button>
+    </form>
 </div>

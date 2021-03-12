@@ -11,9 +11,41 @@
     @* <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
-    <script src="~/js/criarusuario.js"></script>
+    @* <script src="~/js/criarusuario.js"></script> *@
     <script>
-        criarUsuario();
+        $("#cep").blur(function () {
+            var cep = this.value.replace(/[^0-9]/, "");
+
+            if (cep.length != 8) {
+                return false;
+            }
+            var url = "https://viacep.com.br/ws/" + cep + "/json/";
+            $.getJSON(url, function (dadosRetorno) {
+                try {
+                    $("#endereco").val(dadosRetorno.logradouro);
+                    $("#bairro").val(dadosRetorno.bairro);
+                    $("#cidade").val(dadosRetorno.localidade);
+                    $("#uf").val(dadosRetorno.uf);
+                } catch (ex) { }
+            });
+        });
+
+        // Mascaras
+        $(document).ready(function () {
+            $('.inputCep').mask('00000-000');
+            // $('.inputDDD').mask('00');
+        });
+
+        function unMask() {
+            $('.inputCep').unmask();
+            // $('.inputTel').unmask();
+            // $('.inputDDD').unmask();
+        }
+
+        //function submitForm() {
+           // document.getElementById('criarUsuario').submit();
+           // alert("Formulário enviado, aguarde a criação do usuário");
+        //}
     </script>
 }
 
@@ -21,40 +53,46 @@
     <h1 class="uk-text-center uk-heading-line"><span>Cadastrar Usuário</span></h1>
 </div>
 
+@* onsubmit="return submitForm(event)" *@
 <div class="uk-container uk-container-xsmall">
     <form id="criarUsuario" asp-controller="Usuario" asp-action="CriarUsuario" method="post" class="uk-form-stacked" role="form">
         <div class="uk-margin">
             <label asp-for="Nome" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Nome" placeholder="Digite o nome do usuário" required>
+                <input class="uk-input" asp-for="Nome" placeholder="Digite o nome do usuário">
+                <span asp-validation-for="Nome" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Sobrenome" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Sobrenome" placeholder="Digite o sobrenome do usuário" required>
+                <input asp-for="Sobrenome" class="uk-input" placeholder="Digite o sobrenome do usuário">
+                <span asp-validation-for="Sobrenome" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="DataNascimento" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="DataNascimento" placeholder="Digite ou selecione a data de nascimento" required>
+                <input class="uk-input" asp-for="DataNascimento" placeholder="Digite ou selecione a data de nascimento">
+                <span asp-validation-for="DataNascimento" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Senha" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input id="Senha" class="uk-input" asp-for="Senha" placeholder="Digite a senha" required>
+                <input id="Senha" class="uk-input" asp-for="Senha" placeholder="Digite a senha">
+                <span asp-validation-for="Senha" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="ConfirmarSenha" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input id="CSenha" class="uk-input" asp-for="ConfirmarSenha" placeholder="Confirme a senha" required>
+                <input id="CSenha" class="uk-input" asp-for="ConfirmarSenha" placeholder="Confirme a senha">
+                <span asp-validation-for="ConfirmarSenha" class="uk-text-danger"></span>
             </div>
         </div>
 
@@ -62,100 +100,112 @@
             <label class="uk-form-label uk-text-large" asp-for="EGestor"></label>
             <div class="uk-form-controls">
                 <select class="uk-select" asp-for="EGestor">
-                    <option selected>Escolha uma opção</option>
+                    <option value="" selected disabled hidden>Escolha uma opção</option>
                     <option value="false">Não</option>
                     <option value="true">Sim</option>
                 </select>
+                <span asp-validation-for="EGestor" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Email.EnderecoEmail" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite o endereço de email" required>
+                <input class="uk-input" asp-for="Email.EnderecoEmail" placeholder="Digite o endereço de email">
+                <span asp-validation-for="Email.EnderecoEmail" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Telefone.DDD" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputDDD" asp-for="Telefone.DDD" placeholder="Digite o DDD" required>
+                <input class="uk-input inputDDD" asp-for="Telefone.DDD" placeholder="Digite o DDD">
+                <span asp-validation-for="Telefone.DDD" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Telefone.Numero" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputTel" asp-for="Telefone.Numero" placeholder="Digite o número do telefone" required>
+                <input class="uk-input inputTel" asp-for="Telefone.Numero" placeholder="Digite o número do telefone">
+                <span asp-validation-for="Telefone.Numero" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label uk-text-large" asp-for="Telefone.IdTipo"></label>
             <div class="uk-form-controls">
-                <select class="uk-select" asp-for="Telefone.IdTipo" required>
-                    <option selected>Escolha uma opção</option>
+                <select class="uk-select" asp-for="Telefone.IdTipo">
+                    <option value="" selected disabled hidden>Escolha uma opção</option>
                     <option value="1">Residencial</option>
                     <option value="2">Celular</option>
                     <option value="3">Emergencial</option>
                     <option value="4">Corporativo</option>
                 </select>
+                <span asp-validation-for="Telefone.IdTipo" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.CEP" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input inputCep" id="cep" asp-for="Endereco.CEP" placeholder="Digite apenas os números do CEP" required>
+                <input class="uk-input inputCep" id="cep" asp-for="Endereco.CEP" placeholder="Digite apenas os números do CEP">
+                <span asp-validation-for="Endereco.CEP" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.Rua" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="endereco" asp-for="Endereco.Rua" placeholder="Digite a rua" required>
+                <input class="uk-input" id="endereco" asp-for="Endereco.Rua" placeholder="Digite a rua">
+                <span asp-validation-for="Endereco.Rua" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.Bairro" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="bairro" asp-for="Endereco.Bairro" placeholder="Digite o bairro" required>
+                <input class="uk-input" id="bairro" asp-for="Endereco.Bairro" placeholder="Digite o bairro">
+                <span asp-validation-for="Endereco.Bairro" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.Numero" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite o número do local" required>
+                <input class="uk-input" asp-for="Endereco.Numero" placeholder="Digite o número do local">
+                <span asp-validation-for="Endereco.Numero" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.Complemento" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" asp-for="Endereco.Complemento" placeholder="Digite o complemento" required>
+                <input name="complemento" class="uk-input" asp-for="Endereco.Complemento" placeholder="Digite o complemento">
+                <span id="complementoId"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.Cidade" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="cidade" asp-for="Endereco.Cidade" placeholder="Digite a cidade" required>
+                <input class="uk-input" id="cidade" asp-for="Endereco.Cidade" placeholder="Digite a cidade">
+                <span asp-validation-for="Endereco.Cidade" class="uk-text-danger"></span>
             </div>
         </div>
 
         <div class="uk-margin">
             <label asp-for="Endereco.UF" class="uk-form-label uk-text-large"></label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="uf" asp-for="Endereco.UF" placeholder="Digite o estado" required>
+                <input class="uk-input" id="uf" asp-for="Endereco.UF" placeholder="Digite o estado">
+                <span asp-validation-for="Endereco.UF" class="uk-text-danger"></span>
             </div>
         </div>
-
-        @* <input onClick="validarSenha()" class="uk-button uk-button-primary uk-button-large" value="Criar Usuario" /> *@
-
-        @* Modal para confirmar Criar *@
-        <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>
+        
+        <button type="submit" onclick="return unMask()" class="uk-button uk-button-primary">Enviar</button>
+        @* <button type="submit" class="uk-button uk-button-primary">Enviar</button> *@
+        
+        @* <a class="uk-button uk-button-primary uk-button-large" href="#criar-usuario" uk-toggle>Criar Usuário</a>
         <div id="criar-usuario" class="uk-flex-top" uk-modal>
             <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -168,12 +218,11 @@
                 </div>
                 <div class="uk-modal-footer uk-text-right">
                     <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                    <input onClick="validarSenha()" class="uk-button uk-button-primary" value="Criar Usuario" />
-                    @* <button type="submit" class="uk-button uk-button-primary">Criar</button> *@
+                    <input onClick="submitForm" class="uk-button uk-button-primary" value="Criar Usuario" />
                 </div>
             </div>
-        </div>
-
+        </div> *@
+       
     </form>
 </div>
 

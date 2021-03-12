@@ -19,8 +19,9 @@ namespace PastelariaMvc.Controllers
         {
             return View();
         }
+
         [HttpGet]
-        public async Task<IActionResult> HomeGestor(int id)
+        public async Task<IActionResult> HomeGestor(int id) // TODO: O nome da action não deixou claro o que faz, está parecendo nome de controller
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
@@ -39,6 +40,7 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
+            // TODO: Ver como não encadar um if dentro do outro
             string result;
             if (response.IsSuccessStatusCode)
             {
@@ -55,7 +57,9 @@ namespace PastelariaMvc.Controllers
                     clientParaTotal.Close();
                     return View(subordinadosResult);
                 }
-            }
+            } 
+            // TODO: Alterar para o enum de status code
+            // TODO: Ver porque esses códigos se repetem varias vezes
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
                 return RedirectToAction("Login", "Usuario");
@@ -333,8 +337,10 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            // TODO: Remover encademaneto de if
             if(HttpContext.Session.GetString("Token") != null)
             {
+                // TODO: Mover variáveis de acesso as informações do usuário para o base controller
                 var teste = HttpContext.Session.GetString("Token");
                 var idUsuario = DecodeToken.getId(teste);
                 var eGestor = DecodeToken.getEGestor(teste);
@@ -342,15 +348,18 @@ namespace PastelariaMvc.Controllers
                 {
                     return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
                 }
-                else if (!eGestor)
+                else if (!eGestor) // TODO: Esse if é inutil
                 {
                     return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
                 }
             }
             return View();
         }
+
+        // TODO: Melhorar esse metodo como um todo
         public async Task<IActionResult> LoginPost(Usuario usuario)
         {
+            // TODO: Ver como não replicar esse código
             if(HttpContext.Session.GetString("Token") != null)
             {
                 var teste = HttpContext.Session.GetString("Token");
@@ -365,19 +374,25 @@ namespace PastelariaMvc.Controllers
                     return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
                 }
             }
+
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
             if (response.IsSuccessStatusCode)
             {
+                // TODO: Criar um método genérico pra fazer a leitura
                 string fulljson = await response.Content.ReadAsStringAsync();
                 LoginTokenViewModel usuariologado = new LoginTokenViewModel();
                 usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
+
+                // TODO: Ver como pegar essas variaveis em outro lugar
                 HttpContext.Session.SetString("Token", usuariologado.Token);
                 var teste = HttpContext.Session.GetString("Token");
                 var idUsuario = DecodeToken.getId(teste);
                 var eGestor = DecodeToken.getEGestor(teste);
                 var token = HttpContext.Session.GetString("Token");
                 client.Close();
+
+                // TODO: GZUIS 
                 if(eGestor)
                 {
                     return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});

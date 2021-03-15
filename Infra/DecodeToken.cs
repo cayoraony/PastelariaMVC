@@ -9,9 +9,9 @@ namespace PastelariaMvc.Infra
         public static int getId(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            var tokenTest = handler.ReadToken(token) as JwtSecurityToken;
+            var readToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            var idUsuario = tokenTest.Claims.ToList()[0].Value;
+            var idUsuario = readToken.Claims.ToList()[0].Value;
 
             return int.Parse(idUsuario);
         }
@@ -19,9 +19,9 @@ namespace PastelariaMvc.Infra
         public static bool getEGestor(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            var tokenTest = handler.ReadToken(token) as JwtSecurityToken;
+            var readToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            var eGestor = tokenTest.Claims.ToList()[1].Value;
+            var eGestor = readToken.Claims.ToList()[1].Value;
 
             return bool.Parse(eGestor);
         }
@@ -29,9 +29,9 @@ namespace PastelariaMvc.Infra
         public static string getNome(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            var tokenTest = handler.ReadToken(token) as JwtSecurityToken;
+            var readToken = handler.ReadToken(token) as JwtSecurityToken;
 
-            var nomeUsuario = tokenTest.Claims.ToList()[2].Value;
+            var nomeUsuario = readToken.Claims.ToList()[2].Value;
 
             return nomeUsuario;
         }

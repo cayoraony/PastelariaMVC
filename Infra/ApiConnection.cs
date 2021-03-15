@@ -14,6 +14,7 @@ namespace PastelariaMvc.Infra
 
         public ApiConnection(string endUrl, string token)
         {
+            // TODO: Mover a URL da api para um arquivo de configuração
             this.Url = "http://localhost:5000/api/" + endUrl ;
             this.Client = new HttpClient();
             this.Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);

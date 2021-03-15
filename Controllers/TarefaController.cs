@@ -16,6 +16,7 @@ namespace PastelariaMvc.Controllers
     {
         public async Task<IActionResult> Cancelar(int id)
         {
+            // TODO: Mover essa validação pra um middleware
             if(HttpContext.Session.GetString("Token") == null)
             {
                 return RedirectToAction("Login", "Usuario");
@@ -105,9 +106,6 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
-
-
-        
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
@@ -204,8 +202,6 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Login", "Usuario");
             }
-            
-
             else
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });

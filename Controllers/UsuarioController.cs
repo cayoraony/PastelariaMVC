@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace PastelariaMvc.Controllers
 {
     public class UsuarioController : Controller
     {
-
         public IActionResult Index()
         {
             return View();
@@ -40,7 +40,7 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
-            // TODO: Ver como não encadar um if dentro do outro
+            // : Ver como não encadar um if dentro do outro
             string result;
             if (response.IsSuccessStatusCode)
             {
@@ -57,19 +57,19 @@ namespace PastelariaMvc.Controllers
                     clientParaTotal.Close();
                     return View(subordinadosResult);
                 }
-            } 
+            }
             // TODO: Alterar para o enum de status code
             // TODO: Ver porque esses códigos se repetem varias vezes
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else if (response.StatusCode.ToString() == "Forbidden")
+            else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
                     
                 return RedirectToAction("Login", "Login");
             }
-            else if (response.StatusCode.ToString() == "BadRequest")
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 return RedirectToAction("Criar", "Usuario");
             }
@@ -123,15 +123,15 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else if (response.StatusCode.ToString() == "Forbidden")
+            else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
+            else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
             }
@@ -166,11 +166,11 @@ namespace PastelariaMvc.Controllers
                 }
                 return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else if (response.StatusCode.ToString() == "InternalServerError")
+            else if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
             }
@@ -209,7 +209,7 @@ namespace PastelariaMvc.Controllers
                 }
                 return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -234,7 +234,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -271,7 +271,7 @@ namespace PastelariaMvc.Controllers
                 }
                 return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -296,7 +296,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -323,7 +323,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }

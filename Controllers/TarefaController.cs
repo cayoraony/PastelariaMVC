@@ -6,6 +6,7 @@ using PastelariaMvc.Models;
 using PastelariaMvc.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -63,7 +64,7 @@ namespace PastelariaMvc.Controllers
                     criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
                     client.Close();
                 }
-                else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
+                else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
                 {
                     return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
                 }
@@ -97,7 +98,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("Listar", "Tarefa", new { id = tarefa.IdGestor });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -123,7 +124,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -149,7 +150,7 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -177,7 +178,7 @@ namespace PastelariaMvc.Controllers
             string result;
             if (response.IsSuccessStatusCode)
             {
-                if (response.StatusCode.ToString() == "NoContent")
+                if (response.StatusCode == HttpStatusCode.NoContent)
                 {
                     Console.WriteLine(response.StatusCode.ToString());
                     return RedirectToAction("Criar", "Tarefa");
@@ -198,7 +199,7 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
             }
 
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -227,7 +228,7 @@ namespace PastelariaMvc.Controllers
             string result;
             if (response.IsSuccessStatusCode)
             {
-                if (response.StatusCode.ToString() == "NoContent")
+                if (response.StatusCode == HttpStatusCode.NoContent)
                 {
                     Console.WriteLine(response.StatusCode.ToString());
                     return RedirectToAction("Criar", "Tarefa");
@@ -247,7 +248,7 @@ namespace PastelariaMvc.Controllers
 
                 return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -276,7 +277,7 @@ namespace PastelariaMvc.Controllers
 
                 return RedirectToAction("ConsultarTarefa", "Tarefa", new { id = id });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -311,7 +312,7 @@ namespace PastelariaMvc.Controllers
                 }
                 return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }

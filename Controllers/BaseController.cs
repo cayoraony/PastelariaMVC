@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PastelariaMvc.Infra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,35 @@ namespace PastelariaMvc.Controllers
 {
     public class BaseController : Controller
     {
-        public IActionResult Index()
+        public BaseController() {}
+
+        public int GetSessionId(string token)
         {
-            return View();
+            return DecodeToken.getId(token);
+        }
+
+        public bool GetSessionEGestor(string token)
+        {
+            return DecodeToken.getEGestor(token);
+        }
+
+        public IActionResult RedirectBasedOnToken() 
+        {
+            var token = HttpContext.Session.GetString("Token");
+
+            if(token == null)
+            {
+                return View();
+            }
+
+            if(GetSessionEGestor(token))
+            {
+                return RedirectToAction("HomeGestor", "Usuario", new { id = GetSessionId(token) });
+            }
+            else
+            {
+                return RedirectToAction("Listar", "Tarefa", new { id = GetSessionId(token) });
+            }
         }
     }
 }

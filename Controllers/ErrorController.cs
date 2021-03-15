@@ -3,7 +3,7 @@ using System;
 
 namespace PastelariaMvc.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : BaseController
     {
 
         public IActionResult Index(string Erro)

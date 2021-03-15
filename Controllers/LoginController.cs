@@ -12,49 +12,53 @@ using System.Threading.Tasks;
 
 namespace PastelariaMvc.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         [HttpGet]
         public IActionResult Login()
         {
+            return RedirectBasedOnToken();
+
             // TODO: Remover encademaneto de if
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                // TODO: Mover variáveis de acesso as informações do usuário para o base controller
-                var token = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(token);
-                var eGestor = DecodeToken.getEGestor(token);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else if (!eGestor) // TODO: Esse if é inutil
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-            return View();
+            // if(HttpContext.Session.GetString("Token") != null)
+            // {
+            //     // TODO: Mover variáveis de acesso as informações do usuário para o base controller
+            //     var token = HttpContext.Session.GetString("Token");
+            //     var idUsuario = DecodeToken.getId(token);
+            //     var eGestor = DecodeToken.getEGestor(token);
+            //     if (eGestor)
+            //     {
+            //         return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+            //     }
+            //     else if (!eGestor) // TODO: Esse if é inutil
+            //     {
+            //         return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+            //     }
+            // }
+            // return View();
         }
 
         // TODO: Melhorar esse metodo como um todo
         [HttpPost]
         public async Task<IActionResult> LoginPost(Usuario usuario)
         {
+            RedirectBasedOnToken();
+            
             // TODO: Ver como não replicar esse código
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                var token = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(token);
-                var eGestor = DecodeToken.getEGestor(token);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else if (!eGestor)
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
+            // if(HttpContext.Session.GetString("Token") != null)
+            // {
+            //     var token = HttpContext.Session.GetString("Token");
+            //     var idUsuario = DecodeToken.getId(token);
+            //     var eGestor = DecodeToken.getEGestor(token);
+            //     if (eGestor)
+            //     {
+            //         return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+            //     }
+            //     else
+            //     {
+            //         return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+            //     }
+            // }
 
             ApiConnection client = new ApiConnection("usuario/login");
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
@@ -77,14 +81,11 @@ namespace PastelariaMvc.Controllers
                 {
                     return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});
                 }
-                else if(!eGestor)
+                else
                 {
                     return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
                 }
-                else
-                {
-                    return RedirectToAction("Error", "Index");
-                }   
+ 
             }
             // ToDo - JM
             // Fazer alguma notificação ou encaminhar para página que mostre senha errada

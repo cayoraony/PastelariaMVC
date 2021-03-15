@@ -31,11 +31,9 @@ namespace PastelariaMvc.Infra
             this.Client.BaseAddress = new Uri(this.Url);
         }
 
-
         public void Close()
         {
             this.Client.Dispose();
         }
-      
     }
 }

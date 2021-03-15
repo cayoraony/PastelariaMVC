@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using PastelariaMvc.Infra;
 using PastelariaMvc.Middlewares;
 using System;
 using System.Collections.Generic;

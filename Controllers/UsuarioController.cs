@@ -23,10 +23,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> HomeGestor(int id) // TODO: O nome da action não deixou claro o que faz, está parecendo nome de controller
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             
             string token = HttpContext.Session.GetString("Token");
@@ -62,12 +58,12 @@ namespace PastelariaMvc.Controllers
             // TODO: Ver porque esses códigos se repetem varias vezes
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
                     
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -84,21 +80,13 @@ namespace PastelariaMvc.Controllers
         
         [HttpGet]
         public IActionResult Criar()
-        {  
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
+        { 
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CriarUsuario([FromForm] Usuario usuario)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string stringApi;
 
             if (usuario.EGestor)
@@ -125,11 +113,11 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -144,11 +132,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
@@ -168,7 +151,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -184,10 +167,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
@@ -211,7 +190,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -221,11 +200,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            if (HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
@@ -236,7 +210,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -244,13 +218,8 @@ namespace PastelariaMvc.Controllers
             }
         }
 
-        public async Task<IActionResult> AtualizarGestor(int id)
-        {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
+        public async Task<IActionResult> AtualizarGestor(int id) 
+        { 
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
@@ -273,7 +242,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -283,11 +252,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
@@ -298,7 +262,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -307,12 +271,7 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
-        {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
+        { 
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             var requestBody = "";
@@ -325,91 +284,12 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             } 
-        }
-
-        [HttpGet]
-        public IActionResult Login()
-        {
-            // TODO: Remover encademaneto de if
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                // TODO: Mover variáveis de acesso as informações do usuário para o base controller
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else // TODO: Esse if é inutil
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-            return View();
-        }
-
-        // TODO: Melhorar esse metodo como um todo
-        public async Task<IActionResult> LoginPost(Usuario usuario)
-        {
-            // TODO: Ver como não replicar esse código
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-
-            ApiConnection client = new ApiConnection("usuario/login");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            if (response.IsSuccessStatusCode)
-            {
-                // TODO: Criar um método genérico pra fazer a leitura
-                string fulljson = await response.Content.ReadAsStringAsync();
-                LoginTokenViewModel usuariologado = new LoginTokenViewModel();
-                usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
-
-                // TODO: Ver como pegar essas variaveis em outro lugar
-                HttpContext.Session.SetString("Token", usuariologado.Token);
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                var token = HttpContext.Session.GetString("Token");
-                client.Close();
-
-                // TODO: GZUIS 
-                if(eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});
-                }
-                else
-                {
-                    return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
-                }   
-            }
-            // ToDo - JM
-            // Fazer alguma notificação ou encaminhar para página que mostre senha errada
-            return RedirectToAction("Login", "Usuario");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Usuario");
         }
     }
 }

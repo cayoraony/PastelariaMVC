@@ -14,7 +14,7 @@ namespace PastelariaMvc.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("Login", "Usuario");
+            return RedirectToAction("Login", "Login");
         }
     }
 }

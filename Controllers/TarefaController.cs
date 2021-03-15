@@ -44,25 +44,25 @@ namespace PastelariaMvc.Controllers
             bool eGestorLogado = DecodeToken.getEGestor(token);
             CriarTarefaViewModel criarTarefa = new CriarTarefaViewModel();
 
-            if(eGestorLogado)
+            if(!eGestorLogado)
             {
-                ApiConnection client = new ApiConnection($"usuario/gestor/{idLogado}/subordinados", token);
-                HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-                string result;
-                if (response.IsSuccessStatusCode)
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                    criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
-                    client.Close();
-                }
-                else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
-                {
-                    return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
-                }
-
                 return View(criarTarefa);
             }
 
+            ApiConnection client = new ApiConnection($"usuario/gestor/{idLogado}/subordinados", token);
+            HttpResponseMessage response = await client.Client.GetAsync(client.Url);
+            string result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = await response.Content.ReadAsStringAsync();
+                criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+                client.Close();
+            }
+            else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
+    
+            }
             return View(criarTarefa);
         }
         
@@ -148,37 +148,37 @@ namespace PastelariaMvc.Controllers
                 
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NoContent)
-                {
-                    Console.WriteLine(response.StatusCode.ToString());
-                    return RedirectToAction("Criar", "Tarefa");
-                }
-                result = await response.Content.ReadAsStringAsync();
-                tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-
-                foreach (var tarefa in tarefas.Lista)
-                {
-                    if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
-                    {
-                        client.Close();
-                    
-                        return View(tarefas);
-                    }
-                }
-
-                return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
-            }
-
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else
+            
+            else if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                Console.WriteLine(response.StatusCode.ToString());
+                return RedirectToAction("Criar", "Tarefa");
+            }
+            
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+
+            result = await response.Content.ReadAsStringAsync();
+            tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+
+            foreach (var tarefa in tarefas.Lista)
+            {
+                if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                {
+                    client.Close();
+
+                    return View(tarefas);
+                }
+            }
+
+            return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
 
         }
         
@@ -193,37 +193,35 @@ namespace PastelariaMvc.Controllers
 
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NoContent)
-                {
-                    Console.WriteLine(response.StatusCode.ToString());
-                    return RedirectToAction("Criar", "Tarefa");
-                }
-                result = await response.Content.ReadAsStringAsync();
-                tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
-                    
-                foreach (var tarefa in tarefas.Lista)
-                {
-                    if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
-                    {
-                        client.Close();
-                    
-                        return View(tarefas);
-                    }
-                }
-
-                return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-                
-            else
+            if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                Console.WriteLine(response.StatusCode.ToString());
+                return RedirectToAction("Criar", "Tarefa");
+            }
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+
+            result = await response.Content.ReadAsStringAsync();
+            tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+                
+            foreach (var tarefa in tarefas.Lista)
+            {
+                if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                {
+                    client.Close();
+                
+                    return View(tarefas);
+                }
+            }
+
+            return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
         }
 
         public async Task<IActionResult> Concluir(int id)
@@ -258,25 +256,23 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Comentario comentario = new Comentario();
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
-
-                if (comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
-                {
-                    return View(comentario);
-                }
-                return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+            
+            result = await response.Content.ReadAsStringAsync();
+            comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
+
+            if (comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
+            {
+                return View(comentario);
+            }
+            return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
             
         }
     }

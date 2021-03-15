@@ -38,43 +38,42 @@ namespace PastelariaMvc.Controllers
 
             // : Ver como não encadar um if dentro do outro
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
-                client.Close();
-
-                ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
-                HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
-                if (responseParaTotal.IsSuccessStatusCode)
-                {
-                    subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
-
-                    clientParaTotal.Close();
-                    return View(subordinadosResult);
-                }
-            }
             // TODO: Alterar para o enum de status code
             // TODO: Ver porque esses códigos se repetem varias vezes
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
             {
-                return RedirectToAction("Login", "Login");
-            }
-            else if (response.StatusCode == HttpStatusCode.Forbidden)
-            {
-                    
                 return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 return RedirectToAction("Criar", "Usuario");
             }
-            else
+            
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
             }
             
-            return View();        
+            result = await response.Content.ReadAsStringAsync();
+            subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+            client.Close();
+
+            ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
+            HttpResponseMessage responseParaTotal = await clientParaTotal.Client.GetAsync(clientParaTotal.Url);
+            if (responseParaTotal.IsSuccessStatusCode)
+            {
+                subordinadosResult.QteTotalTarefas = int.Parse(await responseParaTotal.Content.ReadAsStringAsync());
+
+                clientParaTotal.Close();
+                return View(subordinadosResult);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
+            }
+
+
+               
         }
 
         
@@ -137,19 +136,8 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                client.Close();
-                if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
-                    DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
-                {
-                    return View(usuarioResult);
-                }
-                return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -157,10 +145,19 @@ namespace PastelariaMvc.Controllers
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
             }
-            else
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+            result = await response.Content.ReadAsStringAsync();
+            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            client.Close();
+            if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
+                DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
+            {
+                return View(usuarioResult);
+            }
+            return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
         }
 
 
@@ -173,29 +170,28 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                client.Close();
-
-                if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
-                {
-                    AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-                    usuario.IdUsuario = id;
-
-                    return View(usuario);
-                }
-                return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else
+            
+            if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+            result = await response.Content.ReadAsStringAsync();
+            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            client.Close();
+
+            if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
+            {
+                AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                usuario.IdUsuario = id;
+
+                return View(usuario);
+            }
+            return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
         }
 
         public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
@@ -226,28 +222,26 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-                usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
-                client.Close();
-                if(usuarioResult.IdUsuario == idLogado)
-                {
-                    AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
-                    usuario.IdUsuario = id;
-
-                    return View(usuario);
-                }
-                return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
             }
-            else
+            else if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
+            result = await response.Content.ReadAsStringAsync();
+            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            client.Close();
+            if(usuarioResult.IdUsuario == idLogado)
+            {
+                AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
+                usuario.IdUsuario = id;
+
+                return View(usuario);
+            }
+            return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
         }
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)

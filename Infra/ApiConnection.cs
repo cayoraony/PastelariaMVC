@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace PastelariaMvc.Infra
         {
             // TODO: Mover a URL da api para um arquivo de configuração
             this.Url = "http://localhost:5000/api/" + endUrl ;
+            // this.Url = configuration.GetValue<string>("UrlString:DefaultUrlString") + endUrl;
             this.Client = new HttpClient();
             this.Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             this.Client.BaseAddress = new Uri(this.Url);
@@ -24,8 +26,8 @@ namespace PastelariaMvc.Infra
         public ApiConnection(string endUrl)
         {
             this.Url = "http://localhost:5000/api/" + endUrl;
+            // this.Url = configuration.GetValue<string>("UrlString:DefaultUrlString") + endUrl ;
             this.Client = new HttpClient();
-            
             this.Client.BaseAddress = new Uri(this.Url);
         }
 
@@ -34,6 +36,5 @@ namespace PastelariaMvc.Infra
         {
             this.Client.Dispose();
         }
-      
     }
 }

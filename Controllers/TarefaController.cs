@@ -12,15 +12,10 @@ using System.Threading.Tasks;
 
 namespace PastelariaMvc.Controllers
 {
-    public class TarefaController : Controller
+    public class TarefaController : BaseController
     {
         public async Task<IActionResult> Cancelar(int id)
         {
-            // TODO: Mover essa validação pra um middleware
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string token = HttpContext.Session.GetString("Token");
             var requestBody = "";
             ApiConnection client = new ApiConnection($"tarefa/{id}/cancelar", token);
@@ -42,11 +37,7 @@ namespace PastelariaMvc.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Criar()
-        {  
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
+        {
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             bool eGestorLogado = DecodeToken.getEGestor(token);
@@ -76,10 +67,6 @@ namespace PastelariaMvc.Controllers
         
         public async Task<IActionResult> CriarTarefa(Tarefa tarefa)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             tarefa.IdGestor = short.Parse(idLogado.ToString());
@@ -109,11 +96,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"tarefa/{id}/datalimite", token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, tarefa);
@@ -135,11 +117,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             comentario.IdUsuario = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar", token);
@@ -162,11 +139,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Listar(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
 
@@ -212,11 +184,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> VerTodas(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
 
@@ -260,11 +227,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> Concluir(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             var requestBody = "";
             ApiConnection client = new ApiConnection($"tarefa/{id}/concluir", token);
@@ -289,11 +251,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
-            if (HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection("tarefa/" + id, token);

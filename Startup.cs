@@ -62,6 +62,7 @@ namespace PastelariaMvc
             app.UseSession();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseMiddleware<LoginValidationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

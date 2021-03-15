@@ -23,10 +23,7 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> HomeGestor(int id) // TODO: O nome da action não deixou claro o que faz, está parecendo nome de controller
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
+            
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             
             string token = HttpContext.Session.GetString("Token");
@@ -84,21 +81,13 @@ namespace PastelariaMvc.Controllers
         
         [HttpGet]
         public IActionResult Criar()
-        {  
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
+        {      
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CriarUsuario([FromForm] Usuario usuario)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string stringApi;
 
             if (usuario.EGestor)
@@ -144,11 +133,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
@@ -184,10 +168,6 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
         {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
@@ -221,11 +201,6 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            if (HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
@@ -245,12 +220,7 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> AtualizarGestor(int id)
-        {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
+        { 
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
@@ -282,12 +252,7 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
-        {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
+        {  
             string token = HttpContext.Session.GetString("Token");
             ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
@@ -307,12 +272,7 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
-        {
-            if(HttpContext.Session.GetString("Token") == null)
-            {
-                return RedirectToAction("Login", "Usuario");
-            }
-            
+        {    
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
             var requestBody = "";

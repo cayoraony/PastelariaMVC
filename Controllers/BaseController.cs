@@ -10,33 +10,35 @@ namespace PastelariaMvc.Controllers
 {
     public class BaseController : Controller
     {
-        public string token { get; set; }
-        public int idUsuario { get; set; }
-        public bool eGestor { get; set; }
+        public BaseController() {}
 
-        public BaseController()
+        public int GetSessionId(string token)
         {
-            this.token = HttpContext.Session.GetString("Token");
-            this.idUsuario = DecodeToken.getId(this.token);
-            this.eGestor = DecodeToken.getEGestor(this.token);
+            return DecodeToken.getId(token);
+        }
+
+        public bool GetSessionEGestor(string token)
+        {
+            return DecodeToken.getEGestor(token);
         }
 
         public IActionResult RedirectBasedOnToken() 
         {
+            var token = HttpContext.Session.GetString("Token");
+
             if(token == null)
             {
                 return View();
             }
 
-            if(eGestor)
+            if(GetSessionEGestor(token))
             {
-                return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+                return RedirectToAction("HomeGestor", "Usuario", new { id = GetSessionId(token) });
             }
             else
             {
-                return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+                return RedirectToAction("Listar", "Tarefa", new { id = GetSessionId(token) });
             }
-
         }
     }
 }

@@ -23,6 +23,7 @@ namespace PastelariaMvc.Middlewares
             }
             catch(Exception error)
             {
+                Console.WriteLine("X: " + error);
                 var result = JsonConvert.SerializeObject(new { error = error.Message });
                 Console.WriteLine(error.Message);
                 context.Response.Redirect("/Error/Default");

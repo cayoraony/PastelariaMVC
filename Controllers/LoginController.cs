@@ -12,28 +12,29 @@ using System.Threading.Tasks;
 
 namespace PastelariaMvc.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         [HttpGet]
         public IActionResult Login()
         {
-            // TODO: Remover encademaneto de if
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                // TODO: Mover variáveis de acesso as informações do usuário para o base controller
-                var token = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(token);
-                var eGestor = DecodeToken.getEGestor(token);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else if (!eGestor) // TODO: Esse if é inutil
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-            return View();
+            return RedirectBasedOnToken();
+            // // TODO: Remover encademaneto de if
+            // if(HttpContext.Session.GetString("Token") != null)
+            // {
+            //     // TODO: Mover variáveis de acesso as informações do usuário para o base controller
+            //     var token = HttpContext.Session.GetString("Token");
+            //     var idUsuario = DecodeToken.getId(token);
+            //     var eGestor = DecodeToken.getEGestor(token);
+            //     if (eGestor)
+            //     {
+            //         return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
+            //     }
+            //     else if (!eGestor) // TODO: Esse if é inutil
+            //     {
+            //         return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
+            //     }
+            // }
+            // return View();
         }
 
         // TODO: Melhorar esse metodo como um todo

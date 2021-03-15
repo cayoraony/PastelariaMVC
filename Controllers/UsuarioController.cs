@@ -13,7 +13,7 @@ using System.Net;
 
 namespace PastelariaMvc.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         public IActionResult Index()
         {

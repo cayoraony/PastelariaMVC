@@ -25,8 +25,7 @@ namespace PastelariaMvc.Middlewares
             {
                 if (context.Session.GetString("Token") == null)
                 {
-                    Console.WriteLine("AAAAAAAAAAAAAA");
-                    context.Response.Redirect("/Usuario/Login");
+                    context.Response.Redirect("/Login/Login");
                 }
             }
             

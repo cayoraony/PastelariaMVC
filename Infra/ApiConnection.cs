@@ -16,8 +16,8 @@ namespace PastelariaMvc.Infra
         public ApiConnection(string endUrl, string token)
         {
             // TODO: Mover a URL da api para um arquivo de configuração
-            this.Url = "http://localhost:5000/api/" + endUrl ;
-            // this.Url = configuration.GetValue<string>("UrlString:DefaultUrlString") + endUrl;
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            this.Url = config["UrlString:DefaultUrlString"] + endUrl ;
             this.Client = new HttpClient();
             this.Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             this.Client.BaseAddress = new Uri(this.Url);
@@ -25,12 +25,11 @@ namespace PastelariaMvc.Infra
 
         public ApiConnection(string endUrl)
         {
-            this.Url = "http://localhost:5000/api/" + endUrl;
-            // this.Url = configuration.GetValue<string>("UrlString:DefaultUrlString") + endUrl ;
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            this.Url = config["UrlString:DefaultUrlString"] + endUrl;
             this.Client = new HttpClient();
             this.Client.BaseAddress = new Uri(this.Url);
         }
-
 
         public void Close()
         {

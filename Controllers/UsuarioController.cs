@@ -25,7 +25,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             
@@ -62,12 +62,12 @@ namespace PastelariaMvc.Controllers
             // TODO: Ver porque esses códigos se repetem varias vezes
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode.ToString() == "Forbidden")
             {
                     
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode.ToString() == "BadRequest")
             {
@@ -87,7 +87,7 @@ namespace PastelariaMvc.Controllers
         {  
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             return View();
         }
@@ -97,7 +97,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             string stringApi;
 
@@ -125,11 +125,11 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode.ToString() == "Forbidden")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode.ToString() == "BadRequest" || response.StatusCode.ToString() == "InternalServerError")
             {
@@ -146,7 +146,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -168,7 +168,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else if (response.StatusCode.ToString() == "InternalServerError")
             {
@@ -186,7 +186,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
@@ -211,7 +211,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -223,7 +223,7 @@ namespace PastelariaMvc.Controllers
         {
             if (HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -236,7 +236,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -248,7 +248,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -273,7 +273,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -285,7 +285,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -298,7 +298,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -310,7 +310,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -325,95 +325,12 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             } 
-        }
-
-        [HttpGet]
-        public IActionResult Login()
-        {
-            // TODO: Remover encademaneto de if
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                // TODO: Mover variáveis de acesso as informações do usuário para o base controller
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else if (!eGestor) // TODO: Esse if é inutil
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-            return View();
-        }
-
-        // TODO: Melhorar esse metodo como um todo
-        public async Task<IActionResult> LoginPost(Usuario usuario)
-        {
-            // TODO: Ver como não replicar esse código
-            if(HttpContext.Session.GetString("Token") != null)
-            {
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                if (eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
-                }
-                else if (!eGestor)
-                {
-                    return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
-                }
-            }
-
-            ApiConnection client = new ApiConnection("usuario/login");
-            HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
-            if (response.IsSuccessStatusCode)
-            {
-                // TODO: Criar um método genérico pra fazer a leitura
-                string fulljson = await response.Content.ReadAsStringAsync();
-                LoginTokenViewModel usuariologado = new LoginTokenViewModel();
-                usuariologado = JsonConvert.DeserializeObject<LoginTokenViewModel>(fulljson);
-
-                // TODO: Ver como pegar essas variaveis em outro lugar
-                HttpContext.Session.SetString("Token", usuariologado.Token);
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
-                var token = HttpContext.Session.GetString("Token");
-                client.Close();
-
-                // TODO: GZUIS 
-                if(eGestor)
-                {
-                    return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});
-                }
-                else if(!eGestor)
-                {
-                    return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
-                }
-                else
-                {
-                    return RedirectToAction("Error", "Index");
-                }   
-            }
-            // ToDo - JM
-            // Fazer alguma notificação ou encaminhar para página que mostre senha errada
-            return RedirectToAction("Login", "Usuario");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Usuario");
         }
     }
 }

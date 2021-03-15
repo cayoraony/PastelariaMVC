@@ -19,7 +19,7 @@ namespace PastelariaMvc.Controllers
             // TODO: Mover essa validação pra um middleware
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             string token = HttpContext.Session.GetString("Token");
             var requestBody = "";
@@ -32,7 +32,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -45,7 +45,7 @@ namespace PastelariaMvc.Controllers
         {  
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
@@ -78,7 +78,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             string token = HttpContext.Session.GetString("Token");
             int idLogado = DecodeToken.getId(token);
@@ -99,7 +99,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -111,7 +111,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -125,7 +125,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -137,7 +137,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -151,7 +151,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -164,7 +164,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -200,7 +200,7 @@ namespace PastelariaMvc.Controllers
 
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -214,7 +214,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -249,7 +249,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
                 
             else
@@ -262,7 +262,7 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -278,7 +278,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {
@@ -291,7 +291,7 @@ namespace PastelariaMvc.Controllers
         {
             if (HttpContext.Session.GetString("Token") == null)
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             
             string token = HttpContext.Session.GetString("Token");
@@ -313,7 +313,7 @@ namespace PastelariaMvc.Controllers
             }
             else if (response.StatusCode.ToString() == "Unauthorized")
             {
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("Login", "Login");
             }
             else
             {

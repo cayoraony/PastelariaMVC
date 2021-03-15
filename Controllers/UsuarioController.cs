@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace PastelariaMvc.Controllers
 {
@@ -56,7 +57,7 @@ namespace PastelariaMvc.Controllers
                     return View(subordinadosResult);
                 }
             }
-            else if (response.StatusCode.ToString() == "Unauthorized")
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Usuario");
             }
@@ -334,14 +335,15 @@ namespace PastelariaMvc.Controllers
         {
             if(HttpContext.Session.GetString("Token") != null)
             {
-                var teste = HttpContext.Session.GetString("Token");
-                var idUsuario = DecodeToken.getId(teste);
-                var eGestor = DecodeToken.getEGestor(teste);
+                var token = HttpContext.Session.GetString("Token");
+                var idUsuario = DecodeToken.getId(token);
+                var eGestor = DecodeToken.getEGestor(token);
                 if (eGestor)
                 {
                     return RedirectToAction("HomeGestor", "Usuario", new { id = idUsuario });
                 }
-                else if (!eGestor)
+                // else if (!eGestor)
+                else
                 {
                     return RedirectToAction("Listar", "Tarefa", new { id = idUsuario });
                 }
@@ -381,13 +383,9 @@ namespace PastelariaMvc.Controllers
                 {
                     return RedirectToAction("HomeGestor", "Usuario", new {id = idUsuario});
                 }
-                else if(!eGestor)
-                {
-                    return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
-                }
                 else
                 {
-                    return RedirectToAction("Error", "Index");
+                    return RedirectToAction("Listar", "Tarefa", new {id = idUsuario});
                 }   
             }
             // ToDo - JM

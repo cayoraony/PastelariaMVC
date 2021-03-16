@@ -37,7 +37,7 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             // : Ver como não encadar um if dentro do outro
-            string result;
+            // string result;
             // TODO: Alterar para o enum de status code
             // TODO: Ver porque esses códigos se repetem varias vezes
             if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -49,8 +49,10 @@ namespace PastelariaMvc.Controllers
                 return await VerificarErroAsync(response);
             }
             
-            result = await response.Content.ReadAsStringAsync();
-            subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // subordinadosResult.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+
+            subordinadosResult.Subordinados = DeserializeObject<List<Usuario>>(response).Result;
             client.Close();
 
             ApiConnection clientParaTotal = new ApiConnection($"usuario/{id}/tarefa/total");
@@ -119,7 +121,7 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
-            string result;
+            // string result;
             
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -129,8 +131,10 @@ namespace PastelariaMvc.Controllers
             {
                 return await VerificarErroAsync(response);
             }
-            result = await response.Content.ReadAsStringAsync();
-            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+
+            usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
             if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
                 DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
@@ -152,14 +156,16 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
-            string result;
+            // string result;
             
             if (!response.IsSuccessStatusCode)
             {
                 return await VerificarErroAsync(response);
             }
-            result = await response.Content.ReadAsStringAsync();
-            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+
+            usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
 
             if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
@@ -198,14 +204,16 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection($"usuario/{id}", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
-            string result;
+            // string result;
             
             if (!response.IsSuccessStatusCode)
             {
                 return await VerificarErroAsync(response);
             }
-            result = await response.Content.ReadAsStringAsync();
-            usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
+
+            usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
             if(usuarioResult.IdUsuario == idLogado)
             {

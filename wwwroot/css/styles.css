@@ -5,6 +5,12 @@
 .hidden-up-to-s {
   display: none;
 }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  border: 1px solid #c0c0c0 !important;
+  background: transparent !important;
+}
+
 @media (min-width: 640px) { 
   .hidden-up-to-s {
       display: block;

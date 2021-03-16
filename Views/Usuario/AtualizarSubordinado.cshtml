@@ -3,22 +3,6 @@
     ViewData["Title"] = "Atualizar Dados";
 }
 
-@section scripts {
-  <script>
-    function validarSenha() {
-      let NovaSenha = document.getElementById('Senha').value;
-      let CNovaSenha = document.getElementById('CSenha').value;
-
-      if (NovaSenha == CNovaSenha) {
-          document.getElementById('editarSub').submit();
-          alert("Formulário enviado");
-      } else {
-          alert("Senha diferentes, preencha novamente");
-      }
-  }
-  </script>
-}
-
 <div class="uk-margin-medium uk-margin-small-top">
     <h1 class="uk-text-center uk-heading-line"><span>Atualizar Dados</span></h1>
 </div>

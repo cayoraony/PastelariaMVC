@@ -52,11 +52,13 @@ namespace PastelariaMvc.Controllers
 
             ApiConnection client = new ApiConnection($"usuario/gestor/{idLogado}/subordinados", token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
-            string result;
+            // string result;
             if (response.IsSuccessStatusCode)
             {
-                result = await response.Content.ReadAsStringAsync();
-                criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+                // result = await response.Content.ReadAsStringAsync();
+                // criarTarefa.Subordinados = JsonConvert.DeserializeObject<List<Usuario>>(result);
+
+                criarTarefa.Subordinados = DeserializeObject<List<Usuario>>(response).Result;
                 client.Close();
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
@@ -148,7 +150,7 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
-            string result;
+            // string result;
             
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -166,8 +168,10 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
 
-            result = await response.Content.ReadAsStringAsync();
-            tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+
+            tarefas.Lista = DeserializeObject<List<Tarefa>>(response).Result;
 
             foreach (var tarefa in tarefas.Lista)
             {
@@ -209,8 +213,10 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
 
-            result = await response.Content.ReadAsStringAsync();
-            tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // tarefas.Lista = JsonConvert.DeserializeObject<List<Tarefa>>(result);
+
+            tarefas.Lista = DeserializeObject<List<Tarefa>>(response).Result;
                 
             foreach (var tarefa in tarefas.Lista)
             {
@@ -256,7 +262,7 @@ namespace PastelariaMvc.Controllers
             ApiConnection client = new ApiConnection("tarefa/" + id, token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Comentario comentario = new Comentario();
-            string result;
+            // string result;
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 return RedirectToAction("Login", "Login");
@@ -266,8 +272,10 @@ namespace PastelariaMvc.Controllers
                 return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
             
-            result = await response.Content.ReadAsStringAsync();
-            comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
+            // result = await response.Content.ReadAsStringAsync();
+            // comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
+
+            comentario.Tarefa = DeserializeObject<Tarefa>(response).Result;
 
             if (comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
             {

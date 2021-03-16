@@ -40,18 +40,13 @@ namespace PastelariaMvc.Controllers
             string result;
             // TODO: Alterar para o enum de status code
             // TODO: Ver porque esses códigos se repetem varias vezes
-            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-            else if (response.StatusCode == HttpStatusCode.BadRequest)
+            if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 return RedirectToAction("Criar", "Usuario");
             }
-            
             else if (!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
+                return await VerificarErroAsync(response);
             }
             
             result = await response.Content.ReadAsStringAsync();
@@ -69,11 +64,8 @@ namespace PastelariaMvc.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync()});
+                return await VerificarErroAsync(response);
             }
-
-
-               
         }
 
         
@@ -110,21 +102,13 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-            else if (response.StatusCode == HttpStatusCode.Forbidden)
-            {
-                return RedirectToAction("Login", "Login");
-            }
             else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
             }
             else
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                return await VerificarErroAsync(response);
             }
         }
 
@@ -137,17 +121,13 @@ namespace PastelariaMvc.Controllers
             Usuario usuarioResult;
             string result;
             
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
+            if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Usuário não existe, tente outro." });
             }
             else if (!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                return await VerificarErroAsync(response);
             }
             result = await response.Content.ReadAsStringAsync();
             usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
@@ -157,7 +137,10 @@ namespace PastelariaMvc.Controllers
             {
                 return View(usuarioResult);
             }
-            return RedirectToAction("Index", "Error", new { Erro = "Você não pode acessar este usuário" });
+            else
+            {
+                return await VerificarErroAsync(response);
+            }
         }
 
 
@@ -171,14 +154,9 @@ namespace PastelariaMvc.Controllers
             Usuario usuarioResult;
             string result;
             
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-            
             if (!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                return await VerificarErroAsync(response);
             }
             result = await response.Content.ReadAsStringAsync();
             usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
@@ -191,7 +169,10 @@ namespace PastelariaMvc.Controllers
 
                 return View(usuario);
             }
-            return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+            else
+            {
+                return await VerificarErroAsync(response);
+            }
         }
 
         public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
@@ -204,13 +185,9 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
             else
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                return await VerificarErroAsync(response);
             }
         }
 
@@ -223,13 +200,9 @@ namespace PastelariaMvc.Controllers
             Usuario usuarioResult;
             string result;
             
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            if (!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Login", "Login");
-            }
-            else if (!response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+                return await VerificarErroAsync(response);
             }
             result = await response.Content.ReadAsStringAsync();
             usuarioResult = JsonConvert.DeserializeObject<Usuario>(result);
@@ -241,7 +214,10 @@ namespace PastelariaMvc.Controllers
 
                 return View(usuario);
             }
-            return RedirectToAction("Index", "Error", new { Erro = "Você não pode editar este usuário" });
+            else
+            {
+                return await VerificarErroAsync(response);
+            }
         }
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
@@ -254,14 +230,10 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("ConsultarUsuario", "Usuario", new { id = id });
             }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
             else
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-            } 
+                return await VerificarErroAsync(response);
+            }
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
@@ -276,14 +248,10 @@ namespace PastelariaMvc.Controllers
                 client.Close();
                 return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
             }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("Login", "Login");
-            }
             else
             {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-            } 
+                return await VerificarErroAsync(response);
+            }
         }
     }
 }

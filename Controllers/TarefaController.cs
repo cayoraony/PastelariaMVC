@@ -62,7 +62,6 @@ namespace PastelariaMvc.Controllers
             else if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 return RedirectToAction("Index", "Error", new { Erro = "Ocorreu um erro com o envio do formulario." });
-    
             }
             return View(criarTarefa);
         }
@@ -257,14 +256,13 @@ namespace PastelariaMvc.Controllers
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Comentario comentario = new Comentario();
             string result;
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            
+            if (!response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Login", "Login");
+                return await VerificarErroAsync(response);
             }
-            else if (!response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
-            }
+            
+            Console.WriteLine("Continuou");
             
             result = await response.Content.ReadAsStringAsync();
             comentario.Tarefa = JsonConvert.DeserializeObject<Tarefa>(result);
@@ -274,7 +272,6 @@ namespace PastelariaMvc.Controllers
                 return View(comentario);
             }
             return RedirectToAction("Index", "Error", new { Erro = "Você não tem acesso a esta página" });
-            
         }
     }
 }

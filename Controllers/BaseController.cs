@@ -4,6 +4,8 @@ using PastelariaMvc.Infra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PastelariaMvc.Controllers
@@ -38,6 +40,20 @@ namespace PastelariaMvc.Controllers
             else
             {
                 return RedirectToAction("Listar", "Tarefa", new { id = GetSessionId(token) });
+            }
+        }
+
+        public async Task<IActionResult> VerificarErroAsync(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                Console.WriteLine("Unauthorized ou Forbidden");
+                return RedirectToAction("Login", "Login");
+            }
+            else
+            {
+                Console.WriteLine("else");
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
             }
         }
     }

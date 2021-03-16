@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PastelariaMvc.Infra;
-using PastelariaMvc.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PastelariaMvc.Models;
 
 namespace PastelariaMvc.Controllers
 {
@@ -54,5 +53,18 @@ namespace PastelariaMvc.Controllers
         //         return RedirectToAction("Listar", "Tarefa", new { id = session.idUsuario });
         //     }
         // }
+
+        public async Task<IActionResult> VerificarErroAsync(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            else
+            {
+                Console.WriteLine("else");
+                return RedirectToAction("Index", "Error", new { Erro = await response.Content.ReadAsStringAsync() });
+            }
+        }
     }
 }

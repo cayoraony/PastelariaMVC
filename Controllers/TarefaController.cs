@@ -40,17 +40,15 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Criar()
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            bool eGestorLogado = DecodeToken.getEGestor(token);
+            Session session = GetSession();
             CriarTarefaViewModel criarTarefa = new CriarTarefaViewModel();
 
-            if(!eGestorLogado)
+            if(!session.eGestor)
             {
                 return View(criarTarefa);
             }
 
-            ApiConnection client = new ApiConnection($"usuario/gestor/{idLogado}/subordinados", token);
+            ApiConnection client = new ApiConnection($"usuario/gestor/{session.idUsuario}/subordinados", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             // string result;
             if (response.IsSuccessStatusCode)
@@ -71,16 +69,17 @@ namespace PastelariaMvc.Controllers
         
         public async Task<IActionResult> CriarTarefa(Tarefa tarefa)
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            tarefa.IdGestor = short.Parse(idLogado.ToString());
+            Session session = GetSession();
+            // string token = HttpContext.Session.GetString("Token");
+            // int idLogado = DecodeToken.getId(token);
+            tarefa.IdGestor = short.Parse(session.idUsuario.ToString());
 
-            if(!DecodeToken.getEGestor(token))
+            if(!session.eGestor)
             {
-                tarefa.IdSubordinado = short.Parse(idLogado.ToString());
+                tarefa.IdSubordinado = short.Parse(session.idUsuario.ToString());
             }
 
-            ApiConnection client = new ApiConnection("tarefa/criar", token);
+            ApiConnection client = new ApiConnection("tarefa/criar", session.token);
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, tarefa);
 
             if (response.IsSuccessStatusCode)
@@ -100,8 +99,9 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> EditarDataLimite(int id, EditarDataLimiteViewModel tarefa)
         {
-            string token = HttpContext.Session.GetString("Token");
-            ApiConnection client = new ApiConnection($"tarefa/{id}/datalimite", token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"tarefa/{id}/datalimite", session.token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, tarefa);
 
             if (response.IsSuccessStatusCode)
@@ -121,9 +121,9 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> CriarComentario(int id, Comentario comentario)
         {
-            string token = HttpContext.Session.GetString("Token");
-            comentario.IdUsuario = DecodeToken.getId(token);
-            ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar", token);
+            Session session = GetSession();
+            comentario.IdUsuario = session.idUsuario;
+            ApiConnection client = new ApiConnection($"tarefa/{id}/comentario/criar", session.token);
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, comentario);
             if (response.IsSuccessStatusCode)
             {
@@ -143,10 +143,9 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Listar(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
+            Session session = GetSession();
 
-            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento", token);
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/andamento", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
                 
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
@@ -175,7 +174,7 @@ namespace PastelariaMvc.Controllers
 
             foreach (var tarefa in tarefas.Lista)
             {
-                if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                if(tarefa.IdGestor == session.idUsuario || tarefa.IdSubordinado == session.idUsuario)
                 {
                     client.Close();
 
@@ -183,21 +182,20 @@ namespace PastelariaMvc.Controllers
                 }
             }
 
-            return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
+            return RedirectToAction("Listar", "Tarefa", new {id = session.idUsuario});
 
         }
         
         [HttpGet]
         public async Task<IActionResult> VerTodas(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
+            Session session = GetSession();
 
-            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas", token);
+            ApiConnection client = new ApiConnection($"usuario/{id}/tarefa/todas", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             ConsultarTarefasUsuarioViewModel tarefas = new ConsultarTarefasUsuarioViewModel();
-            string result;
+            // string result;
             
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -220,7 +218,7 @@ namespace PastelariaMvc.Controllers
                 
             foreach (var tarefa in tarefas.Lista)
             {
-                if(tarefa.IdGestor == idLogado || tarefa.IdSubordinado == idLogado)
+                if(tarefa.IdGestor == session.idUsuario || tarefa.IdSubordinado == session.idUsuario)
                 {
                     client.Close();
                 
@@ -228,14 +226,15 @@ namespace PastelariaMvc.Controllers
                 }
             }
 
-            return RedirectToAction("Listar", "Tarefa", new {id = idLogado});
+            return RedirectToAction("Listar", "Tarefa", new {id = session.idUsuario});
         }
 
         public async Task<IActionResult> Concluir(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
+            Session session = GetSession();
+
             var requestBody = "";
-            ApiConnection client = new ApiConnection($"tarefa/{id}/concluir", token);
+            ApiConnection client = new ApiConnection($"tarefa/{id}/concluir", session.token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
            
             if (response.IsSuccessStatusCode)
@@ -257,9 +256,9 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarTarefa(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            ApiConnection client = new ApiConnection("tarefa/" + id, token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection("tarefa/" + id, session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Comentario comentario = new Comentario();
             // string result;
@@ -277,7 +276,7 @@ namespace PastelariaMvc.Controllers
 
             comentario.Tarefa = DeserializeObject<Tarefa>(response).Result;
 
-            if (comentario.Tarefa.IdGestor == idLogado || comentario.Tarefa.IdSubordinado == idLogado)
+            if (comentario.Tarefa.IdGestor == session.idUsuario || comentario.Tarefa.IdSubordinado == session.idUsuario)
             {
                 return View(comentario);
             }

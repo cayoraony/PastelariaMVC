@@ -31,8 +31,6 @@ namespace PastelariaMvc.Controllers
         public async Task<T> DeserializeObject<T>(HttpResponseMessage response)
         {
             string json = await response.Content.ReadAsStringAsync();
-            // object result = JsonConvert.DeserializeObject<T>(json);
-            // return (T) Convert.ChangeType(result, typeof(T));
             return JsonConvert.DeserializeObject<T>(json);
         }
 

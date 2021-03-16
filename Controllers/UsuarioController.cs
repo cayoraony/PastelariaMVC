@@ -25,15 +25,14 @@ namespace PastelariaMvc.Controllers
         {
             GestorHomeViewModel subordinadosResult = new GestorHomeViewModel();
             
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
+            Session session = GetSession();
 
-            if(id != idLogado)
+            if(id != session.idUsuario)
             {
-                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+                return RedirectToAction("HomeGestor", "Usuario", new {id = session.idUsuario});
             }
 
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", token);
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/subordinados", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
 
             // : Ver como não encadar um if dentro do outro
@@ -99,18 +98,18 @@ namespace PastelariaMvc.Controllers
                 stringApi = "usuario/subordinado/criar";
             }
             
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            usuario.IdGestor = short.Parse(idLogado.ToString());
+            Session session = GetSession();
+
+            usuario.IdGestor = short.Parse(session.idUsuario.ToString());
             usuario.EstaAtivo = true;
             if(usuario.Endereco.Complemento == null)
                 usuario.Endereco.Complemento = "";
-            ApiConnection client = new ApiConnection(stringApi, token);
+            ApiConnection client = new ApiConnection(stringApi, session.token);
             HttpResponseMessage response = await client.Client.PostAsJsonAsync(client.Url, usuario);
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+                return RedirectToAction("HomeGestor", "Usuario", new {id = session.idUsuario});
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -133,8 +132,9 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ConsultarUsuario(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
-            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"usuario/{id}", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             // string result;
@@ -156,8 +156,8 @@ namespace PastelariaMvc.Controllers
 
             usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
-            if (DecodeToken.getId(token) == int.Parse(usuarioResult.IdUsuario.ToString()) ||
-                DecodeToken.getId(token) == int.Parse(usuarioResult.IdGestor.ToString()))
+            if (session.idUsuario == int.Parse(usuarioResult.IdUsuario.ToString()) ||
+                session.idUsuario == int.Parse(usuarioResult.IdGestor.ToString()))
             {
                 return View(usuarioResult);
             }
@@ -168,9 +168,9 @@ namespace PastelariaMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> AtualizarSubordinado(int id)
         {
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"usuario/{id}", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             // string result;
@@ -190,7 +190,7 @@ namespace PastelariaMvc.Controllers
             usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
 
-            if(usuarioResult.IdGestor == idLogado || usuarioResult.IdUsuario == idLogado)
+            if(usuarioResult.IdGestor == session.idUsuario || usuarioResult.IdUsuario == session.idUsuario)
             {
                 AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
                 usuario.IdUsuario = id;
@@ -202,8 +202,9 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> SubordinadoPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            string token = HttpContext.Session.GetString("Token");
-            ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"usuario/{id}/atualizar", session.token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
             if (response.IsSuccessStatusCode)
             {
@@ -221,10 +222,10 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> AtualizarGestor(int id) 
-        { 
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
-            ApiConnection client = new ApiConnection($"usuario/{id}", token);
+        {
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"usuario/{id}", session.token);
             HttpResponseMessage response = await client.Client.GetAsync(client.Url);
             Usuario usuarioResult;
             // string result;
@@ -242,7 +243,7 @@ namespace PastelariaMvc.Controllers
 
             usuarioResult = DeserializeObject<Usuario>(response).Result;
             client.Close();
-            if(usuarioResult.IdUsuario == idLogado)
+            if(usuarioResult.IdUsuario == session.idUsuario)
             {
                 AtualizarUsuarioViewModel usuario = new AtualizarUsuarioViewModel();
                 usuario.IdUsuario = id;
@@ -254,8 +255,9 @@ namespace PastelariaMvc.Controllers
 
         public async Task<IActionResult> GestorPut(int id, AtualizarUsuarioViewModel usuario)
         {
-            string token = HttpContext.Session.GetString("Token");
-            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", token);
+            Session session = GetSession();
+
+            ApiConnection client = new ApiConnection($"usuario/gestor/{id}/atualizar", session.token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, usuario);
             if (response.IsSuccessStatusCode)
             {
@@ -273,16 +275,16 @@ namespace PastelariaMvc.Controllers
         }
 
         public async Task<IActionResult> AtivarDesativar(int id)
-        { 
-            string token = HttpContext.Session.GetString("Token");
-            int idLogado = DecodeToken.getId(token);
+        {
+            Session session = GetSession();
+
             var requestBody = "";
-            ApiConnection client = new ApiConnection($"usuario/{id}/status", token);
+            ApiConnection client = new ApiConnection($"usuario/{id}/status", session.token);
             HttpResponseMessage response = await client.Client.PutAsJsonAsync(client.Url, requestBody);
             if (response.IsSuccessStatusCode)
             {
                 client.Close();
-                return RedirectToAction("HomeGestor", "Usuario", new {id = idLogado});
+                return RedirectToAction("HomeGestor", "Usuario", new {id = session.idUsuario});
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
